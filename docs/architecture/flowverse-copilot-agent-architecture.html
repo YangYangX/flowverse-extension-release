@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlowVerse VS Code Plugin — Copilot Agent Architecture</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" integrity="sha384-ZZ1pncU3bQe8y31yfZdMFdSpttDoPmOZg2wguVK9almUodir1PghgT0eY7Mrty8H" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js" integrity="sha384-en/ztfPSRkGfME4KIm05joYXynqzUgbsG5nMrj/xEFAHXkeZfO3yMK8QQ+mP7p1/" crossorigin="anonymous"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      padding: 2rem;
+      background: #eef2f7;
+      color: #0f172a;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .container {
+      max-width: 2100px;
+      margin: 0 auto;
+    }
+
+    .header {
+      position: relative;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .header-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.9rem;
+      min-height: 2.5rem;
+    }
+
+    .pulse-dot {
+      width: 11px;
+      height: 11px;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      background: #4f46e5;
+      box-shadow: 0 0 18px rgba(79, 70, 229, 0.35);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.45; transform: scale(0.82); }
+    }
+
+    h1 {
+      font-size: clamp(1.2rem, 2.2vw, 1.8rem);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+    }
+
+    .subtitle {
+      max-width: 1200px;
+      margin: 0.35rem auto 0;
+      color: #475569;
+      font-size: 0.82rem;
+      line-height: 1.6;
+    }
+
+    .scope-row {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      margin-top: 0.9rem;
+    }
+
+    .scope-chip {
+      padding: 0.32rem 0.62rem;
+      border: 1px solid #c7d2fe;
+      border-radius: 999px;
+      background: #eef2ff;
+      color: #4338ca;
+      font-size: 0.66rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .scope-chip.neutral {
+      border-color: #cbd5e1;
+      background: #f8fafc;
+      color: #64748b;
+    }
+
+    .toolbar {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: flex;
+      flex-shrink: 0;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .toolbar-toggle {
+      padding: 0.25rem 0.5rem;
+      border: none;
+      border-radius: 0.375rem;
+      background: transparent;
+      color: #94a3b8;
+      cursor: pointer;
+      font-size: 1.25rem;
+      line-height: 1;
+      transition: color 0.2s, background 0.2s;
+    }
+
+    .toolbar-toggle:hover {
+      background: #e2e8f0;
+      color: #475569;
+    }
+
+    .toolbar-actions {
+      display: none;
+      gap: 0.5rem;
+    }
+
+    .toolbar.expanded .toolbar-actions {
+      display: flex;
+    }
+
+    .toolbar-actions button {
+      padding: 0.375rem 0.75rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 0.375rem;
+      background: #fff;
+      color: #475569;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.72rem;
+      white-space: nowrap;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+      transition: all 0.2s;
+    }
+
+    .toolbar-actions button:hover {
+      border-color: #94a3b8;
+      color: #0f172a;
+    }
+
+    .diagram-container {
+      overflow-x: auto;
+      padding: 1.25rem;
+      border: 1px solid #dbe4ef;
+      border-radius: 1rem;
+      background: #fff;
+      box-shadow: 0 18px 60px rgba(15, 23, 42, 0.08);
+    }
+
+    svg {
+      display: block;
+      width: 100%;
+      min-width: 1800px;
+      height: auto;
+    }
+
+    svg text {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .card {
+      padding: 1.25rem;
+      border: 1px solid #dbe4ef;
+      border-radius: 0.75rem;
+      background: #fff;
+      box-shadow: 0 8px 28px rgba(15, 23, 42, 0.06);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .card-dot {
+      width: 9px;
+      height: 9px;
+      flex: 0 0 auto;
+      border-radius: 50%;
+    }
+
+    .card-dot.indigo { background: #4f46e5; }
+    .card-dot.emerald { background: #059669; }
+    .card-dot.rose { background: #e11d48; }
+
+    .card h3 {
+      font-size: 0.86rem;
+      font-weight: 700;
+    }
+
+    .card ul {
+      list-style: none;
+      color: #475569;
+      font-size: 0.72rem;
+      line-height: 1.6;
+    }
+
+    .card li + li {
+      margin-top: 0.35rem;
+    }
+
+    .card code {
+      color: #4338ca;
+      font-family: inherit;
+      font-weight: 600;
+    }
+
+    .card a,
+    .footer a {
+      color: #4f46e5;
+      text-decoration: none;
+    }
+
+    .card a:hover,
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    .footer {
+      margin-top: 1.35rem;
+      color: #94a3b8;
+      font-size: 0.68rem;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    @media (max-width: 760px) {
+      body { padding: 1rem; }
+      .toolbar { position: static; margin-left: auto; }
+      .header-row { justify-content: flex-start; text-align: left; }
+      .subtitle { text-align: left; }
+      .scope-row { justify-content: flex-start; }
+    }
+
+    @media print {
+      body { padding: 1rem; background: #fff; }
+      .toolbar { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="report-container">
+    <header class="header">
+      <div class="header-row">
+        <div class="pulse-dot" aria-hidden="true"></div>
+        <h1>FlowVerse Copilot Agent — Current Plugin Architecture</h1>
+        <div class="toolbar">
+          <div class="toolbar-actions">
+            <button onclick="copyAsImage(this)">📋 Copy</button>
+            <button onclick="downloadPNG(this)">🖼️ PNG</button>
+            <button onclick="downloadPDF(this)">📄 PDF</button>
+          </div>
+          <button class="toolbar-toggle" onclick="this.parentElement.classList.toggle('expanded')" title="Export options" aria-label="Export options">⋯</button>
+        </div>
+      </div>
+      <p class="subtitle">How a native <strong>@flowverse</strong> request becomes evidence-grounded Jira and architecture analysis, visible workbench projections, model-proposed follow-ups, and—only after explicit confirmation—revision-checked Jira changes.</p>
+      <div class="scope-row" aria-label="Diagram scope">
+        <span class="scope-chip">Current checkout</span>
+        <span class="scope-chip">Chat Participant API</span>
+        <span class="scope-chip">Language Model Tool API</span>
+        <span class="scope-chip neutral">VS Code ^1.120.0</span>
+        <span class="scope-chip neutral">Selected Copilot model</span>
+      </div>
+    </header>
+
+    <main class="diagram-container">
+      <svg viewBox="0 0 2100 1805" role="img" aria-labelledby="diagram-title diagram-description">
+        <title id="diagram-title">FlowVerse Copilot agent architecture</title>
+        <desc id="diagram-description">A spacious flow diagram showing three native inputs, six numbered agent stages, the tool and evidence foundation, the composite Jira fetch workflow, native projections, and a separate confirmed Jira mutation boundary.</desc>
+
+        <defs>
+          <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+            <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#e2e8f0" stroke-width="0.45"/>
+          </pattern>
+          <filter id="card-shadow" x="-20%" y="-20%" width="140%" height="150%">
+            <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#0f172a" flood-opacity="0.12"/>
+          </filter>
+          <marker id="arrow-indigo" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto-start-reverse">
+            <polygon points="0 0, 10 4, 0 8" fill="#4f46e5"/>
+          </marker>
+          <marker id="arrow-slate" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto-start-reverse">
+            <polygon points="0 0, 10 4, 0 8" fill="#64748b"/>
+          </marker>
+          <marker id="arrow-emerald" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto-start-reverse">
+            <polygon points="0 0, 10 4, 0 8" fill="#059669"/>
+          </marker>
+          <marker id="arrow-amber" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto-start-reverse">
+            <polygon points="0 0, 10 4, 0 8" fill="#d97706"/>
+          </marker>
+          <marker id="arrow-rose" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto-start-reverse">
+            <polygon points="0 0, 10 4, 0 8" fill="#e11d48"/>
+          </marker>
+        </defs>
+
+        <rect width="2100" height="1805" fill="#ffffff"/>
+        <rect width="2100" height="1805" fill="url(#grid)"/>
+
+        <!-- Section fills behind all connectors. -->
+        <rect x="70" y="320" width="1960" height="38" rx="19" fill="#e0e7ff"/>
+        <rect x="70" y="680" width="1460" height="450" rx="16" fill="#f8fafc"/>
+        <rect x="1570" y="680" width="460" height="450" rx="16" fill="#ecfeff"/>
+        <rect x="70" y="1190" width="1960" height="240" rx="16" fill="#fff7ed"/>
+        <rect x="70" y="1490" width="1960" height="200" rx="16" fill="#fff1f2"/>
+
+        <!-- ===============================================================
+             CONNECTORS — short, orthogonal, and behind opaque cards
+             =============================================================== -->
+
+        <!-- Three source cards feed the directly aligned pipeline stages. -->
+        <path d="M 225 260 V 398" fill="none" stroke="#059669" stroke-width="2.2" marker-end="url(#arrow-emerald)"/>
+        <path d="M 885 260 V 398" fill="none" stroke="#4f46e5" stroke-width="2.2" marker-end="url(#arrow-indigo)"/>
+        <path d="M 1875 260 V 398" fill="none" stroke="#2563eb" stroke-width="2.2" marker-end="url(#arrow-indigo)"/>
+
+        <!-- Six numbered agent stages use adjacent connectors only. -->
+        <line x1="380" y1="515" x2="398" y2="515" stroke="#4f46e5" stroke-width="2.4" marker-end="url(#arrow-indigo)"/>
+        <line x1="710" y1="515" x2="728" y2="515" stroke="#4f46e5" stroke-width="2.4" marker-end="url(#arrow-indigo)"/>
+        <line x1="1040" y1="515" x2="1058" y2="515" stroke="#4f46e5" stroke-width="2.4" marker-end="url(#arrow-indigo)"/>
+        <line x1="1370" y1="515" x2="1388" y2="515" stroke="#4f46e5" stroke-width="2.4" marker-end="url(#arrow-indigo)"/>
+        <line x1="1700" y1="515" x2="1718" y2="515" stroke="#4f46e5" stroke-width="2.4" marker-end="url(#arrow-indigo)"/>
+
+        <!-- Relevant pipeline stages connect to their support zones. -->
+        <path d="M 1215 630 V 646 H 520 V 718" fill="none" stroke="#d97706" stroke-width="2" marker-end="url(#arrow-amber)"/>
+        <path d="M 1545 630 V 662 H 1160 V 718" fill="none" stroke="#059669" stroke-width="2" marker-end="url(#arrow-emerald)"/>
+        <path d="M 1875 630 V 718" fill="none" stroke="#0891b2" stroke-width="2" marker-end="url(#arrow-slate)"/>
+
+        <!-- Evidence cards feed the support card directly above them. -->
+        <line x1="258" y1="970" x2="258" y2="912" stroke="#059669" stroke-width="2" marker-end="url(#arrow-emerald)"/>
+        <line x1="623" y1="970" x2="623" y2="912" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrow-indigo)"/>
+        <line x1="988" y1="970" x2="988" y2="912" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrow-indigo)"/>
+        <line x1="1353" y1="970" x2="1353" y2="912" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrow-indigo)"/>
+
+        <!-- Composite fetch is deliberately linear. -->
+        <line x1="450" y1="1310" x2="478" y2="1310" stroke="#d97706" stroke-width="2.4" marker-end="url(#arrow-amber)"/>
+        <line x1="830" y1="1310" x2="858" y2="1310" stroke="#d97706" stroke-width="2.4" marker-end="url(#arrow-amber)"/>
+        <line x1="1210" y1="1310" x2="1238" y2="1310" stroke="#d97706" stroke-width="2.4" marker-end="url(#arrow-amber)"/>
+        <line x1="1590" y1="1310" x2="1618" y2="1310" stroke="#d97706" stroke-width="2.4" marker-end="url(#arrow-amber)"/>
+
+        <!-- Mutation flow is isolated and one-way. -->
+        <line x1="500" y1="1593" x2="528" y2="1593" stroke="#e11d48" stroke-width="2.4" stroke-dasharray="7 5" marker-end="url(#arrow-rose)"/>
+        <line x1="930" y1="1593" x2="958" y2="1593" stroke="#e11d48" stroke-width="2.4" stroke-dasharray="7 5" marker-end="url(#arrow-rose)"/>
+        <line x1="1360" y1="1593" x2="1388" y2="1593" stroke="#e11d48" stroke-width="2.4" stroke-dasharray="7 5" marker-end="url(#arrow-rose)"/>
+
+        <!-- ===============================================================
+             TOP SOURCES
+             =============================================================== -->
+
+        <text x="70" y="45" fill="#64748b" font-size="10" font-weight="700" letter-spacing="1.4">NATIVE INPUTS AND WORKBENCH CONTRACT</text>
+
+        <g filter="url(#card-shadow)">
+          <rect x="70" y="70" width="640" height="190" rx="14" fill="#ffffff"/>
+          <rect x="70" y="70" width="640" height="190" rx="14" fill="#ecfdf5" stroke="#059669" stroke-width="1.7"/>
+          <path d="M 84 70 H 696 A 14 14 0 0 1 710 84 V 108 H 70 V 84 A 14 14 0 0 1 84 70 Z" fill="#059669"/>
+          <text x="94" y="96" fill="#ffffff" font-size="12" font-weight="700">Engineer request · native Copilot Chat</text>
+          <text x="94" y="134" fill="#047857" font-size="13" font-weight="700">@flowverse fetch FACTORY-100</text>
+          <text x="94" y="160" fill="#334155" font-size="9.5">natural prompts · slash commands · tool attachments</text>
+          <text x="94" y="183" fill="#334155" font-size="9.5">ChatRequest prompt + references + history + cancellation</text>
+          <rect x="94" y="207" width="476" height="30" rx="15" fill="#d1fae5" stroke="#6ee7b7"/>
+          <text x="112" y="226" fill="#047857" font-size="8.5" font-weight="700">Chat Participant API owns routing and native response UX</text>
+        </g>
+
+        <g filter="url(#card-shadow)">
+          <rect x="730" y="70" width="640" height="190" rx="14" fill="#ffffff"/>
+          <rect x="730" y="70" width="640" height="190" rx="14" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.7"/>
+          <path d="M 744 70 H 1356 A 14 14 0 0 1 1370 84 V 108 H 730 V 84 A 14 14 0 0 1 744 70 Z" fill="#7c3aed"/>
+          <text x="754" y="96" fill="#ffffff" font-size="12" font-weight="700">User-selected Copilot model</text>
+          <text x="754" y="134" fill="#6d28d9" font-size="12" font-weight="700">request.model · LanguageModelChat</text>
+          <text x="754" y="160" fill="#334155" font-size="9.5">reasoning · tool selection · response synthesis · follow-ups</text>
+          <text x="754" y="183" fill="#334155" font-size="9.5">FlowVerse supplies grounded context and typed tool schemas</text>
+          <rect x="754" y="207" width="410" height="30" rx="15" fill="#ede9fe" stroke="#c4b5fd"/>
+          <text x="773" y="226" fill="#6d28d9" font-size="8.5" font-weight="700">No custom Language Model Chat Provider</text>
+        </g>
+
+        <g filter="url(#card-shadow)">
+          <rect x="1390" y="70" width="640" height="190" rx="14" fill="#ffffff"/>
+          <rect x="1390" y="70" width="640" height="190" rx="14" fill="#eff6ff" stroke="#2563eb" stroke-width="1.7"/>
+          <path d="M 1404 70 H 2016 A 14 14 0 0 1 2030 84 V 108 H 1390 V 84 A 14 14 0 0 1 1404 70 Z" fill="#2563eb"/>
+          <text x="1414" y="96" fill="#ffffff" font-size="12" font-weight="700">Native VS Code surfaces</text>
+          <text x="1414" y="134" fill="#1d4ed8" font-size="10" font-weight="700">LEFT</text>
+          <text x="1472" y="134" fill="#334155" font-size="9.5">Launch Explorer · Architecture Layers</text>
+          <text x="1414" y="159" fill="#1d4ed8" font-size="10" font-weight="700">EDITOR</text>
+          <text x="1487" y="159" fill="#334155" font-size="9.5">Jira report · layered diagram · raw JSON · service preview</text>
+          <text x="1414" y="184" fill="#1d4ed8" font-size="10" font-weight="700">BOTTOM</text>
+          <text x="1495" y="184" fill="#334155" font-size="9.5">Analysis &amp; Evidence · FlowVerse Output</text>
+          <text x="1414" y="224" fill="#64748b" font-size="8.5">webviews display and select; native commands perform actions</text>
+        </g>
+
+        <!-- ===============================================================
+             PIPELINE BAND AND SIX STAGES
+             =============================================================== -->
+
+        <text x="1050" y="344" fill="#4338ca" font-size="12" font-weight="700" text-anchor="middle" letter-spacing="1">▼ FLOWVERSE COPILOT AGENT PIPELINE · CHAT PARTICIPANT + LANGUAGE MODEL TOOLS ▼</text>
+
+        <g filter="url(#card-shadow)">
+          <rect x="70" y="400" width="310" height="230" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.4"/>
+          <circle cx="105" cy="438" r="20" fill="#4f46e5"/>
+          <text x="105" y="443" fill="#ffffff" font-size="13" font-weight="700" text-anchor="middle">1</text>
+          <text x="137" y="443" fill="#0f172a" font-size="11.5" font-weight="700">Receive &amp; route</text>
+          <text x="94" y="478" fill="#4f46e5" font-size="8.5" font-style="italic">Chat Participant API</text>
+          <line x1="94" y1="493" x2="356" y2="493" stroke="#e2e8f0"/>
+          <text x="94" y="520" fill="#334155" font-size="8.5" font-weight="700">createChatParticipant(flowverse.launch)</text>
+          <text x="94" y="545" fill="#475569" font-size="8.2">parse fetch intent and participant command</text>
+          <text x="94" y="567" fill="#475569" font-size="8.2">collect references and attached tools</text>
+          <text x="94" y="589" fill="#475569" font-size="8.2">load safe prompt instructions</text>
+          <text x="94" y="613" fill="#94a3b8" font-size="7.5">prompt data remains untrusted input</text>
+        </g>
+
+        <g filter="url(#card-shadow)">
+          <rect x="400" y="400" width="310" height="230" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.4"/>
+          <circle cx="435" cy="438" r="20" fill="#4f46e5"/>
+          <text x="435" y="443" fill="#ffffff" font-size="13" font-weight="700" text-anchor="middle">2</text>
+          <text x="467" y="443" fill="#0f172a" font-size="11.5" font-weight="700">Restore active context</text>
+          <text x="424" y="478" fill="#4f46e5" font-size="8.5" font-style="italic">LaunchSessionController</text>
+          <line x1="424" y1="493" x2="686" y2="493" stroke="#e2e8f0"/>
+          <text x="424" y="520" fill="#334155" font-size="8.5" font-weight="700">one authoritative extension-host state</text>
+          <text x="424" y="545" fill="#475569" font-size="8.2">active Jira report and delivery scope</text>
+          <text x="424" y="567" fill="#475569" font-size="8.2">selection, artifacts, adopted solution</text>
+          <text x="424" y="589" fill="#475569" font-size="8.2">pending plan and editor sessions</text>
+          <text x="424" y="613" fill="#94a3b8" font-size="7.5">context keys synchronize native surfaces</text>
+        </g>
+
+        <g filter="url(#card-shadow)">
+          <rect x="730" y="400" width="310" height="230" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.4"/>
+          <circle cx="765" cy="438" r="20" fill="#4f46e5"/>
+          <text x="765" y="443" fill="#ffffff" font-size="13" font-weight="700" text-anchor="middle">3</text>
+          <text x="797" y="443" fill="#0f172a" font-size="11.5" font-weight="700">Reason &amp; choose tool</text>
+          <text x="754" y="478" fill="#4f46e5" font-size="8.5" font-style="italic">request.model.sendRequest</text>
+          <line x1="754" y1="493" x2="1016" y2="493" stroke="#e2e8f0"/>
+          <text x="754" y="520" fill="#334155" font-size="8.5" font-weight="700">selected model sees typed tool schemas</text>
+          <text x="754" y="545" fill="#475569" font-size="8.2">request + session + fetch result + history</text>
+          <text x="754" y="567" fill="#475569" font-size="8.2">tool mode: required when explicitly attached</text>
+          <text x="754" y="589" fill="#475569" font-size="8.2">maximum 8 model rounds</text>
+          <text x="754" y="613" fill="#94a3b8" font-size="7.5">the model—not a hard-coded UI—chooses actions</text>
+        </g>
+
+        <g filter="url(#card-shadow)">
+          <rect x="1060" y="400" width="310" height="230" rx="12" fill="#ffffff" stroke="#f59e0b" stroke-width="1.6"/>
+          <circle cx="1095" cy="438" r="20" fill="#d97706"/>
+          <text x="1095" y="443" fill="#ffffff" font-size="13" font-weight="700" text-anchor="middle">4</text>
+          <text x="1127" y="443" fill="#0f172a" font-size="11.5" font-weight="700">Invoke registered tool</text>
+          <text x="1084" y="478" fill="#d97706" font-size="8.5" font-style="italic">Language Model Tool API</text>
+          <line x1="1084" y1="493" x2="1346" y2="493" stroke="#fde68a"/>
+          <text x="1084" y="520" fill="#334155" font-size="8.5" font-weight="700">vscode.lm.invokeTool(name, options)</text>
+          <text x="1084" y="545" fill="#475569" font-size="8.2">toolInvocationToken preserves Chat UX</text>
+          <text x="1084" y="567" fill="#475569" font-size="8.2">token budget and cancellation propagated</text>
+          <text x="1084" y="589" fill="#475569" font-size="8.2">maximum 16 tool calls</text>
+          <text x="1084" y="613" fill="#92400e" font-size="7.5">prepareInvocation handles status/confirmation</text>
+        </g>
+
+        <g filter="url(#card-shadow)">
+          <rect x="1390" y="400" width="310" height="230" rx="12" fill="#ffffff" stroke="#10b981" stroke-width="1.6"/>
+          <circle cx="1425" cy="438" r="20" fill="#059669"/>
+          <text x="1425" y="443" fill="#ffffff" font-size="13" font-weight="700" text-anchor="middle">5</text>
+          <text x="1457" y="443" fill="#0f172a" font-size="11.5" font-weight="700">Ground &amp; analyse</text>
+          <text x="1414" y="478" fill="#059669" font-size="8.5" font-style="italic">deterministic evidence services</text>
+          <line x1="1414" y1="493" x2="1676" y2="493" stroke="#d1fae5"/>
+          <text x="1414" y="520" fill="#334155" font-size="8.5" font-weight="700">exact Jira + architecture identifiers</text>
+          <text x="1414" y="545" fill="#475569" font-size="8.2">typed relationships and propagation</text>
+          <text x="1414" y="567" fill="#475569" font-size="8.2">claims, evidence, findings, confidence</text>
+          <text x="1414" y="589" fill="#475569" font-size="8.2">SHA-256 source revisions and freshness</text>
+          <text x="1414" y="613" fill="#047857" font-size="7.5">private semantic machinery stays hidden</text>
+        </g>
+
+        <g filter="url(#card-shadow)">
+          <rect x="1720" y="400" width="310" height="230" rx="12" fill="#ffffff" stroke="#0891b2" stroke-width="1.6"/>
+          <circle cx="1755" cy="438" r="20" fill="#0891b2"/>
+          <text x="1755" y="443" fill="#ffffff" font-size="13" font-weight="700" text-anchor="middle">6</text>
+          <text x="1787" y="443" fill="#0f172a" font-size="11.5" font-weight="700">Stream &amp; recommend</text>
+          <text x="1744" y="478" fill="#0891b2" font-size="8.5" font-style="italic">native Chat response lifecycle</text>
+          <line x1="1744" y1="493" x2="2006" y2="493" stroke="#cffafe"/>
+          <text x="1744" y="520" fill="#334155" font-size="8.5" font-weight="700">progress · Markdown · references · buttons</text>
+          <text x="1744" y="545" fill="#475569" font-size="8.2">result metadata records tools/features</text>
+          <text x="1744" y="567" fill="#475569" font-size="8.2">model proposes 2–3 next actions</text>
+          <text x="1744" y="589" fill="#475569" font-size="8.2">allowlist + terminology guard + fallback</text>
+          <text x="1744" y="613" fill="#0e7490" font-size="7.5">followupProvider returns native prompts</text>
+        </g>
+
+        <!-- ===============================================================
+             SUPPORT FOUNDATION
+             =============================================================== -->
+
+        <rect x="70" y="680" width="1460" height="450" rx="16" fill="none" stroke="#cbd5e1" stroke-width="1.2"/>
+        <rect x="94" y="666" width="390" height="28" rx="14" fill="#e2e8f0" stroke="#cbd5e1"/>
+        <text x="289" y="685" fill="#334155" font-size="10" font-weight="700" text-anchor="middle">TOOLS, ANALYSIS &amp; GROUNDING SOURCES</text>
+
+        <g filter="url(#card-shadow)">
+          <rect x="90" y="720" width="680" height="190" rx="12" fill="#ffffff"/>
+          <rect x="90" y="720" width="680" height="190" rx="12" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.5"/>
+          <text x="116" y="750" fill="#92400e" font-size="11.5" font-weight="700">Language Model Tool registry</text>
+          <text x="116" y="773" fill="#b45309" font-size="8.5">declared in package.json · registered in the extension host</text>
+          <line x1="116" y1="789" x2="744" y2="789" stroke="#fde68a"/>
+          <text x="116" y="815" fill="#0f172a" font-size="8.5" font-weight="700">flowverse_fetch_issue</text>
+          <text x="116" y="837" fill="#0f172a" font-size="8.5" font-weight="700">flowverse_get_context</text>
+          <text x="116" y="859" fill="#0f172a" font-size="8.5" font-weight="700">flowverse_inspect_architecture</text>
+          <text x="400" y="815" fill="#0f172a" font-size="8.5" font-weight="700">flowverse_analyse</text>
+          <text x="400" y="837" fill="#0f172a" font-size="8.5" font-weight="700">flowverse_plan_changes</text>
+          <text x="400" y="859" fill="#0f172a" font-size="8.5" font-weight="700">flowverse_apply_changes</text>
+          <rect x="116" y="875" width="628" height="22" rx="11" fill="#fef3c7"/>
+          <text x="430" y="890" fill="#92400e" font-size="7.5" text-anchor="middle">7 existing jira_* tools remain registered for Copilot Agent Mode</text>
+        </g>
+
+        <g filter="url(#card-shadow)">
+          <rect x="810" y="720" width="700" height="190" rx="12" fill="#ffffff"/>
+          <rect x="810" y="720" width="700" height="190" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+          <text x="836" y="750" fill="#047857" font-size="11.5" font-weight="700">Analysis registry + architecture knowledge index</text>
+          <text x="836" y="773" fill="#059669" font-size="8.5">one versioned artifact contract across all ten capabilities</text>
+          <line x1="836" y1="789" x2="1484" y2="789" stroke="#a7f3d0"/>
+          <text x="836" y="815" fill="#0f172a" font-size="8.2">01 Launch Brief</text>
+          <text x="836" y="837" fill="#0f172a" font-size="8.2">02 Solution Scenarios</text>
+          <text x="836" y="859" fill="#0f172a" font-size="8.2">03 Change Impact</text>
+          <text x="836" y="881" fill="#0f172a" font-size="8.2">04 Delivery Plan</text>
+          <text x="1008" y="815" fill="#0f172a" font-size="8.2">05 Critical Path</text>
+          <text x="1008" y="837" fill="#0f172a" font-size="8.2">06 Compatibility</text>
+          <text x="1008" y="859" fill="#0f172a" font-size="8.2">07 Test Coverage</text>
+          <text x="1008" y="881" fill="#0f172a" font-size="8.2">08 Drift</text>
+          <text x="1180" y="815" fill="#0f172a" font-size="8.2">09 Release Confidence</text>
+          <text x="1180" y="837" fill="#0f172a" font-size="8.2">10 Decision Memory</text>
+          <text x="1180" y="859" fill="#475569" font-size="8.2">systems · modules · APIs</text>
+          <text x="1180" y="881" fill="#475569" font-size="8.2">messages · flows · risks</text>
+        </g>
+
+        <g filter="url(#card-shadow)">
+          <rect x="90" y="970" width="335" height="130" rx="11" fill="#ffffff"/>
+          <rect x="90" y="970" width="335" height="130" rx="11" fill="#ecfdf5" stroke="#059669" stroke-width="1.4"/>
+          <text x="114" y="998" fill="#047857" font-size="10.5" font-weight="700">Jira source</text>
+          <text x="114" y="1024" fill="#0f172a" font-size="8.2">live Jira API or local simulator</text>
+          <text x="114" y="1047" fill="#475569" font-size="8">issues · Markdown · links · blockers</text>
+          <text x="114" y="1068" fill="#475569" font-size="8">versions · relationships · epic scope</text>
+          <text x="114" y="1088" fill="#94a3b8" font-size="7.3">dev/prod URL resolution · PAT via secrets</text>
+        </g>
+
+        <g filter="url(#card-shadow)">
+          <rect x="455" y="970" width="335" height="130" rx="11" fill="#ffffff"/>
+          <rect x="455" y="970" width="335" height="130" rx="11" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.4"/>
+          <text x="479" y="998" fill="#6d28d9" font-size="10.5" font-weight="700">Architecture knowledge pack</text>
+          <text x="479" y="1024" fill="#0f172a" font-size="8.2">bundled standalone JSON resources</text>
+          <text x="479" y="1047" fill="#475569" font-size="8">explicit path → workspace → bundled</text>
+          <text x="479" y="1068" fill="#475569" font-size="8">validated relationships and schemas</text>
+          <text x="479" y="1088" fill="#94a3b8" font-size="7.3">private semantic bindings stay internal</text>
+        </g>
+
+        <g filter="url(#card-shadow)">
+          <rect x="820" y="970" width="335" height="130" rx="11" fill="#ffffff"/>
+          <rect x="820" y="970" width="335" height="130" rx="11" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.4"/>
+          <text x="844" y="998" fill="#6d28d9" font-size="10.5" font-weight="700">Workspace/test evidence</text>
+          <text x="844" y="1024" fill="#0f172a" font-size="8.2">read-only local evidence adapter</text>
+          <text x="844" y="1047" fill="#475569" font-size="8">changed files · available test evidence</text>
+          <text x="844" y="1068" fill="#475569" font-size="8">drift · coverage · readiness inputs</text>
+          <text x="844" y="1088" fill="#94a3b8" font-size="7.3">missing evidence remains explicit/unknown</text>
+        </g>
+
+        <g filter="url(#card-shadow)">
+          <rect x="1185" y="970" width="335" height="130" rx="11" fill="#ffffff"/>
+          <rect x="1185" y="970" width="335" height="130" rx="11" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.4"/>
+          <text x="1209" y="998" fill="#6d28d9" font-size="10.5" font-weight="700">VS Code storage</text>
+          <text x="1209" y="1024" fill="#0f172a" font-size="8.2">artifacts + compact session state</text>
+          <text x="1209" y="1047" fill="#475569" font-size="8">claims · evidence · source revisions</text>
+          <text x="1209" y="1068" fill="#475569" font-size="8">fresh/stale state · plan invalidation</text>
+          <text x="1209" y="1088" fill="#94a3b8" font-size="7.3">SecretStorage keeps credentials separate</text>
+        </g>
+
+        <!-- ===============================================================
+             NATIVE OUTPUT PROJECTIONS
+             =============================================================== -->
+
+        <rect x="1570" y="680" width="460" height="450" rx="16" fill="none" stroke="#0891b2" stroke-width="1.3"/>
+        <rect x="1592" y="666" width="288" height="28" rx="14" fill="#cffafe" stroke="#67e8f9"/>
+        <text x="1736" y="685" fill="#0e7490" font-size="10" font-weight="700" text-anchor="middle">NATIVE OUTPUT PROJECTIONS</text>
+
+        <g filter="url(#card-shadow)">
+          <rect x="1590" y="720" width="420" height="100" rx="11" fill="#ffffff"/>
+          <rect x="1590" y="720" width="420" height="100" rx="11" fill="#ecfeff" stroke="#0891b2" stroke-width="1.4"/>
+          <text x="1614" y="748" fill="#0e7490" font-size="10.5" font-weight="700">Editor projections</text>
+          <text x="1614" y="773" fill="#0f172a" font-size="8.2">Jira Report · Layered Architecture Canvas</text>
+          <text x="1614" y="795" fill="#475569" font-size="8">raw JSON · service preview · impact overlays</text>
+          <text x="1614" y="811" fill="#94a3b8" font-size="7.2">typed selectionChanged messages only</text>
+        </g>
+
+        <g filter="url(#card-shadow)">
+          <rect x="1590" y="860" width="420" height="100" rx="11" fill="#ffffff"/>
+          <rect x="1590" y="860" width="420" height="100" rx="11" fill="#ecfeff" stroke="#0891b2" stroke-width="1.4"/>
+          <text x="1614" y="888" fill="#0e7490" font-size="10.5" font-weight="700">Native views and diagnostics</text>
+          <text x="1614" y="913" fill="#0f172a" font-size="8.2">Launch Explorer · Layers · Analysis Tree</text>
+          <text x="1614" y="935" fill="#475569" font-size="8">evidence reveal · context commands · Output log</text>
+          <text x="1614" y="951" fill="#94a3b8" font-size="7.2">all routing stays in the extension host</text>
+        </g>
+
+        <g filter="url(#card-shadow)">
+          <rect x="1590" y="1000" width="420" height="100" rx="11" fill="#ffffff"/>
+          <rect x="1590" y="1000" width="420" height="100" rx="11" fill="#ecfeff" stroke="#0891b2" stroke-width="1.4"/>
+          <text x="1614" y="1028" fill="#0e7490" font-size="10.5" font-weight="700">Copilot Chat response</text>
+          <text x="1614" y="1053" fill="#0f172a" font-size="8.2">streamed answer · references · command buttons</text>
+          <text x="1614" y="1075" fill="#475569" font-size="8">2–3 native follow-up requests from result state</text>
+          <text x="1614" y="1091" fill="#94a3b8" font-size="7.2">model recommendation with deterministic fallback</text>
+        </g>
+
+        <!-- ===============================================================
+             COMPOSITE FETCH WORKFLOW
+             =============================================================== -->
+
+        <rect x="70" y="1190" width="1960" height="240" rx="16" fill="none" stroke="#fb923c" stroke-width="1.5"/>
+        <text x="100" y="1222" fill="#b45309" font-size="11.5" font-weight="700">COMPOSITE TOOL WORKFLOW · @flowverse fetch FACTORY-100</text>
+        <text x="2000" y="1222" fill="#9a3412" font-size="8.5" text-anchor="end">one tool invocation · five visible outcomes</text>
+
+        <g filter="url(#card-shadow)">
+          <rect x="100" y="1250" width="350" height="120" rx="11" fill="#ffffff" stroke="#fdba74" stroke-width="1.3"/>
+          <circle cx="130" cy="1280" r="17" fill="#d97706"/>
+          <text x="130" y="1285" fill="#ffffff" font-size="11" font-weight="700" text-anchor="middle">1</text>
+          <text x="158" y="1285" fill="#0f172a" font-size="10" font-weight="700">Fetch live Jira report</text>
+          <text x="124" y="1318" fill="#475569" font-size="8.2">issue, epic scope, Markdown, links, blockers</text>
+          <text x="124" y="1343" fill="#9a3412" font-size="7.5">flowverse_fetch_issue bootstrap</text>
+        </g>
+
+        <g filter="url(#card-shadow)">
+          <rect x="480" y="1250" width="350" height="120" rx="11" fill="#ffffff" stroke="#fdba74" stroke-width="1.3"/>
+          <circle cx="510" cy="1280" r="17" fill="#d97706"/>
+          <text x="510" y="1285" fill="#ffffff" font-size="11" font-weight="700" text-anchor="middle">2</text>
+          <text x="538" y="1285" fill="#0f172a" font-size="10" font-weight="700">Map architecture scope</text>
+          <text x="504" y="1318" fill="#475569" font-size="8.2">resolve exact system/module/interface IDs</text>
+          <text x="504" y="1343" fill="#9a3412" font-size="7.5">live Jira context becomes diagram overlay</text>
+        </g>
+
+        <g filter="url(#card-shadow)">
+          <rect x="860" y="1250" width="350" height="120" rx="11" fill="#ffffff" stroke="#fdba74" stroke-width="1.3"/>
+          <circle cx="890" cy="1280" r="17" fill="#d97706"/>
+          <text x="890" y="1285" fill="#ffffff" font-size="11" font-weight="700" text-anchor="middle">3</text>
+          <text x="918" y="1285" fill="#0f172a" font-size="10" font-weight="700">Run baseline analysis</text>
+          <text x="884" y="1318" fill="#475569" font-size="8.2">Launch Brief · Change Impact · Critical Path</text>
+          <text x="884" y="1343" fill="#9a3412" font-size="7.5">versioned artifacts with findings/evidence</text>
+        </g>
+
+        <g filter="url(#card-shadow)">
+          <rect x="1240" y="1250" width="350" height="120" rx="11" fill="#ffffff" stroke="#fdba74" stroke-width="1.3"/>
+          <circle cx="1270" cy="1280" r="17" fill="#d97706"/>
+          <text x="1270" y="1285" fill="#ffffff" font-size="11" font-weight="700" text-anchor="middle">4</text>
+          <text x="1298" y="1285" fill="#0f172a" font-size="10" font-weight="700">Open native projections</text>
+          <text x="1264" y="1318" fill="#475569" font-size="8.2">Jira report + layered architecture diagram</text>
+          <text x="1264" y="1343" fill="#9a3412" font-size="7.5">focus first mapped system/module node</text>
+        </g>
+
+        <g filter="url(#card-shadow)">
+          <rect x="1620" y="1250" width="350" height="120" rx="11" fill="#ffffff" stroke="#fdba74" stroke-width="1.3"/>
+          <circle cx="1650" cy="1280" r="17" fill="#d97706"/>
+          <text x="1650" y="1285" fill="#ffffff" font-size="11" font-weight="700" text-anchor="middle">5</text>
+          <text x="1678" y="1285" fill="#0f172a" font-size="10" font-weight="700">Return compact context</text>
+          <text x="1644" y="1318" fill="#475569" font-size="8.2">mapping, artifacts, blockers, opened views</text>
+          <text x="1644" y="1343" fill="#9a3412" font-size="7.5">model decides whether solutions add value</text>
+        </g>
+
+        <rect x="100" y="1390" width="1870" height="25" rx="12.5" fill="#ffedd5"/>
+        <text x="1035" y="1407" fill="#9a3412" font-size="8" font-weight="700" text-anchor="middle">No solution is hard-coded: when trade-offs are material, Copilot can call flowverse_analyse(solution-scenarios) and map every option to exact affected entities.</text>
+
+        <!-- ===============================================================
+             GUARDED MUTATION BOUNDARY
+             =============================================================== -->
+
+        <rect x="70" y="1490" width="1960" height="200" rx="16" fill="none" stroke="#e11d48" stroke-width="1.6" stroke-dasharray="8 6"/>
+        <rect x="96" y="1476" width="340" height="28" rx="14" fill="#ffe4e6" stroke="#fda4af"/>
+        <text x="266" y="1495" fill="#be123c" font-size="10" font-weight="700" text-anchor="middle">NATIVE JIRA MUTATION BOUNDARY</text>
+
+        <g filter="url(#card-shadow)">
+          <rect x="100" y="1540" width="400" height="105" rx="11" fill="#ffffff" stroke="#fda4af" stroke-width="1.4"/>
+          <text x="124" y="1569" fill="#be123c" font-size="10" font-weight="700">Adopted proposal</text>
+          <text x="124" y="1594" fill="#0f172a" font-size="8.2">exact Jira create/update/link operations</text>
+          <text x="124" y="1617" fill="#64748b" font-size="7.5">no write is inferred from diagram selection</text>
+        </g>
+
+        <g filter="url(#card-shadow)">
+          <rect x="530" y="1540" width="400" height="105" rx="11" fill="#ffffff" stroke="#fda4af" stroke-width="1.4"/>
+          <text x="554" y="1569" fill="#be123c" font-size="10" font-weight="700">flowverse_plan_changes</text>
+          <text x="554" y="1594" fill="#0f172a" font-size="8.2">dry run · Jira versions · expiry</text>
+          <text x="554" y="1617" fill="#64748b" font-size="7.5">produces one-use planId + SHA-256 digest</text>
+        </g>
+
+        <g filter="url(#card-shadow)">
+          <rect x="960" y="1540" width="400" height="105" rx="11" fill="#ffffff" stroke="#fda4af" stroke-width="1.4"/>
+          <text x="984" y="1569" fill="#be123c" font-size="10" font-weight="700">Native confirmation</text>
+          <text x="984" y="1594" fill="#0f172a" font-size="8.2">prepareInvocation confirmation UI</text>
+          <text x="984" y="1617" fill="#64748b" font-size="7.5">user reviews the digest-bound plan in Chat</text>
+        </g>
+
+        <g filter="url(#card-shadow)">
+          <rect x="1390" y="1540" width="580" height="105" rx="11" fill="#ffffff" stroke="#e11d48" stroke-width="1.5"/>
+          <text x="1414" y="1569" fill="#be123c" font-size="10" font-weight="700">flowverse_apply_changes → Jira</text>
+          <text x="1414" y="1594" fill="#0f172a" font-size="8.2">recheck knowledge revisions + Jira versions before execution</text>
+          <text x="1414" y="1617" fill="#64748b" font-size="7.5">visible saga outcomes · partial-failure report · retryable re-plan</text>
+        </g>
+
+        <text x="1050" y="1674" fill="#be123c" font-size="8" font-weight="700" text-anchor="middle">Current release approval applies Jira changes only. Workspace writes remain preview-only and are not exposed by the public tool schema.</text>
+
+        <!-- Legend remains outside every boundary. -->
+        <g>
+          <text x="70" y="1753" fill="#334155" font-size="9" font-weight="700">LEGEND</text>
+          <rect x="145" y="1741" width="20" height="13" rx="3" fill="#eef2ff" stroke="#4f46e5"/><text x="175" y="1752" fill="#64748b" font-size="8">agent stage</text>
+          <rect x="295" y="1741" width="20" height="13" rx="3" fill="#fffbeb" stroke="#f59e0b"/><text x="325" y="1752" fill="#64748b" font-size="8">LM tool contract</text>
+          <rect x="500" y="1741" width="20" height="13" rx="3" fill="#ecfdf5" stroke="#10b981"/><text x="530" y="1752" fill="#64748b" font-size="8">evidence / analysis</text>
+          <rect x="710" y="1741" width="20" height="13" rx="3" fill="#f5f3ff" stroke="#7c3aed"/><text x="740" y="1752" fill="#64748b" font-size="8">knowledge / persistence</text>
+          <rect x="950" y="1741" width="20" height="13" rx="3" fill="#ecfeff" stroke="#0891b2"/><text x="980" y="1752" fill="#64748b" font-size="8">native projection</text>
+          <rect x="1160" y="1741" width="20" height="13" rx="3" fill="#fff1f2" stroke="#e11d48"/><text x="1190" y="1752" fill="#64748b" font-size="8">confirmed mutation</text>
+          <line x1="1390" y1="1748" x2="1420" y2="1748" stroke="#4f46e5" stroke-width="2" marker-end="url(#arrow-indigo)"/><text x="1432" y="1752" fill="#64748b" font-size="8">read / reasoning flow</text>
+          <line x1="1640" y1="1748" x2="1670" y2="1748" stroke="#e11d48" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow-rose)"/><text x="1682" y="1752" fill="#64748b" font-size="8">approved write flow</text>
+        </g>
+      </svg>
+    </main>
+
+    <section class="cards" aria-label="Architecture notes">
+      <article class="card">
+        <div class="card-header">
+          <div class="card-dot indigo"></div>
+          <h3>Native Copilot agent contract</h3>
+        </div>
+        <ul>
+          <li>• The participant owns request routing, streaming, references, command buttons, and registered follow-ups through the <a href="https://code.visualstudio.com/api/extension-guides/ai/chat">Chat Participant API</a>.</li>
+          <li>• The model selected by the user performs reasoning and tool choice; FlowVerse does not contribute a custom model provider.</li>
+          <li>• The bounded loop allows up to eight model rounds and sixteen tool calls with cancellation and token budgets propagated.</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <div class="card-header">
+          <div class="card-dot emerald"></div>
+          <h3>Evidence before recommendation</h3>
+        </div>
+        <ul>
+          <li>• The <a href="https://code.visualstudio.com/api/extension-guides/ai/tools">Language Model Tool API</a> exposes typed tools; extension-host services validate every result.</li>
+          <li>• Jira, architecture, repository/test evidence, and exact source revisions feed a single session and versioned artifact contract.</li>
+          <li>• Missing or partial evidence stays visible as findings and unknown readiness gates rather than being filled with guesses.</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <div class="card-header">
+          <div class="card-dot rose"></div>
+          <h3>Explicit mutation boundary</h3>
+        </div>
+        <ul>
+          <li>• Webviews display and select; they cannot run AI, approve plans, or mutate Jira.</li>
+          <li>• Planning is a dry run. Apply requires the exact one-use plan ID and digest plus native confirmation.</li>
+          <li>• Knowledge and Jira revisions are rechecked before execution; partial outcomes are visible and retryable changes require a fresh plan.</li>
+        </ul>
+      </article>
+    </section>
+
+    <p class="footer">FlowVerse plugin developer architecture · current checkout · reorganized around the visual cadence of the cross-domain derivation reference · 2026-07-12</p>
+  </div>
+
+  <script>
+    async function copyAsImage(btn) {
+      const orig = btn.textContent;
+      try {
+        const el = document.getElementById('report-container');
+        const r = el.getBoundingClientRect();
+        const pad = 32;
+        const canvas = await html2canvas(document.body, { backgroundColor: '#eef2f7', scale: 2, useCORS: true, ignoreElements: (e) => e.classList && e.classList.contains('toolbar'), x: r.left + window.scrollX - pad, y: r.top + window.scrollY - pad, width: r.width + pad * 2, height: r.height + pad * 2 });
+        const blob = await new Promise(r => canvas.toBlob(r, 'image/png'));
+        await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+        btn.textContent = '✓ Copied!';
+      } catch (e) {
+        btn.textContent = '✗ Failed';
+      }
+      setTimeout(() => btn.textContent = orig, 2000);
+    }
+
+    async function downloadPNG(btn) {
+      const orig = btn.textContent;
+      btn.textContent = '⏳ ...';
+      try {
+        const el = document.getElementById('report-container');
+        const r = el.getBoundingClientRect();
+        const pad = 32;
+        const canvas = await html2canvas(document.body, { backgroundColor: '#eef2f7', scale: 2, useCORS: true, ignoreElements: (e) => e.classList && e.classList.contains('toolbar'), x: r.left + window.scrollX - pad, y: r.top + window.scrollY - pad, width: r.width + pad * 2, height: r.height + pad * 2 });
+        const link = document.createElement('a');
+        link.download = 'flowverse-copilot-agent-architecture.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        btn.textContent = '✓ Done!';
+      } catch (e) {
+        btn.textContent = '✗ Failed';
+      }
+      setTimeout(() => btn.textContent = orig, 2000);
+    }
+
+    async function downloadPDF(btn) {
+      const orig = btn.textContent;
+      btn.textContent = '⏳ ...';
+      try {
+        const el = document.getElementById('report-container');
+        const r = el.getBoundingClientRect();
+        const pad = 32;
+        const canvas = await html2canvas(document.body, { backgroundColor: '#eef2f7', scale: 2, useCORS: true, ignoreElements: (e) => e.classList && e.classList.contains('toolbar'), x: r.left + window.scrollX - pad, y: r.top + window.scrollY - pad, width: r.width + pad * 2, height: r.height + pad * 2 });
+        const imgData = canvas.toDataURL('image/png');
+        const { jsPDF } = window.jspdf;
+        const orientation = canvas.width > canvas.height ? 'landscape' : 'portrait';
+        const pdf = new jsPDF({ orientation, unit: 'px', format: [canvas.width, canvas.height], hotfixes: ['px_scaling'] });
+        pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+        pdf.save('flowverse-copilot-agent-architecture.pdf');
+        btn.textContent = '✓ Done!';
+      } catch (e) {
+        btn.textContent = '✗ Failed';
+      }
+      setTimeout(() => btn.textContent = orig, 2000);
+    }
+  </script>
+</body>
+</html>

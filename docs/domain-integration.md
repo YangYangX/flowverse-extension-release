@@ -1,0 +1,73 @@
+# Domain Integration
+
+This guide describes how a domain participates in FlowVerse, how source records are resolved, and where domain-specific behavior belongs.
+
+## Domain Extension Model
+
+Each supported domain is a package under `src/domains/` with two registered halves:
+
+- an extension-host module containing a connector and validation adapter;
+- a renderer module containing canvas presentation, explorer behavior, details, and visual themes.
+
+`AbstractDomainConnector` owns the shared setup: resolve the domain worldview, keep file access inside the workspace boundary, parse it, invoke validation, and pass the validated registry to the domain connector. A connector normalizes domain records into the neutral bridge model; its validation adapter validates the domain worldview and extracts registered instance IDs.
+
+The generic composition loader, explorer, canvas, legend, and details shell do not contain Agile Delivery or System Architecture special cases. A new domain implements the contracts and is added to the extension and renderer registries.
+
+Current domain packages:
+
+```text
+src/domains/
+  systemArchitecture/
+    extension/   Connector and validation adapter
+    canvas/      Projection, layout, cards, edges, and themes
+    details/     Architecture details module
+  agileDelivery/
+    extension/   Jira connector, validation adapter, and runtime source
+    canvas/      Work-item presentation and themes
+    details/     Agile Delivery details module
+    model/       Canonical Jira runtime merge model
+```
+
+## Resources
+
+The repository keeps product knowledge and disposable development data separate:
+
+```text
+resources/
+  knowledge/     Packaged definitions, schemas, and the initial fallback composition
+  examples/
+    unified-worldview.instance.json
+    architecture/
+    agile-delivery/
+    cross-domain-links/
+```
+
+`resources/knowledge/` contains shared definitions, schemas, and the initial instance-free unified worldview. All demonstration systems, modules, Jira items, and cross-domain assertions live under `resources/examples/` and can be removed before production packaging without changing the knowledge contracts.
+
+The development example includes both current domains, 23 architecture boundaries, 24 multi-level Agile Delivery records, and explicit delivery-to-architecture link sets. See the [Smart Factory Operations Example](smart-factory-operations-example.md).
+
+## Configuration and Data Resolution
+
+The generic canvas resolves its unified worldview in this order:
+
+1. `flowverse.unifiedWorldviewPath` in the first workspace folder;
+2. `unified-worldview.instance.json` discovered in the workspace;
+3. the instance-free bundled knowledge fallback.
+
+When multiple workspace manifests are found, FlowVerse asks which one to open. Domain worldviews and records are then resolved from references in that selected unified worldview.
+
+The single-service preview resolves its System Architecture worldview separately:
+
+1. `flowverse.worldviewPath`;
+2. the nearest `flowverse.authoring.json` and its `worldviewInstancePath`;
+3. common workspace architecture paths;
+4. the nearest `worldview.instance.json` found by walking up from the service file;
+5. service-local preview vocabulary when no worldview is available.
+
+Jira base URL resolution:
+
+1. `FLOWVERSE_JIRA_BASE_URL` from the VS Code process;
+2. `dev.env` in an Extension Development Host or `prod.env` in an installed extension;
+3. `flowverse.jiraBaseUrl`.
+
+Environment files contain URLs only. Jira credentials come from VS Code SecretStorage or the process `JIRA_PAT`; never place credentials in an environment file.
