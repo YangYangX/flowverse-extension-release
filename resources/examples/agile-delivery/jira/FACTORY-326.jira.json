@@ -1,0 +1,101 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "flowverse-jira-item",
+  "agileDeliveryOntologyRef": "agile-delivery-ontology",
+  "worldviewRef": "smart-factory-agile-delivery",
+  "workItem": {
+    "id": "FACTORY-326",
+    "key": "FACTORY-326",
+    "project": "FACTORY",
+    "workItemType": "task",
+    "jiraIssueType": "Task",
+    "domainConceptRef": "work-item",
+    "summary": "Generate a release traceability snapshot",
+    "status": {
+      "ref": "to-do",
+      "jiraStatus": "To Do",
+      "statusCategory": "new",
+      "domainConceptRef": "workflow-state"
+    },
+    "deliveryScope": {
+      "ref": "FACTORY-320",
+      "domainConceptRef": "delivery-scope"
+    },
+    "parentRef": {
+      "ref": "FACTORY-321",
+      "relationshipTypeRef": "parent-child",
+      "domainConceptRef": "work-item-hierarchy"
+    },
+    "disciplines": [
+      "DEV",
+      "QA"
+    ],
+    "assignee": {
+      "role": "assignee",
+      "displayName": "Platform Release Engineering",
+      "domainConceptRef": "delivery-actor"
+    },
+    "reporter": {
+      "role": "reporter",
+      "displayName": "Factory Digital Product Management",
+      "domainConceptRef": "delivery-actor"
+    },
+    "priority": "High",
+    "storyPoints": 5,
+    "jiraSprint": "Factory Platform Backlog"
+  },
+  "requirements": [
+    {
+      "text": "Capture the approved work, affected architecture, evidence, risks, owners, and decisions used for a release review.",
+      "domainConceptRef": "delivery-requirement",
+      "provenance": {
+        "origin": "user-provided",
+        "sourceKind": "structured-field",
+        "sourceRef": "FACTORY-326.requirements.1",
+        "confidence": "high",
+        "capturedAt": "2026-08-10T00:00:00.000Z"
+      }
+    }
+  ],
+  "acceptanceEvidence": [
+    {
+      "text": "Reviewers can resolve every snapshot entry to its source revision and identify later changes.",
+      "domainConceptRef": "readiness-gate",
+      "provenance": {
+        "origin": "user-provided",
+        "sourceKind": "structured-field",
+        "sourceRef": "FACTORY-326.acceptanceEvidence.1",
+        "confidence": "high",
+        "capturedAt": "2026-08-10T00:00:00.000Z"
+      }
+    }
+  ],
+  "completionCriteria": [
+    {
+      "text": "Completeness, source resolution, immutability, access control, and export checks pass.",
+      "domainConceptRef": "readiness-gate",
+      "provenance": {
+        "origin": "user-provided",
+        "sourceKind": "structured-field",
+        "sourceRef": "FACTORY-326.completionCriteria.1",
+        "confidence": "high",
+        "capturedAt": "2026-08-10T00:00:00.000Z"
+      }
+    }
+  ],
+  "notes": [
+    {
+      "field": "description",
+      "domainConceptRef": "delivery-note",
+      "provenanceSourceKind": "structured-field",
+      "text": "Generate an immutable review snapshot from connected authoritative records at decision time."
+    }
+  ],
+  "provenance": {
+    "origin": "user-provided",
+    "sourceKind": "structured-field",
+    "sourceRef": "FACTORY-326",
+    "confidence": "high",
+    "capturedAt": "2026-08-10T00:00:00.000Z"
+  }
+}

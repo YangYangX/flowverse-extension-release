@@ -1,0 +1,102 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "flowverse-jira-item",
+  "agileDeliveryOntologyRef": "agile-delivery-ontology",
+  "worldviewRef": "smart-factory-agile-delivery",
+  "workItem": {
+    "id": "FACTORY-141",
+    "key": "FACTORY-141",
+    "project": "FACTORY",
+    "workItemType": "story",
+    "jiraIssueType": "Story",
+    "domainConceptRef": "work-item",
+    "summary": "Show machine health and maintenance actions in the Operator UI",
+    "status": {
+      "ref": "to-do",
+      "jiraStatus": "To Do",
+      "statusCategory": "new",
+      "domainConceptRef": "workflow-state"
+    },
+    "deliveryScope": {
+      "ref": "FACTORY-140",
+      "domainConceptRef": "delivery-scope"
+    },
+    "parentRef": {
+      "ref": "FACTORY-140",
+      "relationshipTypeRef": "parent-child",
+      "domainConceptRef": "work-item-hierarchy"
+    },
+    "disciplines": [
+      "BA",
+      "DEV",
+      "QA"
+    ],
+    "assignee": {
+      "role": "assignee",
+      "displayName": "Operator Experience Team",
+      "domainConceptRef": "delivery-actor"
+    },
+    "reporter": {
+      "role": "reporter",
+      "displayName": "Factory Digital Product Management",
+      "domainConceptRef": "delivery-actor"
+    },
+    "priority": "High",
+    "storyPoints": 13,
+    "jiraSprint": "Factory Platform Sprint 12"
+  },
+  "requirements": [
+    {
+      "text": "The UI must distinguish live, stale, warning, stopped, and maintenance states and preserve source timestamps.",
+      "domainConceptRef": "delivery-requirement",
+      "provenance": {
+        "origin": "user-provided",
+        "sourceKind": "structured-field",
+        "sourceRef": "FACTORY-141.requirements.1",
+        "confidence": "high",
+        "capturedAt": "2026-08-09T00:00:00.000Z"
+      }
+    }
+  ],
+  "acceptanceEvidence": [
+    {
+      "text": "An operator can trace an alert from machine state through anomaly evidence to the related work order.",
+      "domainConceptRef": "readiness-gate",
+      "provenance": {
+        "origin": "user-provided",
+        "sourceKind": "structured-field",
+        "sourceRef": "FACTORY-141.acceptanceEvidence.1",
+        "confidence": "high",
+        "capturedAt": "2026-08-09T00:00:00.000Z"
+      }
+    }
+  ],
+  "completionCriteria": [
+    {
+      "text": "Usability, accessibility, stale-data, and degraded-service scenarios pass.",
+      "domainConceptRef": "readiness-gate",
+      "provenance": {
+        "origin": "user-provided",
+        "sourceKind": "structured-field",
+        "sourceRef": "FACTORY-141.completionCriteria.1",
+        "confidence": "high",
+        "capturedAt": "2026-08-09T00:00:00.000Z"
+      }
+    }
+  ],
+  "notes": [
+    {
+      "field": "description",
+      "domainConceptRef": "delivery-note",
+      "provenanceSourceKind": "structured-field",
+      "text": "As an operator, I need machine health, anomalies, production impact, and maintenance actions in one workspace."
+    }
+  ],
+  "provenance": {
+    "origin": "user-provided",
+    "sourceKind": "structured-field",
+    "sourceRef": "FACTORY-141",
+    "confidence": "high",
+    "capturedAt": "2026-08-09T00:00:00.000Z"
+  }
+}

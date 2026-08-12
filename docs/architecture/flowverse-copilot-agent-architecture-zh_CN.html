@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FlowVerse VS Code Plugin — Copilot Agent Architecture</title>
+  <title>FlowVerse VS Code 扩展 — Copilot Agent 架构</title>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" integrity="sha384-ZZ1pncU3bQe8y31yfZdMFdSpttDoPmOZg2wguVK9almUodir1PghgT0eY7Mrty8H" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js" integrity="sha384-en/ztfPSRkGfME4KIm05joYXynqzUgbsG5nMrj/xEFAHXkeZfO3yMK8QQ+mP7p1/" crossorigin="anonymous"></script>
@@ -264,30 +264,30 @@
     <header class="header">
       <div class="header-row">
         <div class="pulse-dot" aria-hidden="true"></div>
-        <h1>FlowVerse Copilot Agent — Current Plugin Architecture</h1>
+        <h1>FlowVerse Copilot Agent — 当前扩展架构</h1>
         <div class="toolbar">
           <div class="toolbar-actions">
-            <button onclick="copyAsImage(this)">📋 Copy</button>
+            <button onclick="copyAsImage(this)">📋 复制</button>
             <button onclick="downloadPNG(this)">🖼️ PNG</button>
             <button onclick="downloadPDF(this)">📄 PDF</button>
           </div>
-          <button class="toolbar-toggle" onclick="this.parentElement.classList.toggle('expanded')" title="Export options" aria-label="Export options">⋯</button>
+          <button class="toolbar-toggle" onclick="this.parentElement.classList.toggle('expanded')" title="导出选项" aria-label="导出选项">⋯</button>
         </div>
       </div>
-      <p class="subtitle">How a native <strong>@flowverse</strong> request becomes evidence-grounded Jira and architecture analysis, visible workbench projections, model-proposed follow-ups, and—only after explicit confirmation—revision-checked Jira changes.</p>
-      <div class="scope-row" aria-label="Diagram scope">
-        <span class="scope-chip">Current checkout</span>
+      <p class="subtitle">一个原生 <strong>@flowverse</strong> 请求如何转化为基于证据的 Jira 与架构分析、可见工作台投影、模型建议的后续操作，以及仅在显式确认后执行的、经过修订版本检查的 Jira 变更。</p>
+      <div class="scope-row" aria-label="图表范围">
+        <span class="scope-chip">当前代码版本</span>
         <span class="scope-chip">Chat Participant API</span>
         <span class="scope-chip">Language Model Tool API</span>
         <span class="scope-chip neutral">VS Code ^1.120.0</span>
-        <span class="scope-chip neutral">Selected Copilot model</span>
+        <span class="scope-chip neutral">用户选择的 Copilot 模型</span>
       </div>
     </header>
 
     <main class="diagram-container">
       <svg viewBox="0 0 2100 1805" role="img" aria-labelledby="diagram-title diagram-description">
-        <title id="diagram-title">FlowVerse Copilot agent architecture</title>
-        <desc id="diagram-description">A spacious flow diagram showing three native inputs, six numbered agent stages, the tool and evidence foundation, the composite Jira fetch workflow, native projections, and a separate confirmed Jira mutation boundary.</desc>
+        <title id="diagram-title">FlowVerse Copilot Agent 架构</title>
+        <desc id="diagram-description">展示三个原生输入、六个编号 Agent 阶段、工具与证据基础、组合 Jira Fetch 工作流、原生投影，以及独立且经过确认的 Jira 变更边界。</desc>
 
         <defs>
           <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
@@ -365,134 +365,134 @@
              TOP SOURCES
              =============================================================== -->
 
-        <text x="70" y="45" fill="#64748b" font-size="10" font-weight="700" letter-spacing="1.4">NATIVE INPUTS AND WORKBENCH CONTRACT</text>
+        <text x="70" y="45" fill="#64748b" font-size="10" font-weight="700" letter-spacing="1.4">原生输入与工作台契约</text>
 
         <g filter="url(#card-shadow)">
           <rect x="70" y="70" width="640" height="190" rx="14" fill="#ffffff"/>
           <rect x="70" y="70" width="640" height="190" rx="14" fill="#ecfdf5" stroke="#059669" stroke-width="1.7"/>
           <path d="M 84 70 H 696 A 14 14 0 0 1 710 84 V 108 H 70 V 84 A 14 14 0 0 1 84 70 Z" fill="#059669"/>
-          <text x="94" y="96" fill="#ffffff" font-size="12" font-weight="700">Engineer request · native Copilot Chat</text>
+          <text x="94" y="96" fill="#ffffff" font-size="12" font-weight="700">工程师请求 · 原生 Copilot Chat</text>
           <text x="94" y="134" fill="#047857" font-size="13" font-weight="700">@flowverse fetch FACTORY-100</text>
-          <text x="94" y="160" fill="#334155" font-size="9.5">natural prompts · slash commands · tool attachments</text>
-          <text x="94" y="183" fill="#334155" font-size="9.5">ChatRequest prompt + references + history + cancellation</text>
+          <text x="94" y="160" fill="#334155" font-size="9.5">自然语言提示词 · Slash Command · Tool Attachment</text>
+          <text x="94" y="183" fill="#334155" font-size="9.5">ChatRequest 提示词 + 引用 + 历史 + 取消</text>
           <rect x="94" y="207" width="476" height="30" rx="15" fill="#d1fae5" stroke="#6ee7b7"/>
-          <text x="112" y="226" fill="#047857" font-size="8.5" font-weight="700">Chat Participant API owns routing and native response UX</text>
+          <text x="112" y="226" fill="#047857" font-size="8.5" font-weight="700">Chat Participant API 管理路由和原生响应体验</text>
         </g>
 
         <g filter="url(#card-shadow)">
           <rect x="730" y="70" width="640" height="190" rx="14" fill="#ffffff"/>
           <rect x="730" y="70" width="640" height="190" rx="14" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.7"/>
           <path d="M 744 70 H 1356 A 14 14 0 0 1 1370 84 V 108 H 730 V 84 A 14 14 0 0 1 744 70 Z" fill="#7c3aed"/>
-          <text x="754" y="96" fill="#ffffff" font-size="12" font-weight="700">User-selected Copilot model</text>
+          <text x="754" y="96" fill="#ffffff" font-size="12" font-weight="700">用户选择的 Copilot 模型</text>
           <text x="754" y="134" fill="#6d28d9" font-size="12" font-weight="700">request.model · LanguageModelChat</text>
-          <text x="754" y="160" fill="#334155" font-size="9.5">reasoning · tool selection · response synthesis · follow-ups</text>
-          <text x="754" y="183" fill="#334155" font-size="9.5">FlowVerse supplies grounded context and typed tool schemas</text>
+          <text x="754" y="160" fill="#334155" font-size="9.5">推理 · 工具选择 · 响应合成 · 后续操作</text>
+          <text x="754" y="183" fill="#334155" font-size="9.5">FlowVerse 提供有依据的上下文和类型化 Tool Schema</text>
           <rect x="754" y="207" width="410" height="30" rx="15" fill="#ede9fe" stroke="#c4b5fd"/>
-          <text x="773" y="226" fill="#6d28d9" font-size="8.5" font-weight="700">No custom Language Model Chat Provider</text>
+          <text x="773" y="226" fill="#6d28d9" font-size="8.5" font-weight="700">不提供自定义 Language Model Chat Provider</text>
         </g>
 
         <g filter="url(#card-shadow)">
           <rect x="1390" y="70" width="640" height="190" rx="14" fill="#ffffff"/>
           <rect x="1390" y="70" width="640" height="190" rx="14" fill="#eff6ff" stroke="#2563eb" stroke-width="1.7"/>
           <path d="M 1404 70 H 2016 A 14 14 0 0 1 2030 84 V 108 H 1390 V 84 A 14 14 0 0 1 1404 70 Z" fill="#2563eb"/>
-          <text x="1414" y="96" fill="#ffffff" font-size="12" font-weight="700">Native VS Code surfaces</text>
-          <text x="1414" y="134" fill="#1d4ed8" font-size="10" font-weight="700">LEFT</text>
+          <text x="1414" y="96" fill="#ffffff" font-size="12" font-weight="700">VS Code 原生界面</text>
+          <text x="1414" y="134" fill="#1d4ed8" font-size="10" font-weight="700">左侧</text>
           <text x="1472" y="134" fill="#334155" font-size="9.5">Launch Explorer · Architecture Layers</text>
-          <text x="1414" y="159" fill="#1d4ed8" font-size="10" font-weight="700">EDITOR</text>
-          <text x="1487" y="159" fill="#334155" font-size="9.5">domain canvas · FlowVerse Details · raw JSON · service preview</text>
-          <text x="1414" y="184" fill="#1d4ed8" font-size="10" font-weight="700">BOTTOM</text>
-          <text x="1495" y="184" fill="#334155" font-size="9.5">Analysis &amp; Evidence · FlowVerse Output</text>
-          <text x="1414" y="224" fill="#64748b" font-size="8.5">webviews display and select; native commands perform actions</text>
+          <text x="1414" y="159" fill="#1d4ed8" font-size="10" font-weight="700">编辑器</text>
+          <text x="1487" y="159" fill="#334155" font-size="9.5">Domain Canvas · FlowVerse Details · 原始 JSON · 服务预览</text>
+          <text x="1414" y="184" fill="#1d4ed8" font-size="10" font-weight="700">底部</text>
+          <text x="1495" y="184" fill="#334155" font-size="9.5">分析与证据 · FlowVerse Output</text>
+          <text x="1414" y="224" fill="#64748b" font-size="8.5">Webview 负责显示和选择；原生命令负责执行操作</text>
         </g>
 
         <!-- ===============================================================
              PIPELINE BAND AND SIX STAGES
              =============================================================== -->
 
-        <text x="1050" y="344" fill="#4338ca" font-size="12" font-weight="700" text-anchor="middle" letter-spacing="1">▼ FLOWVERSE COPILOT AGENT PIPELINE · CHAT PARTICIPANT + LANGUAGE MODEL TOOLS ▼</text>
+        <text x="1050" y="344" fill="#4338ca" font-size="12" font-weight="700" text-anchor="middle" letter-spacing="1">▼ FLOWVERSE COPILOT AGENT 流水线 · CHAT PARTICIPANT + LANGUAGE MODEL TOOL ▼</text>
 
         <g filter="url(#card-shadow)">
           <rect x="70" y="400" width="310" height="230" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.4"/>
           <circle cx="105" cy="438" r="20" fill="#4f46e5"/>
           <text x="105" y="443" fill="#ffffff" font-size="13" font-weight="700" text-anchor="middle">1</text>
-          <text x="137" y="443" fill="#0f172a" font-size="11.5" font-weight="700">Receive &amp; route</text>
+          <text x="137" y="443" fill="#0f172a" font-size="11.5" font-weight="700">接收并路由</text>
           <text x="94" y="478" fill="#4f46e5" font-size="8.5" font-style="italic">Chat Participant API</text>
           <line x1="94" y1="493" x2="356" y2="493" stroke="#e2e8f0"/>
           <text x="94" y="520" fill="#334155" font-size="8.5" font-weight="700">createChatParticipant(flowverse.launch)</text>
-          <text x="94" y="545" fill="#475569" font-size="8.2">parse fetch intent and participant command</text>
-          <text x="94" y="567" fill="#475569" font-size="8.2">collect references and attached tools</text>
-          <text x="94" y="589" fill="#475569" font-size="8.2">load safe prompt instructions</text>
-          <text x="94" y="613" fill="#94a3b8" font-size="7.5">prompt data remains untrusted input</text>
+          <text x="94" y="545" fill="#475569" font-size="8.2">解析 Fetch 意图和参与者命令</text>
+          <text x="94" y="567" fill="#475569" font-size="8.2">收集引用和附加工具</text>
+          <text x="94" y="589" fill="#475569" font-size="8.2">加载安全提示词指令</text>
+          <text x="94" y="613" fill="#94a3b8" font-size="7.5">提示词数据始终视为不可信输入</text>
         </g>
 
         <g filter="url(#card-shadow)">
           <rect x="400" y="400" width="310" height="230" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.4"/>
           <circle cx="435" cy="438" r="20" fill="#4f46e5"/>
           <text x="435" y="443" fill="#ffffff" font-size="13" font-weight="700" text-anchor="middle">2</text>
-          <text x="467" y="443" fill="#0f172a" font-size="11.5" font-weight="700">Restore active context</text>
+          <text x="467" y="443" fill="#0f172a" font-size="11.5" font-weight="700">恢复活动上下文</text>
           <text x="424" y="478" fill="#4f46e5" font-size="8.5" font-style="italic">LaunchSessionController</text>
           <line x1="424" y1="493" x2="686" y2="493" stroke="#e2e8f0"/>
-          <text x="424" y="520" fill="#334155" font-size="8.5" font-weight="700">one authoritative extension-host state</text>
-          <text x="424" y="545" fill="#475569" font-size="8.2">retained Jira context and delivery scope</text>
-          <text x="424" y="567" fill="#475569" font-size="8.2">selection, artifacts, adopted solution</text>
-          <text x="424" y="589" fill="#475569" font-size="8.2">pending plan and editor sessions</text>
-          <text x="424" y="613" fill="#94a3b8" font-size="7.5">context keys synchronize native surfaces</text>
+          <text x="424" y="520" fill="#334155" font-size="8.5" font-weight="700">唯一权威的 Extension Host 状态</text>
+          <text x="424" y="545" fill="#475569" font-size="8.2">已保留 Jira 上下文和交付范围</text>
+          <text x="424" y="567" fill="#475569" font-size="8.2">选择、Artifact 和已采纳方案</text>
+          <text x="424" y="589" fill="#475569" font-size="8.2">待处理计划和编辑器会话</text>
+          <text x="424" y="613" fill="#94a3b8" font-size="7.5">上下文 Key 同步原生界面</text>
         </g>
 
         <g filter="url(#card-shadow)">
           <rect x="730" y="400" width="310" height="230" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.4"/>
           <circle cx="765" cy="438" r="20" fill="#4f46e5"/>
           <text x="765" y="443" fill="#ffffff" font-size="13" font-weight="700" text-anchor="middle">3</text>
-          <text x="797" y="443" fill="#0f172a" font-size="11.5" font-weight="700">Reason &amp; choose tool</text>
+          <text x="797" y="443" fill="#0f172a" font-size="11.5" font-weight="700">推理并选择工具</text>
           <text x="754" y="478" fill="#4f46e5" font-size="8.5" font-style="italic">request.model.sendRequest</text>
           <line x1="754" y1="493" x2="1016" y2="493" stroke="#e2e8f0"/>
-          <text x="754" y="520" fill="#334155" font-size="8.5" font-weight="700">selected model sees typed tool schemas</text>
-          <text x="754" y="545" fill="#475569" font-size="8.2">request + session + fetch result + history</text>
-          <text x="754" y="567" fill="#475569" font-size="8.2">tool mode: required when explicitly attached</text>
-          <text x="754" y="589" fill="#475569" font-size="8.2">maximum 8 model rounds</text>
-          <text x="754" y="613" fill="#94a3b8" font-size="7.5">the model—not a hard-coded UI—chooses actions</text>
+          <text x="754" y="520" fill="#334155" font-size="8.5" font-weight="700">所选模型可见类型化 Tool Schema</text>
+          <text x="754" y="545" fill="#475569" font-size="8.2">请求 + 会话 + Fetch 结果 + 历史</text>
+          <text x="754" y="567" fill="#475569" font-size="8.2">Tool Mode：显式附加时为 Required</text>
+          <text x="754" y="589" fill="#475569" font-size="8.2">最多 8 轮模型交互</text>
+          <text x="754" y="613" fill="#94a3b8" font-size="7.5">由模型而非硬编码 UI 选择操作</text>
         </g>
 
         <g filter="url(#card-shadow)">
           <rect x="1060" y="400" width="310" height="230" rx="12" fill="#ffffff" stroke="#f59e0b" stroke-width="1.6"/>
           <circle cx="1095" cy="438" r="20" fill="#d97706"/>
           <text x="1095" y="443" fill="#ffffff" font-size="13" font-weight="700" text-anchor="middle">4</text>
-          <text x="1127" y="443" fill="#0f172a" font-size="11.5" font-weight="700">Invoke registered tool</text>
+          <text x="1127" y="443" fill="#0f172a" font-size="11.5" font-weight="700">调用已注册工具</text>
           <text x="1084" y="478" fill="#d97706" font-size="8.5" font-style="italic">Language Model Tool API</text>
           <line x1="1084" y1="493" x2="1346" y2="493" stroke="#fde68a"/>
           <text x="1084" y="520" fill="#334155" font-size="8.5" font-weight="700">vscode.lm.invokeTool(name, options)</text>
-          <text x="1084" y="545" fill="#475569" font-size="8.2">toolInvocationToken preserves Chat UX</text>
-          <text x="1084" y="567" fill="#475569" font-size="8.2">token budget and cancellation propagated</text>
-          <text x="1084" y="589" fill="#475569" font-size="8.2">maximum 16 tool calls</text>
-          <text x="1084" y="613" fill="#92400e" font-size="7.5">prepareInvocation handles status/confirmation</text>
+          <text x="1084" y="545" fill="#475569" font-size="8.2">toolInvocationToken 保持 Chat 体验</text>
+          <text x="1084" y="567" fill="#475569" font-size="8.2">传播 Token Budget 和取消信号</text>
+          <text x="1084" y="589" fill="#475569" font-size="8.2">最多 16 次 Tool Call</text>
+          <text x="1084" y="613" fill="#92400e" font-size="7.5">prepareInvocation 处理状态和确认</text>
         </g>
 
         <g filter="url(#card-shadow)">
           <rect x="1390" y="400" width="310" height="230" rx="12" fill="#ffffff" stroke="#10b981" stroke-width="1.6"/>
           <circle cx="1425" cy="438" r="20" fill="#059669"/>
           <text x="1425" y="443" fill="#ffffff" font-size="13" font-weight="700" text-anchor="middle">5</text>
-          <text x="1457" y="443" fill="#0f172a" font-size="11.5" font-weight="700">Ground &amp; analyse</text>
-          <text x="1414" y="478" fill="#059669" font-size="8.5" font-style="italic">deterministic evidence services</text>
+          <text x="1457" y="443" fill="#0f172a" font-size="11.5" font-weight="700">基于证据并分析</text>
+          <text x="1414" y="478" fill="#059669" font-size="8.5" font-style="italic">确定性证据服务</text>
           <line x1="1414" y1="493" x2="1676" y2="493" stroke="#d1fae5"/>
-          <text x="1414" y="520" fill="#334155" font-size="8.5" font-weight="700">exact Jira + architecture identifiers</text>
-          <text x="1414" y="545" fill="#475569" font-size="8.2">typed relationships and propagation</text>
-          <text x="1414" y="567" fill="#475569" font-size="8.2">claims, evidence, findings, confidence</text>
-          <text x="1414" y="589" fill="#475569" font-size="8.2">SHA-256 source revisions and freshness</text>
-          <text x="1414" y="613" fill="#047857" font-size="7.5">private semantic machinery stays hidden</text>
+          <text x="1414" y="520" fill="#334155" font-size="8.5" font-weight="700">精确 Jira + 架构标识符</text>
+          <text x="1414" y="545" fill="#475569" font-size="8.2">类型化关系与传播</text>
+          <text x="1414" y="567" fill="#475569" font-size="8.2">Claim、证据、发现和置信度</text>
+          <text x="1414" y="589" fill="#475569" font-size="8.2">SHA-256 来源修订版本和新鲜度</text>
+          <text x="1414" y="613" fill="#047857" font-size="7.5">内部语义机制保持隐藏</text>
         </g>
 
         <g filter="url(#card-shadow)">
           <rect x="1720" y="400" width="310" height="230" rx="12" fill="#ffffff" stroke="#0891b2" stroke-width="1.6"/>
           <circle cx="1755" cy="438" r="20" fill="#0891b2"/>
           <text x="1755" y="443" fill="#ffffff" font-size="13" font-weight="700" text-anchor="middle">6</text>
-          <text x="1787" y="443" fill="#0f172a" font-size="11.5" font-weight="700">Stream &amp; recommend</text>
-          <text x="1744" y="478" fill="#0891b2" font-size="8.5" font-style="italic">native Chat response lifecycle</text>
+          <text x="1787" y="443" fill="#0f172a" font-size="11.5" font-weight="700">流式输出并建议</text>
+          <text x="1744" y="478" fill="#0891b2" font-size="8.5" font-style="italic">原生 Chat 响应生命周期</text>
           <line x1="1744" y1="493" x2="2006" y2="493" stroke="#cffafe"/>
-          <text x="1744" y="520" fill="#334155" font-size="8.5" font-weight="700">progress · Markdown · references · buttons</text>
-          <text x="1744" y="545" fill="#475569" font-size="8.2">result metadata records tools/features</text>
-          <text x="1744" y="567" fill="#475569" font-size="8.2">model proposes 2–3 next actions</text>
-          <text x="1744" y="589" fill="#475569" font-size="8.2">allowlist + terminology guard + fallback</text>
-          <text x="1744" y="613" fill="#0e7490" font-size="7.5">followupProvider returns native prompts</text>
+          <text x="1744" y="520" fill="#334155" font-size="8.5" font-weight="700">进度 · Markdown · 引用 · 按钮</text>
+          <text x="1744" y="545" fill="#475569" font-size="8.2">结果元数据记录工具/功能</text>
+          <text x="1744" y="567" fill="#475569" font-size="8.2">模型建议 2–3 个后续操作</text>
+          <text x="1744" y="589" fill="#475569" font-size="8.2">Allowlist + 术语防护 + 回退</text>
+          <text x="1744" y="613" fill="#0e7490" font-size="7.5">followupProvider 返回原生提示词</text>
         </g>
 
         <!-- ===============================================================
@@ -501,13 +501,13 @@
 
         <rect x="70" y="680" width="1460" height="450" rx="16" fill="none" stroke="#cbd5e1" stroke-width="1.2"/>
         <rect x="94" y="666" width="390" height="28" rx="14" fill="#e2e8f0" stroke="#cbd5e1"/>
-        <text x="289" y="685" fill="#334155" font-size="10" font-weight="700" text-anchor="middle">TOOLS, ANALYSIS &amp; GROUNDING SOURCES</text>
+        <text x="289" y="685" fill="#334155" font-size="10" font-weight="700" text-anchor="middle">工具、分析与依据来源</text>
 
         <g filter="url(#card-shadow)">
           <rect x="90" y="720" width="680" height="190" rx="12" fill="#ffffff"/>
           <rect x="90" y="720" width="680" height="190" rx="12" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.5"/>
-          <text x="116" y="750" fill="#92400e" font-size="11.5" font-weight="700">Language Model Tool registry</text>
-          <text x="116" y="773" fill="#b45309" font-size="8.5">declared in package.json · registered in the extension host</text>
+          <text x="116" y="750" fill="#92400e" font-size="11.5" font-weight="700">Language Model Tool Registry</text>
+          <text x="116" y="773" fill="#b45309" font-size="8.5">在 package.json 中声明 · 在 Extension Host 中注册</text>
           <line x1="116" y1="789" x2="744" y2="789" stroke="#fde68a"/>
           <text x="116" y="815" fill="#0f172a" font-size="8.5" font-weight="700">flowverse_fetch_issue</text>
           <text x="116" y="837" fill="#0f172a" font-size="8.5" font-weight="700">flowverse_get_context</text>
@@ -516,102 +516,102 @@
           <text x="400" y="837" fill="#0f172a" font-size="8.5" font-weight="700">flowverse_plan_changes</text>
           <text x="400" y="859" fill="#0f172a" font-size="8.5" font-weight="700">flowverse_apply_changes</text>
           <rect x="116" y="875" width="628" height="22" rx="11" fill="#fef3c7"/>
-          <text x="430" y="890" fill="#92400e" font-size="7.5" text-anchor="middle">7 existing jira_* tools remain registered for Copilot Agent Mode</text>
+          <text x="430" y="890" fill="#92400e" font-size="7.5" text-anchor="middle">现有 7 个 jira_* 工具继续为 Copilot Agent Mode 注册</text>
         </g>
 
         <g filter="url(#card-shadow)">
           <rect x="810" y="720" width="700" height="190" rx="12" fill="#ffffff"/>
           <rect x="810" y="720" width="700" height="190" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
-          <text x="836" y="750" fill="#047857" font-size="11.5" font-weight="700">Analysis registry + architecture knowledge index</text>
-          <text x="836" y="773" fill="#059669" font-size="8.5">one versioned artifact contract across all ten capabilities</text>
+          <text x="836" y="750" fill="#047857" font-size="11.5" font-weight="700">Analysis Registry + 架构知识索引</text>
+          <text x="836" y="773" fill="#059669" font-size="8.5">十项能力共享一个带版本的 Artifact 契约</text>
           <line x1="836" y1="789" x2="1484" y2="789" stroke="#a7f3d0"/>
           <text x="836" y="815" fill="#0f172a" font-size="8.2">01 Launch Brief</text>
-          <text x="836" y="837" fill="#0f172a" font-size="8.2">02 Solution Scenarios</text>
-          <text x="836" y="859" fill="#0f172a" font-size="8.2">03 Change Impact</text>
-          <text x="836" y="881" fill="#0f172a" font-size="8.2">04 Delivery Plan</text>
-          <text x="1008" y="815" fill="#0f172a" font-size="8.2">05 Critical Path</text>
-          <text x="1008" y="837" fill="#0f172a" font-size="8.2">06 Compatibility</text>
-          <text x="1008" y="859" fill="#0f172a" font-size="8.2">07 Test Coverage</text>
-          <text x="1008" y="881" fill="#0f172a" font-size="8.2">08 Drift</text>
-          <text x="1180" y="815" fill="#0f172a" font-size="8.2">09 Release Confidence</text>
-          <text x="1180" y="837" fill="#0f172a" font-size="8.2">10 Decision Memory</text>
-          <text x="1180" y="859" fill="#475569" font-size="8.2">systems · modules · APIs</text>
-          <text x="1180" y="881" fill="#475569" font-size="8.2">messages · flows · risks</text>
+          <text x="836" y="837" fill="#0f172a" font-size="8.2">02 方案场景</text>
+          <text x="836" y="859" fill="#0f172a" font-size="8.2">03 变更影响</text>
+          <text x="836" y="881" fill="#0f172a" font-size="8.2">04 交付计划</text>
+          <text x="1008" y="815" fill="#0f172a" font-size="8.2">05 关键路径</text>
+          <text x="1008" y="837" fill="#0f172a" font-size="8.2">06 兼容性</text>
+          <text x="1008" y="859" fill="#0f172a" font-size="8.2">07 测试覆盖</text>
+          <text x="1008" y="881" fill="#0f172a" font-size="8.2">08 漂移</text>
+          <text x="1180" y="815" fill="#0f172a" font-size="8.2">09 发布置信度</text>
+          <text x="1180" y="837" fill="#0f172a" font-size="8.2">10 决策记忆</text>
+          <text x="1180" y="859" fill="#475569" font-size="8.2">系统 · 模块 · API</text>
+          <text x="1180" y="881" fill="#475569" font-size="8.2">消息 · 流程 · 风险</text>
         </g>
 
         <g filter="url(#card-shadow)">
           <rect x="90" y="970" width="335" height="130" rx="11" fill="#ffffff"/>
           <rect x="90" y="970" width="335" height="130" rx="11" fill="#ecfdf5" stroke="#059669" stroke-width="1.4"/>
-          <text x="114" y="998" fill="#047857" font-size="10.5" font-weight="700">Jira source</text>
-          <text x="114" y="1024" fill="#0f172a" font-size="8.2">live Jira API or local simulator</text>
-          <text x="114" y="1047" fill="#475569" font-size="8">issues · Markdown · links · blockers</text>
-          <text x="114" y="1068" fill="#475569" font-size="8">versions · relationships · epic scope</text>
-          <text x="114" y="1088" fill="#94a3b8" font-size="7.3">dev/prod URL resolution · PAT via secrets</text>
+          <text x="114" y="998" fill="#047857" font-size="10.5" font-weight="700">Jira 来源</text>
+          <text x="114" y="1024" fill="#0f172a" font-size="8.2">实时 Jira API 或本地模拟器</text>
+          <text x="114" y="1047" fill="#475569" font-size="8">Issue · Markdown · 链接 · 阻塞项</text>
+          <text x="114" y="1068" fill="#475569" font-size="8">版本 · 关系 · Epic 范围</text>
+          <text x="114" y="1088" fill="#94a3b8" font-size="7.3">开发/生产 URL 解析 · 通过 Secret 获取 PAT</text>
         </g>
 
         <g filter="url(#card-shadow)">
           <rect x="455" y="970" width="335" height="130" rx="11" fill="#ffffff"/>
           <rect x="455" y="970" width="335" height="130" rx="11" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.4"/>
-          <text x="479" y="998" fill="#6d28d9" font-size="10.5" font-weight="700">Architecture knowledge pack</text>
-          <text x="479" y="1024" fill="#0f172a" font-size="8.2">bundled standalone JSON resources</text>
-          <text x="479" y="1047" fill="#475569" font-size="8">explicit path → workspace → bundled</text>
-          <text x="479" y="1068" fill="#475569" font-size="8">validated relationships and schemas</text>
-          <text x="479" y="1088" fill="#94a3b8" font-size="7.3">private semantic bindings stay internal</text>
+          <text x="479" y="998" fill="#6d28d9" font-size="10.5" font-weight="700">架构 Knowledge Pack</text>
+          <text x="479" y="1024" fill="#0f172a" font-size="8.2">内置独立 JSON 资源</text>
+          <text x="479" y="1047" fill="#475569" font-size="8">显式路径 → Workspace → 内置资源</text>
+          <text x="479" y="1068" fill="#475569" font-size="8">经过验证的关系和 Schema</text>
+          <text x="479" y="1088" fill="#94a3b8" font-size="7.3">内部语义绑定不对外公开</text>
         </g>
 
         <g filter="url(#card-shadow)">
           <rect x="820" y="970" width="335" height="130" rx="11" fill="#ffffff"/>
           <rect x="820" y="970" width="335" height="130" rx="11" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.4"/>
-          <text x="844" y="998" fill="#6d28d9" font-size="10.5" font-weight="700">Workspace/test evidence</text>
-          <text x="844" y="1024" fill="#0f172a" font-size="8.2">read-only local evidence adapter</text>
-          <text x="844" y="1047" fill="#475569" font-size="8">changed files · available test evidence</text>
-          <text x="844" y="1068" fill="#475569" font-size="8">drift · coverage · readiness inputs</text>
-          <text x="844" y="1088" fill="#94a3b8" font-size="7.3">missing evidence remains explicit/unknown</text>
+          <text x="844" y="998" fill="#6d28d9" font-size="10.5" font-weight="700">Workspace/测试证据</text>
+          <text x="844" y="1024" fill="#0f172a" font-size="8.2">只读本地证据适配器</text>
+          <text x="844" y="1047" fill="#475569" font-size="8">变更文件 · 可用测试证据</text>
+          <text x="844" y="1068" fill="#475569" font-size="8">漂移 · 覆盖 · 就绪度输入</text>
+          <text x="844" y="1088" fill="#94a3b8" font-size="7.3">缺失证据保持显式/Unknown</text>
         </g>
 
         <g filter="url(#card-shadow)">
           <rect x="1185" y="970" width="335" height="130" rx="11" fill="#ffffff"/>
           <rect x="1185" y="970" width="335" height="130" rx="11" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.4"/>
-          <text x="1209" y="998" fill="#6d28d9" font-size="10.5" font-weight="700">VS Code storage</text>
-          <text x="1209" y="1024" fill="#0f172a" font-size="8.2">artifacts + compact session state</text>
-          <text x="1209" y="1047" fill="#475569" font-size="8">claims · evidence · source revisions</text>
-          <text x="1209" y="1068" fill="#475569" font-size="8">fresh/stale state · plan invalidation</text>
-          <text x="1209" y="1088" fill="#94a3b8" font-size="7.3">SecretStorage keeps credentials separate</text>
+          <text x="1209" y="998" fill="#6d28d9" font-size="10.5" font-weight="700">VS Code 存储</text>
+          <text x="1209" y="1024" fill="#0f172a" font-size="8.2">Artifact + 紧凑会话状态</text>
+          <text x="1209" y="1047" fill="#475569" font-size="8">Claim · 证据 · 来源修订版本</text>
+          <text x="1209" y="1068" fill="#475569" font-size="8">Fresh/Stale 状态 · 计划失效</text>
+          <text x="1209" y="1088" fill="#94a3b8" font-size="7.3">SecretStorage 隔离保存凭据</text>
         </g>
 
         <!-- ===============================================================
-             NATIVE OUTPUT PROJECTIONS
+             原生输出投影
              =============================================================== -->
 
         <rect x="1570" y="680" width="460" height="450" rx="16" fill="none" stroke="#0891b2" stroke-width="1.3"/>
         <rect x="1592" y="666" width="288" height="28" rx="14" fill="#cffafe" stroke="#67e8f9"/>
-        <text x="1736" y="685" fill="#0e7490" font-size="10" font-weight="700" text-anchor="middle">NATIVE OUTPUT PROJECTIONS</text>
+        <text x="1736" y="685" fill="#0e7490" font-size="10" font-weight="700" text-anchor="middle">原生输出投影</text>
 
         <g filter="url(#card-shadow)">
           <rect x="1590" y="720" width="420" height="100" rx="11" fill="#ffffff"/>
           <rect x="1590" y="720" width="420" height="100" rx="11" fill="#ecfeff" stroke="#0891b2" stroke-width="1.4"/>
-          <text x="1614" y="748" fill="#0e7490" font-size="10.5" font-weight="700">Editor projections</text>
+          <text x="1614" y="748" fill="#0e7490" font-size="10.5" font-weight="700">编辑器投影</text>
           <text x="1614" y="773" fill="#0f172a" font-size="8.2">FlowVerse Details · Domain Canvas</text>
-          <text x="1614" y="795" fill="#475569" font-size="8">raw JSON · service preview · impact overlays</text>
-          <text x="1614" y="811" fill="#94a3b8" font-size="7.2">typed selectionChanged messages only</text>
+          <text x="1614" y="795" fill="#475569" font-size="8">原始 JSON · 服务预览 · 影响 Overlay</text>
+          <text x="1614" y="811" fill="#94a3b8" font-size="7.2">仅允许类型化 selectionChanged 消息</text>
         </g>
 
         <g filter="url(#card-shadow)">
           <rect x="1590" y="860" width="420" height="100" rx="11" fill="#ffffff"/>
           <rect x="1590" y="860" width="420" height="100" rx="11" fill="#ecfeff" stroke="#0891b2" stroke-width="1.4"/>
-          <text x="1614" y="888" fill="#0e7490" font-size="10.5" font-weight="700">Native views and diagnostics</text>
+          <text x="1614" y="888" fill="#0e7490" font-size="10.5" font-weight="700">原生视图与诊断</text>
           <text x="1614" y="913" fill="#0f172a" font-size="8.2">Launch Explorer · Layers · Analysis Tree</text>
-          <text x="1614" y="935" fill="#475569" font-size="8">evidence reveal · context commands · Output log</text>
-          <text x="1614" y="951" fill="#94a3b8" font-size="7.2">all routing stays in the extension host</text>
+          <text x="1614" y="935" fill="#475569" font-size="8">显示证据 · 上下文命令 · Output 日志</text>
+          <text x="1614" y="951" fill="#94a3b8" font-size="7.2">所有路由保留在 Extension Host 中</text>
         </g>
 
         <g filter="url(#card-shadow)">
           <rect x="1590" y="1000" width="420" height="100" rx="11" fill="#ffffff"/>
           <rect x="1590" y="1000" width="420" height="100" rx="11" fill="#ecfeff" stroke="#0891b2" stroke-width="1.4"/>
-          <text x="1614" y="1028" fill="#0e7490" font-size="10.5" font-weight="700">Copilot Chat response</text>
-          <text x="1614" y="1053" fill="#0f172a" font-size="8.2">streamed answer · references · command buttons</text>
-          <text x="1614" y="1075" fill="#475569" font-size="8">2–3 native follow-up requests from result state</text>
-          <text x="1614" y="1091" fill="#94a3b8" font-size="7.2">model recommendation with deterministic fallback</text>
+          <text x="1614" y="1028" fill="#0e7490" font-size="10.5" font-weight="700">Copilot Chat 响应</text>
+          <text x="1614" y="1053" fill="#0f172a" font-size="8.2">流式回答 · 引用 · 命令按钮</text>
+          <text x="1614" y="1075" fill="#475569" font-size="8">根据结果状态生成 2–3 个原生后续请求</text>
+          <text x="1614" y="1091" fill="#94a3b8" font-size="7.2">模型建议，并提供确定性回退</text>
         </g>
 
         <!-- ===============================================================
@@ -619,56 +619,56 @@
              =============================================================== -->
 
         <rect x="70" y="1190" width="1960" height="240" rx="16" fill="none" stroke="#fb923c" stroke-width="1.5"/>
-        <text x="100" y="1222" fill="#b45309" font-size="11.5" font-weight="700">COMPOSITE TOOL WORKFLOW · @flowverse fetch FACTORY-100</text>
-        <text x="2000" y="1222" fill="#9a3412" font-size="8.5" text-anchor="end">one tool invocation · five visible outcomes</text>
+        <text x="100" y="1222" fill="#b45309" font-size="11.5" font-weight="700">组合 TOOL 工作流 · @flowverse fetch FACTORY-100</text>
+        <text x="2000" y="1222" fill="#9a3412" font-size="8.5" text-anchor="end">一次工具调用 · 五个可见结果</text>
 
         <g filter="url(#card-shadow)">
           <rect x="100" y="1250" width="350" height="120" rx="11" fill="#ffffff" stroke="#fdba74" stroke-width="1.3"/>
           <circle cx="130" cy="1280" r="17" fill="#d97706"/>
           <text x="130" y="1285" fill="#ffffff" font-size="11" font-weight="700" text-anchor="middle">1</text>
-          <text x="158" y="1285" fill="#0f172a" font-size="10" font-weight="700">Fetch Jira source context</text>
-          <text x="124" y="1318" fill="#475569" font-size="8.2">issue, epic scope, Markdown, links, blockers</text>
-          <text x="124" y="1343" fill="#9a3412" font-size="7.5">flowverse_fetch_issue bootstrap</text>
+          <text x="158" y="1285" fill="#0f172a" font-size="10" font-weight="700">获取 Jira 来源上下文</text>
+          <text x="124" y="1318" fill="#475569" font-size="8.2">Issue、Epic 范围、Markdown、链接、阻塞项</text>
+          <text x="124" y="1343" fill="#9a3412" font-size="7.5">flowverse_fetch_issue 启动</text>
         </g>
 
         <g filter="url(#card-shadow)">
           <rect x="480" y="1250" width="350" height="120" rx="11" fill="#ffffff" stroke="#fdba74" stroke-width="1.3"/>
           <circle cx="510" cy="1280" r="17" fill="#d97706"/>
           <text x="510" y="1285" fill="#ffffff" font-size="11" font-weight="700" text-anchor="middle">2</text>
-          <text x="538" y="1285" fill="#0f172a" font-size="10" font-weight="700">Map architecture scope</text>
-          <text x="504" y="1318" fill="#475569" font-size="8.2">resolve exact system/module/interface IDs</text>
-          <text x="504" y="1343" fill="#9a3412" font-size="7.5">live Jira context becomes diagram overlay</text>
+          <text x="538" y="1285" fill="#0f172a" font-size="10" font-weight="700">映射架构范围</text>
+          <text x="504" y="1318" fill="#475569" font-size="8.2">解析精确系统/模块/接口 ID</text>
+          <text x="504" y="1343" fill="#9a3412" font-size="7.5">实时 Jira 上下文成为图表 Overlay</text>
         </g>
 
         <g filter="url(#card-shadow)">
           <rect x="860" y="1250" width="350" height="120" rx="11" fill="#ffffff" stroke="#fdba74" stroke-width="1.3"/>
           <circle cx="890" cy="1280" r="17" fill="#d97706"/>
           <text x="890" y="1285" fill="#ffffff" font-size="11" font-weight="700" text-anchor="middle">3</text>
-          <text x="918" y="1285" fill="#0f172a" font-size="10" font-weight="700">Run baseline analysis</text>
-          <text x="884" y="1318" fill="#475569" font-size="8.2">Launch Brief · Change Impact · Critical Path</text>
-          <text x="884" y="1343" fill="#9a3412" font-size="7.5">versioned artifacts with findings/evidence</text>
+          <text x="918" y="1285" fill="#0f172a" font-size="10" font-weight="700">运行基线分析</text>
+          <text x="884" y="1318" fill="#475569" font-size="8.2">Launch Brief · 变更影响 · 关键路径</text>
+          <text x="884" y="1343" fill="#9a3412" font-size="7.5">带发现和证据的版本化 Artifact</text>
         </g>
 
         <g filter="url(#card-shadow)">
           <rect x="1240" y="1250" width="350" height="120" rx="11" fill="#ffffff" stroke="#fdba74" stroke-width="1.3"/>
           <circle cx="1270" cy="1280" r="17" fill="#d97706"/>
           <text x="1270" y="1285" fill="#ffffff" font-size="11" font-weight="700" text-anchor="middle">4</text>
-          <text x="1298" y="1285" fill="#0f172a" font-size="10" font-weight="700">Open native projections</text>
-          <text x="1264" y="1318" fill="#475569" font-size="8.2">FlowVerse Details + focused domain canvas</text>
-          <text x="1264" y="1343" fill="#9a3412" font-size="7.5">focus first mapped system/module node</text>
+          <text x="1298" y="1285" fill="#0f172a" font-size="10" font-weight="700">打开原生投影</text>
+          <text x="1264" y="1318" fill="#475569" font-size="8.2">FlowVerse Details + 聚焦 Domain Canvas</text>
+          <text x="1264" y="1343" fill="#9a3412" font-size="7.5">聚焦首个映射的系统/模块节点</text>
         </g>
 
         <g filter="url(#card-shadow)">
           <rect x="1620" y="1250" width="350" height="120" rx="11" fill="#ffffff" stroke="#fdba74" stroke-width="1.3"/>
           <circle cx="1650" cy="1280" r="17" fill="#d97706"/>
           <text x="1650" y="1285" fill="#ffffff" font-size="11" font-weight="700" text-anchor="middle">5</text>
-          <text x="1678" y="1285" fill="#0f172a" font-size="10" font-weight="700">Return compact context</text>
-          <text x="1644" y="1318" fill="#475569" font-size="8.2">mapping, artifacts, blockers, opened views</text>
-          <text x="1644" y="1343" fill="#9a3412" font-size="7.5">model decides whether solutions add value</text>
+          <text x="1678" y="1285" fill="#0f172a" font-size="10" font-weight="700">返回紧凑上下文</text>
+          <text x="1644" y="1318" fill="#475569" font-size="8.2">映射、Artifact、阻塞项和已打开视图</text>
+          <text x="1644" y="1343" fill="#9a3412" font-size="7.5">模型判断方案是否有价值</text>
         </g>
 
         <rect x="100" y="1390" width="1870" height="25" rx="12.5" fill="#ffedd5"/>
-        <text x="1035" y="1407" fill="#9a3412" font-size="8" font-weight="700" text-anchor="middle">No solution is hard-coded: when trade-offs are material, Copilot can call flowverse_analyse(solution-scenarios) and map every option to exact affected entities.</text>
+        <text x="1035" y="1407" fill="#9a3412" font-size="8" font-weight="700" text-anchor="middle">方案不会被硬编码：当权衡具有实质影响时，Copilot 可以调用 flowverse_analyse(solution-scenarios)，并把每个选项映射到精确的受影响实体。</text>
 
         <!-- ===============================================================
              GUARDED MUTATION BOUNDARY
@@ -676,92 +676,92 @@
 
         <rect x="70" y="1490" width="1960" height="200" rx="16" fill="none" stroke="#e11d48" stroke-width="1.6" stroke-dasharray="8 6"/>
         <rect x="96" y="1476" width="340" height="28" rx="14" fill="#ffe4e6" stroke="#fda4af"/>
-        <text x="266" y="1495" fill="#be123c" font-size="10" font-weight="700" text-anchor="middle">NATIVE JIRA MUTATION BOUNDARY</text>
+        <text x="266" y="1495" fill="#be123c" font-size="10" font-weight="700" text-anchor="middle">原生 JIRA 变更边界</text>
 
         <g filter="url(#card-shadow)">
           <rect x="100" y="1540" width="400" height="105" rx="11" fill="#ffffff" stroke="#fda4af" stroke-width="1.4"/>
-          <text x="124" y="1569" fill="#be123c" font-size="10" font-weight="700">Adopted proposal</text>
-          <text x="124" y="1594" fill="#0f172a" font-size="8.2">exact Jira create/update/link operations</text>
-          <text x="124" y="1617" fill="#64748b" font-size="7.5">no write is inferred from diagram selection</text>
+          <text x="124" y="1569" fill="#be123c" font-size="10" font-weight="700">已采纳方案</text>
+          <text x="124" y="1594" fill="#0f172a" font-size="8.2">精确 Jira 创建/更新/链接操作</text>
+          <text x="124" y="1617" fill="#64748b" font-size="7.5">不会根据图表选择推断写入操作</text>
         </g>
 
         <g filter="url(#card-shadow)">
           <rect x="530" y="1540" width="400" height="105" rx="11" fill="#ffffff" stroke="#fda4af" stroke-width="1.4"/>
           <text x="554" y="1569" fill="#be123c" font-size="10" font-weight="700">flowverse_plan_changes</text>
-          <text x="554" y="1594" fill="#0f172a" font-size="8.2">dry run · Jira versions · expiry</text>
-          <text x="554" y="1617" fill="#64748b" font-size="7.5">produces one-use planId + SHA-256 digest</text>
+          <text x="554" y="1594" fill="#0f172a" font-size="8.2">Dry Run · Jira 版本 · 过期时间</text>
+          <text x="554" y="1617" fill="#64748b" font-size="7.5">生成单次使用的 planId + SHA-256 Digest</text>
         </g>
 
         <g filter="url(#card-shadow)">
           <rect x="960" y="1540" width="400" height="105" rx="11" fill="#ffffff" stroke="#fda4af" stroke-width="1.4"/>
-          <text x="984" y="1569" fill="#be123c" font-size="10" font-weight="700">Native confirmation</text>
-          <text x="984" y="1594" fill="#0f172a" font-size="8.2">prepareInvocation confirmation UI</text>
-          <text x="984" y="1617" fill="#64748b" font-size="7.5">user reviews the digest-bound plan in Chat</text>
+          <text x="984" y="1569" fill="#be123c" font-size="10" font-weight="700">原生确认</text>
+          <text x="984" y="1594" fill="#0f172a" font-size="8.2">prepareInvocation 确认 UI</text>
+          <text x="984" y="1617" fill="#64748b" font-size="7.5">用户在 Chat 中评审绑定 Digest 的计划</text>
         </g>
 
         <g filter="url(#card-shadow)">
           <rect x="1390" y="1540" width="580" height="105" rx="11" fill="#ffffff" stroke="#e11d48" stroke-width="1.5"/>
           <text x="1414" y="1569" fill="#be123c" font-size="10" font-weight="700">flowverse_apply_changes → Jira</text>
-          <text x="1414" y="1594" fill="#0f172a" font-size="8.2">recheck knowledge revisions + Jira versions before execution</text>
-          <text x="1414" y="1617" fill="#64748b" font-size="7.5">visible saga outcomes · partial-failure report · retryable re-plan</text>
+          <text x="1414" y="1594" fill="#0f172a" font-size="8.2">执行前重新检查知识修订版本和 Jira 版本</text>
+          <text x="1414" y="1617" fill="#64748b" font-size="7.5">可见 Saga 结果 · 部分失败报告 · 可重新规划</text>
         </g>
 
-        <text x="1050" y="1674" fill="#be123c" font-size="8" font-weight="700" text-anchor="middle">Current release approval applies Jira changes only. Workspace writes remain preview-only and are not exposed by the public tool schema.</text>
+        <text x="1050" y="1674" fill="#be123c" font-size="8" font-weight="700" text-anchor="middle">当前版本的批准仅应用 Jira 变更。Workspace 写入仍仅限预览，不通过公共 Tool Schema 暴露。</text>
 
         <!-- Legend remains outside every boundary. -->
         <g>
-          <text x="70" y="1753" fill="#334155" font-size="9" font-weight="700">LEGEND</text>
-          <rect x="145" y="1741" width="20" height="13" rx="3" fill="#eef2ff" stroke="#4f46e5"/><text x="175" y="1752" fill="#64748b" font-size="8">agent stage</text>
-          <rect x="295" y="1741" width="20" height="13" rx="3" fill="#fffbeb" stroke="#f59e0b"/><text x="325" y="1752" fill="#64748b" font-size="8">LM tool contract</text>
-          <rect x="500" y="1741" width="20" height="13" rx="3" fill="#ecfdf5" stroke="#10b981"/><text x="530" y="1752" fill="#64748b" font-size="8">evidence / analysis</text>
-          <rect x="710" y="1741" width="20" height="13" rx="3" fill="#f5f3ff" stroke="#7c3aed"/><text x="740" y="1752" fill="#64748b" font-size="8">knowledge / persistence</text>
-          <rect x="950" y="1741" width="20" height="13" rx="3" fill="#ecfeff" stroke="#0891b2"/><text x="980" y="1752" fill="#64748b" font-size="8">native projection</text>
-          <rect x="1160" y="1741" width="20" height="13" rx="3" fill="#fff1f2" stroke="#e11d48"/><text x="1190" y="1752" fill="#64748b" font-size="8">confirmed mutation</text>
-          <line x1="1390" y1="1748" x2="1420" y2="1748" stroke="#4f46e5" stroke-width="2" marker-end="url(#arrow-indigo)"/><text x="1432" y="1752" fill="#64748b" font-size="8">read / reasoning flow</text>
-          <line x1="1640" y1="1748" x2="1670" y2="1748" stroke="#e11d48" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow-rose)"/><text x="1682" y="1752" fill="#64748b" font-size="8">approved write flow</text>
+          <text x="70" y="1753" fill="#334155" font-size="9" font-weight="700">图例</text>
+          <rect x="145" y="1741" width="20" height="13" rx="3" fill="#eef2ff" stroke="#4f46e5"/><text x="175" y="1752" fill="#64748b" font-size="8">Agent 阶段</text>
+          <rect x="295" y="1741" width="20" height="13" rx="3" fill="#fffbeb" stroke="#f59e0b"/><text x="325" y="1752" fill="#64748b" font-size="8">LM Tool 契约</text>
+          <rect x="500" y="1741" width="20" height="13" rx="3" fill="#ecfdf5" stroke="#10b981"/><text x="530" y="1752" fill="#64748b" font-size="8">证据 / 分析</text>
+          <rect x="710" y="1741" width="20" height="13" rx="3" fill="#f5f3ff" stroke="#7c3aed"/><text x="740" y="1752" fill="#64748b" font-size="8">知识 / 持久化</text>
+          <rect x="950" y="1741" width="20" height="13" rx="3" fill="#ecfeff" stroke="#0891b2"/><text x="980" y="1752" fill="#64748b" font-size="8">原生投影</text>
+          <rect x="1160" y="1741" width="20" height="13" rx="3" fill="#fff1f2" stroke="#e11d48"/><text x="1190" y="1752" fill="#64748b" font-size="8">已确认变更</text>
+          <line x1="1390" y1="1748" x2="1420" y2="1748" stroke="#4f46e5" stroke-width="2" marker-end="url(#arrow-indigo)"/><text x="1432" y="1752" fill="#64748b" font-size="8">读取 / 推理流程</text>
+          <line x1="1640" y1="1748" x2="1670" y2="1748" stroke="#e11d48" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow-rose)"/><text x="1682" y="1752" fill="#64748b" font-size="8">已批准写入流程</text>
         </g>
       </svg>
     </main>
 
-    <section class="cards" aria-label="Architecture notes">
+    <section class="cards" aria-label="架构说明">
       <article class="card">
         <div class="card-header">
           <div class="card-dot indigo"></div>
-          <h3>Native Copilot agent contract</h3>
+          <h3>原生 Copilot Agent 契约</h3>
         </div>
         <ul>
-          <li>• The participant owns request routing, streaming, references, command buttons, and registered follow-ups through the <a href="https://code.visualstudio.com/api/extension-guides/ai/chat">Chat Participant API</a>.</li>
-          <li>• The model selected by the user performs reasoning and tool choice; FlowVerse does not contribute a custom model provider.</li>
-          <li>• The bounded loop allows up to eight model rounds and sixteen tool calls with cancellation and token budgets propagated.</li>
+          <li>• 参与者通过 <a href="https://code.visualstudio.com/api/extension-guides/ai/chat">Chat Participant API</a> 管理请求路由、流式输出、引用、命令按钮和已注册的后续操作。</li>
+          <li>• 用户选择的模型负责推理和工具选择；FlowVerse 不提供自定义模型服务。</li>
+          <li>• 有边界的循环最多允许八轮模型交互和十六次 Tool Call，并传播取消信号和 Token Budget。</li>
         </ul>
       </article>
 
       <article class="card">
         <div class="card-header">
           <div class="card-dot emerald"></div>
-          <h3>Evidence before recommendation</h3>
+          <h3>先有证据，再给建议</h3>
         </div>
         <ul>
-          <li>• The <a href="https://code.visualstudio.com/api/extension-guides/ai/tools">Language Model Tool API</a> exposes typed tools; extension-host services validate every result.</li>
-          <li>• Jira, architecture, repository/test evidence, and exact source revisions feed a single session and versioned artifact contract.</li>
-          <li>• Missing or partial evidence stays visible as findings and unknown readiness gates rather than being filled with guesses.</li>
+          <li>• <a href="https://code.visualstudio.com/api/extension-guides/ai/tools">Language Model Tool API</a> 公开类型化工具；Extension Host 服务验证每个结果。</li>
+          <li>• Jira、架构、仓库/测试证据和精确来源修订版本共同进入一个会话和版本化 Artifact 契约。</li>
+          <li>• 缺失或不完整证据会继续显示为发现和 Unknown 就绪度门禁，而不会用猜测补全。</li>
         </ul>
       </article>
 
       <article class="card">
         <div class="card-header">
           <div class="card-dot rose"></div>
-          <h3>Explicit mutation boundary</h3>
+          <h3>显式变更边界</h3>
         </div>
         <ul>
-          <li>• Webviews display and select; they cannot run AI, approve plans, or mutate Jira.</li>
-          <li>• Planning is a dry run. Apply requires the exact one-use plan ID and digest plus native confirmation.</li>
-          <li>• Knowledge and Jira revisions are rechecked before execution; partial outcomes are visible and retryable changes require a fresh plan.</li>
+          <li>• Webview 负责显示和选择；不能运行 AI、批准计划或修改 Jira。</li>
+          <li>• 规划为 Dry Run。Apply 需要精确的单次 Plan ID、Digest 和原生确认。</li>
+          <li>• 执行前会重新检查知识和 Jira 修订版本；部分结果保持可见，需要重试的变更必须创建新计划。</li>
         </ul>
       </article>
     </section>
 
-    <p class="footer">FlowVerse plugin developer architecture · current checkout · reorganized around the visual cadence of the cross-domain derivation reference · 2026-07-12</p>
+    <p class="footer">FlowVerse 扩展开发者架构 · 当前代码版本 · 按跨领域派生参考的视觉节奏重新组织 · 2026-07-12</p>
   </div>
 
   <script>
@@ -774,9 +774,9 @@
         const canvas = await html2canvas(document.body, { backgroundColor: '#eef2f7', scale: 2, useCORS: true, ignoreElements: (e) => e.classList && e.classList.contains('toolbar'), x: r.left + window.scrollX - pad, y: r.top + window.scrollY - pad, width: r.width + pad * 2, height: r.height + pad * 2 });
         const blob = await new Promise(r => canvas.toBlob(r, 'image/png'));
         await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
-        btn.textContent = '✓ Copied!';
+        btn.textContent = '✓ 已复制！';
       } catch (e) {
-        btn.textContent = '✗ Failed';
+        btn.textContent = '✗ 失败';
       }
       setTimeout(() => btn.textContent = orig, 2000);
     }
@@ -793,9 +793,9 @@
         link.download = 'flowverse-copilot-agent-architecture.png';
         link.href = canvas.toDataURL('image/png');
         link.click();
-        btn.textContent = '✓ Done!';
+        btn.textContent = '✓ 完成！';
       } catch (e) {
-        btn.textContent = '✗ Failed';
+        btn.textContent = '✗ 失败';
       }
       setTimeout(() => btn.textContent = orig, 2000);
     }
@@ -814,9 +814,9 @@
         const pdf = new jsPDF({ orientation, unit: 'px', format: [canvas.width, canvas.height], hotfixes: ['px_scaling'] });
         pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
         pdf.save('flowverse-copilot-agent-architecture.pdf');
-        btn.textContent = '✓ Done!';
+        btn.textContent = '✓ 完成！';
       } catch (e) {
-        btn.textContent = '✗ Failed';
+        btn.textContent = '✗ 失败';
       }
       setTimeout(() => btn.textContent = orig, 2000);
     }

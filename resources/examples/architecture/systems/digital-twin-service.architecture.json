@@ -1,0 +1,319 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "system-architecture",
+  "generationMode": "ai-gen",
+  "worldviewRef": "smart-factory-worldview",
+  "system": {
+    "id": "digital-twin-service",
+    "name": "Digital Twin Service",
+    "type": "kubernetes-microservice",
+    "description": "Maintains the latest contextual state of every machine for low-latency operational queries.",
+    "metadata": {
+      "domain": "industrial-analytics",
+      "ownerTeam": "Machine Intelligence Team",
+      "criticality": "high",
+      "lifecycleStatus": "active",
+      "dataClassification": "internal",
+      "businessFunction": "Machine digital-twin projection"
+    },
+    "technical": {
+      "language": "Java",
+      "framework": "Spring Boot",
+      "buildTool": "Gradle",
+      "deploymentPlatform": "Kubernetes"
+    }
+  },
+  "roleInArchitecture": {
+    "summary": "Maintains the latest contextual state of every machine for low-latency operational queries.",
+    "architectureRole": "Machine digital-twin projection",
+    "primaryBusinessFunction": "Machine digital-twin projection",
+    "mainResponsibilities": [
+      "Project telemetry and state events",
+      "Maintain the latest machine context",
+      "Expose the current digital twin over REST"
+    ]
+  },
+  "visualization": {
+    "defaultRepresentation": "subflow",
+    "availableRepresentations": [
+      "single-node",
+      "subflow"
+    ],
+    "focusRepresentation": "subflow",
+    "layoutDirection": "RIGHT",
+    "showInternalFlows": true,
+    "showModules": true,
+    "decision": {
+      "recommendedBy": "flowverse-system-architecture-authoring",
+      "confidence": "high",
+      "reason": "Architecture-level modules and internal paths are useful for operational review.",
+      "detectedComplexity": {
+        "inboundInteractions": 1,
+        "outboundInteractions": 1,
+        "hasInternalFlow": true,
+        "hasEventProcessing": true,
+        "hasFileProcessing": false,
+        "hasSftpReadWrite": false,
+        "moduleCount": 4
+      },
+      "reviewRequired": false
+    }
+  },
+  "provenance": {
+    "origin": "ai-assisted",
+    "method": "Normalized from the user-provided smart-factory operations scenario.",
+    "confidence": "high",
+    "capturedBy": "flowverse-system-architecture-authoring",
+    "capturedAt": "2026-08-09",
+    "sourceRefs": [
+      {
+        "type": "system-description",
+        "label": "Smart factory operations scenario",
+        "finding": "Maintains the latest contextual state of every machine for low-latency operational queries."
+      }
+    ]
+  },
+  "modules": [
+    {
+      "id": "digital-twin-event-consumer",
+      "name": "Digital Twin Event Consumer",
+      "nodeType": "module-event-consumer",
+      "description": "Consumes telemetry and machine-state events.",
+      "metadata": {
+        "moduleType": "event-consumer",
+        "direction": "inbound",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "topic": "factory.telemetry.normalized, factory.machine-state.changed",
+        "payload": "Telemetry and machine-state events"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Consumes telemetry and machine-state events."
+          }
+        ]
+      }
+    },
+    {
+      "id": "digital-twin-projector",
+      "name": "Digital Twin Projector",
+      "nodeType": "module-business-processor",
+      "description": "Projects the latest machine state and contextual measurements.",
+      "metadata": {
+        "moduleType": "business-processor",
+        "direction": "internal",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "businessFunction": "Digital twin projection",
+        "input": "Telemetry and state events",
+        "output": "Current machine twin",
+        "responsibility": "Maintain the latest contextual machine state"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Projects the latest machine state and contextual measurements."
+          }
+        ]
+      }
+    },
+    {
+      "id": "digital-twin-api",
+      "name": "Digital Twin API",
+      "nodeType": "module-rest-api",
+      "description": "Returns the latest digital twin for a machine.",
+      "metadata": {
+        "moduleType": "rest-api",
+        "direction": "inbound",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "method": "GET",
+        "path": "/internal/v1/machines/{machineId}/twin",
+        "operation": "Get machine digital twin"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Returns the latest digital twin for a machine."
+          }
+        ]
+      }
+    },
+    {
+      "id": "digital-twin-cache",
+      "name": "Digital Twin Cache",
+      "nodeType": "module-cache",
+      "description": "Stores the latest machine twin.",
+      "metadata": {
+        "moduleType": "cache",
+        "direction": "internal",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "product": "Redis",
+        "cacheKey": "digital-twin:{machineId}",
+        "ttl": "24h",
+        "consistency": "eventually consistent"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Stores the latest machine twin."
+          }
+        ]
+      }
+    }
+  ],
+  "interactions": [
+    {
+      "id": "digital-twin-consumes-machine-events",
+      "source": "kafka-platform",
+      "target": "digital-twin-service",
+      "targetModule": "digital-twin-event-consumer",
+      "protocol": "KAFKA",
+      "interactionType": "event-consume",
+      "purpose": "Consume telemetry and machine-state changes for twin projection.",
+      "synchronous": false,
+      "dataClassification": "internal",
+      "topicOrQueue": "factory.telemetry.normalized, factory.machine-state.changed",
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Consume telemetry and machine-state changes for twin projection."
+          }
+        ]
+      }
+    },
+    {
+      "id": "digital-twin-accesses-cache",
+      "source": "digital-twin-service",
+      "sourceModule": "digital-twin-cache",
+      "target": "machine-state-cache",
+      "protocol": "CACHE",
+      "interactionType": "cache-access",
+      "purpose": "Store and retrieve the latest digital twin.",
+      "synchronous": true,
+      "dataClassification": "internal",
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Store and retrieve the latest digital twin."
+          }
+        ]
+      }
+    }
+  ],
+  "internalFlows": [
+    {
+      "id": "project-machine-digital-twin",
+      "name": "Project machine digital twin",
+      "steps": [
+        {
+          "order": 1,
+          "from": "digital-twin-event-consumer",
+          "to": "digital-twin-projector",
+          "description": "Update current machine context"
+        },
+        {
+          "order": 2,
+          "from": "digital-twin-projector",
+          "to": "digital-twin-cache",
+          "description": "Store latest twin"
+        }
+      ]
+    },
+    {
+      "id": "serve-machine-digital-twin",
+      "name": "Serve machine digital twin",
+      "steps": [
+        {
+          "order": 1,
+          "from": "digital-twin-api",
+          "to": "digital-twin-cache",
+          "description": "Read latest twin"
+        }
+      ]
+    }
+  ],
+  "dataFlows": [
+    {
+      "id": "machine-digital-twin-projection",
+      "name": "Machine events update the digital twin",
+      "type": "event-driven-flow",
+      "trigger": "A telemetry or machine-state event arrives.",
+      "steps": [
+        "digital-twin-consumes-machine-events",
+        "project-machine-digital-twin",
+        "digital-twin-accesses-cache"
+      ]
+    },
+    {
+      "id": "machine-digital-twin-query",
+      "name": "Current machine digital twin is returned",
+      "type": "cache-assisted-api-flow",
+      "trigger": "A client requests the current machine twin.",
+      "steps": [
+        "serve-machine-digital-twin",
+        "digital-twin-accesses-cache"
+      ]
+    }
+  ],
+  "risks": [],
+  "reviewQuestions": [],
+  "review": {
+    "status": "reviewed",
+    "reviewedBy": "Factory Platform Architecture",
+    "lastReviewedAt": "2026-08-09",
+    "notes": "Synthetic development fixture aligned to the approved smart-factory scenario."
+  }
+}

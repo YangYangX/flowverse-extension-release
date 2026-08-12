@@ -1,0 +1,657 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "flowverse-cross-domain-link-set",
+  "unifiedWorldviewRef": "../unified-worldview.instance.json",
+  "linkSetId": "factory-platform-delivery",
+  "description": "Source-backed traceability between smart-factory delivery work and the architecture elements it changes.",
+  "crossDomainLinks": [
+    {
+      "id": "telemetry-epic-scopes-edge-gateway",
+      "relationshipTypeRef": "scopes",
+      "source": {
+        "domainRef": "agile-delivery",
+        "instanceRef": "FACTORY-110"
+      },
+      "target": {
+        "domainRef": "system-architecture",
+        "instanceRef": "edge-gateway"
+      },
+      "confidence": "high",
+      "evidence": [
+        {
+          "domainRef": "agile-delivery",
+          "instanceRef": "FACTORY-110",
+          "field": "requirements[0]"
+        },
+        {
+          "domainRef": "system-architecture",
+          "instanceRef": "edge-gateway",
+          "field": "roleInArchitecture.summary"
+        }
+      ],
+      "provenance": {
+        "sourceKind": "structured-field"
+      }
+    },
+    {
+      "id": "telemetry-story-implements-normalizer",
+      "relationshipTypeRef": "implements",
+      "source": {
+        "domainRef": "agile-delivery",
+        "instanceRef": "FACTORY-111"
+      },
+      "target": {
+        "domainRef": "system-architecture",
+        "instanceRef": "edge-gateway",
+        "moduleRef": "telemetry-normalizer"
+      },
+      "confidence": "high",
+      "evidence": [
+        {
+          "domainRef": "agile-delivery",
+          "instanceRef": "FACTORY-111",
+          "field": "requirements[0]"
+        },
+        {
+          "domainRef": "system-architecture",
+          "instanceRef": "edge-gateway",
+          "moduleRef": "telemetry-normalizer",
+          "field": "description"
+        }
+      ],
+      "provenance": {
+        "sourceKind": "structured-field"
+      }
+    },
+    {
+      "id": "kafka-task-implements-event-platform",
+      "relationshipTypeRef": "implements",
+      "source": {
+        "domainRef": "agile-delivery",
+        "instanceRef": "FACTORY-115"
+      },
+      "target": {
+        "domainRef": "system-architecture",
+        "instanceRef": "kafka-platform"
+      },
+      "confidence": "high",
+      "evidence": [
+        {
+          "domainRef": "agile-delivery",
+          "instanceRef": "FACTORY-115",
+          "field": "notes[0].text"
+        },
+        {
+          "domainRef": "system-architecture",
+          "instanceRef": "kafka-platform",
+          "field": "roleInArchitecture.summary"
+        }
+      ],
+      "provenance": {
+        "sourceKind": "structured-field"
+      }
+    },
+    {
+      "id": "machine-intelligence-epic-scopes-anomaly-service",
+      "relationshipTypeRef": "scopes",
+      "source": {
+        "domainRef": "agile-delivery",
+        "instanceRef": "FACTORY-120"
+      },
+      "target": {
+        "domainRef": "system-architecture",
+        "instanceRef": "anomaly-detection-service"
+      },
+      "confidence": "high",
+      "evidence": [
+        {
+          "domainRef": "agile-delivery",
+          "instanceRef": "FACTORY-120",
+          "field": "notes[0].text"
+        },
+        {
+          "domainRef": "system-architecture",
+          "instanceRef": "anomaly-detection-service",
+          "field": "roleInArchitecture.summary"
+        }
+      ],
+      "provenance": {
+        "sourceKind": "structured-field"
+      }
+    },
+    {
+      "id": "anomaly-story-implements-scoring-model",
+      "relationshipTypeRef": "implements",
+      "source": {
+        "domainRef": "agile-delivery",
+        "instanceRef": "FACTORY-122"
+      },
+      "target": {
+        "domainRef": "system-architecture",
+        "instanceRef": "anomaly-detection-service",
+        "moduleRef": "anomaly-model"
+      },
+      "confidence": "high",
+      "evidence": [
+        {
+          "domainRef": "agile-delivery",
+          "instanceRef": "FACTORY-122",
+          "field": "requirements[0]"
+        },
+        {
+          "domainRef": "system-architecture",
+          "instanceRef": "anomaly-detection-service",
+          "moduleRef": "anomaly-model",
+          "field": "description"
+        }
+      ],
+      "provenance": {
+        "sourceKind": "structured-field"
+      }
+    },
+    {
+      "id": "prediction-story-implements-maintenance-service",
+      "relationshipTypeRef": "implements",
+      "source": {
+        "domainRef": "agile-delivery",
+        "instanceRef": "FACTORY-124"
+      },
+      "target": {
+        "domainRef": "system-architecture",
+        "instanceRef": "predictive-maintenance-service",
+        "moduleRef": "remaining-life-estimator"
+      },
+      "confidence": "high",
+      "evidence": [
+        {
+          "domainRef": "agile-delivery",
+          "instanceRef": "FACTORY-124",
+          "field": "requirements[0]"
+        },
+        {
+          "domainRef": "system-architecture",
+          "instanceRef": "predictive-maintenance-service",
+          "moduleRef": "remaining-life-estimator",
+          "field": "description"
+        }
+      ],
+      "provenance": {
+        "sourceKind": "structured-field"
+      }
+    },
+    {
+      "id": "maintenance-epic-scopes-work-order-service",
+      "relationshipTypeRef": "scopes",
+      "source": {
+        "domainRef": "agile-delivery",
+        "instanceRef": "FACTORY-130"
+      },
+      "target": {
+        "domainRef": "system-architecture",
+        "instanceRef": "maintenance-service"
+      },
+      "confidence": "high",
+      "evidence": [
+        {
+          "domainRef": "agile-delivery",
+          "instanceRef": "FACTORY-130",
+          "field": "notes[0].text"
+        },
+        {
+          "domainRef": "system-architecture",
+          "instanceRef": "maintenance-service",
+          "field": "roleInArchitecture.summary"
+        }
+      ],
+      "provenance": {
+        "sourceKind": "structured-field"
+      }
+    },
+    {
+      "id": "cmms-task-implements-vendor-adapter",
+      "relationshipTypeRef": "implements",
+      "source": {
+        "domainRef": "agile-delivery",
+        "instanceRef": "FACTORY-133"
+      },
+      "target": {
+        "domainRef": "system-architecture",
+        "instanceRef": "vendor-adapter-service",
+        "moduleRef": "cmms-vendor-client"
+      },
+      "confidence": "high",
+      "evidence": [
+        {
+          "domainRef": "agile-delivery",
+          "instanceRef": "FACTORY-133",
+          "field": "requirements[0]"
+        },
+        {
+          "domainRef": "system-architecture",
+          "instanceRef": "vendor-adapter-service",
+          "moduleRef": "cmms-vendor-client",
+          "field": "description"
+        }
+      ],
+      "provenance": {
+        "sourceKind": "structured-field"
+      }
+    },
+    {
+      "id": "duplicate-work-order-risk-requires-bug",
+      "relationshipTypeRef": "requires-delivery",
+      "source": {
+        "domainRef": "system-architecture",
+        "instanceRef": "maintenance-service",
+        "moduleRef": "cmms-adapter-client"
+      },
+      "target": {
+        "domainRef": "agile-delivery",
+        "instanceRef": "FACTORY-134"
+      },
+      "confidence": "high",
+      "evidence": [
+        {
+          "domainRef": "agile-delivery",
+          "instanceRef": "FACTORY-134",
+          "field": "acceptanceEvidence[0]"
+        },
+        {
+          "domainRef": "system-architecture",
+          "instanceRef": "maintenance-service",
+          "moduleRef": "cmms-adapter-client",
+          "field": "description"
+        }
+      ],
+      "provenance": {
+        "sourceKind": "structured-field"
+      }
+    },
+    {
+      "id": "production-story-implements-impact-calculation",
+      "relationshipTypeRef": "implements",
+      "source": {
+        "domainRef": "agile-delivery",
+        "instanceRef": "FACTORY-142"
+      },
+      "target": {
+        "domainRef": "system-architecture",
+        "instanceRef": "production-service",
+        "moduleRef": "production-impact-calculator"
+      },
+      "confidence": "high",
+      "evidence": [
+        {
+          "domainRef": "agile-delivery",
+          "instanceRef": "FACTORY-142",
+          "field": "requirements[0]"
+        },
+        {
+          "domainRef": "system-architecture",
+          "instanceRef": "production-service",
+          "moduleRef": "production-impact-calculator",
+          "field": "description"
+        }
+      ],
+      "provenance": {
+        "sourceKind": "structured-field"
+      }
+    },
+    {
+      "id": "erp-task-implements-production-integration",
+      "relationshipTypeRef": "implements",
+      "source": {
+        "domainRef": "agile-delivery",
+        "instanceRef": "FACTORY-143"
+      },
+      "target": {
+        "domainRef": "system-architecture",
+        "instanceRef": "production-service",
+        "moduleRef": "erp-mes-client"
+      },
+      "confidence": "high",
+      "evidence": [
+        {
+          "domainRef": "agile-delivery",
+          "instanceRef": "FACTORY-143",
+          "field": "notes[0].text"
+        },
+        {
+          "domainRef": "system-architecture",
+          "instanceRef": "production-service",
+          "moduleRef": "erp-mes-client",
+          "field": "description"
+        }
+      ],
+      "provenance": {
+        "sourceKind": "structured-field"
+      }
+    },
+    {
+      "id": "operator-story-implements-api-gateway",
+      "relationshipTypeRef": "implements",
+      "source": {
+        "domainRef": "agile-delivery",
+        "instanceRef": "FACTORY-141"
+      },
+      "target": {
+        "domainRef": "system-architecture",
+        "instanceRef": "api-gateway",
+        "moduleRef": "machine-telemetry-api"
+      },
+      "confidence": "high",
+      "evidence": [
+        {
+          "domainRef": "agile-delivery",
+          "instanceRef": "FACTORY-141",
+          "field": "requirements[0]"
+        },
+        {
+          "domainRef": "system-architecture",
+          "instanceRef": "api-gateway",
+          "moduleRef": "machine-telemetry-api",
+          "field": "description"
+        }
+      ],
+      "provenance": {
+        "sourceKind": "structured-field"
+      }
+    },
+    {
+      "id": "notification-task-implements-provider-client",
+      "relationshipTypeRef": "implements",
+      "source": {
+        "domainRef": "agile-delivery",
+        "instanceRef": "FACTORY-145"
+      },
+      "target": {
+        "domainRef": "system-architecture",
+        "instanceRef": "notification-service",
+        "moduleRef": "notification-provider-client"
+      },
+      "confidence": "high",
+      "evidence": [
+        {
+          "domainRef": "agile-delivery",
+          "instanceRef": "FACTORY-145",
+          "field": "notes[0].text"
+        },
+        {
+          "domainRef": "system-architecture",
+          "instanceRef": "notification-service",
+          "moduleRef": "notification-provider-client",
+          "field": "description"
+        }
+      ],
+      "provenance": {
+        "sourceKind": "structured-field"
+      }
+    },
+    {
+      "id": "digital-twin-programme-scopes-service",
+      "relationshipTypeRef": "scopes",
+      "source": {
+        "domainRef": "agile-delivery",
+        "instanceRef": "FACTORY-200"
+      },
+      "target": {
+        "domainRef": "system-architecture",
+        "instanceRef": "digital-twin-service"
+      },
+      "confidence": "high",
+      "evidence": [
+        {
+          "domainRef": "agile-delivery",
+          "instanceRef": "FACTORY-200",
+          "field": "businessObjectives[0]"
+        },
+        {
+          "domainRef": "system-architecture",
+          "instanceRef": "digital-twin-service",
+          "field": "roleInArchitecture.summary"
+        }
+      ],
+      "provenance": {
+        "sourceKind": "structured-field"
+      }
+    },
+    {
+      "id": "asset-sync-story-implements-catalog",
+      "relationshipTypeRef": "implements",
+      "source": {
+        "domainRef": "agile-delivery",
+        "instanceRef": "FACTORY-211"
+      },
+      "target": {
+        "domainRef": "system-architecture",
+        "instanceRef": "asset-registry-service",
+        "moduleRef": "asset-catalog"
+      },
+      "confidence": "high",
+      "evidence": [
+        {
+          "domainRef": "agile-delivery",
+          "instanceRef": "FACTORY-211",
+          "field": "requirements[0]"
+        },
+        {
+          "domainRef": "system-architecture",
+          "instanceRef": "asset-registry-service",
+          "field": "description",
+          "moduleRef": "asset-catalog"
+        }
+      ],
+      "provenance": {
+        "sourceKind": "structured-field"
+      }
+    },
+    {
+      "id": "asset-api-task-implements-api",
+      "relationshipTypeRef": "implements",
+      "source": {
+        "domainRef": "agile-delivery",
+        "instanceRef": "FACTORY-212"
+      },
+      "target": {
+        "domainRef": "system-architecture",
+        "instanceRef": "asset-registry-service",
+        "moduleRef": "asset-api"
+      },
+      "confidence": "high",
+      "evidence": [
+        {
+          "domainRef": "agile-delivery",
+          "instanceRef": "FACTORY-212",
+          "field": "requirements[0]"
+        },
+        {
+          "domainRef": "system-architecture",
+          "instanceRef": "asset-registry-service",
+          "field": "description",
+          "moduleRef": "asset-api"
+        }
+      ],
+      "provenance": {
+        "sourceKind": "structured-field"
+      }
+    },
+    {
+      "id": "twin-projection-story-implements-projector",
+      "relationshipTypeRef": "implements",
+      "source": {
+        "domainRef": "agile-delivery",
+        "instanceRef": "FACTORY-221"
+      },
+      "target": {
+        "domainRef": "system-architecture",
+        "instanceRef": "digital-twin-service",
+        "moduleRef": "digital-twin-projector"
+      },
+      "confidence": "high",
+      "evidence": [
+        {
+          "domainRef": "agile-delivery",
+          "instanceRef": "FACTORY-221",
+          "field": "requirements[0]"
+        },
+        {
+          "domainRef": "system-architecture",
+          "instanceRef": "digital-twin-service",
+          "field": "description",
+          "moduleRef": "digital-twin-projector"
+        }
+      ],
+      "provenance": {
+        "sourceKind": "structured-field"
+      }
+    },
+    {
+      "id": "twin-cache-task-implements-cache",
+      "relationshipTypeRef": "implements",
+      "source": {
+        "domainRef": "agile-delivery",
+        "instanceRef": "FACTORY-222"
+      },
+      "target": {
+        "domainRef": "system-architecture",
+        "instanceRef": "digital-twin-service",
+        "moduleRef": "digital-twin-cache"
+      },
+      "confidence": "high",
+      "evidence": [
+        {
+          "domainRef": "agile-delivery",
+          "instanceRef": "FACTORY-222",
+          "field": "requirements[0]"
+        },
+        {
+          "domainRef": "system-architecture",
+          "instanceRef": "digital-twin-service",
+          "field": "description",
+          "moduleRef": "digital-twin-cache"
+        }
+      ],
+      "provenance": {
+        "sourceKind": "structured-field"
+      }
+    },
+    {
+      "id": "reliability-epic-scopes-notification-service",
+      "relationshipTypeRef": "scopes",
+      "source": {
+        "domainRef": "agile-delivery",
+        "instanceRef": "FACTORY-310"
+      },
+      "target": {
+        "domainRef": "system-architecture",
+        "instanceRef": "notification-service"
+      },
+      "confidence": "high",
+      "evidence": [
+        {
+          "domainRef": "agile-delivery",
+          "instanceRef": "FACTORY-310",
+          "field": "businessObjectives[0]"
+        },
+        {
+          "domainRef": "system-architecture",
+          "instanceRef": "notification-service",
+          "field": "roleInArchitecture.summary"
+        }
+      ],
+      "provenance": {
+        "sourceKind": "structured-field"
+      }
+    },
+    {
+      "id": "health-correlation-story-implements-event-consumer",
+      "relationshipTypeRef": "implements",
+      "source": {
+        "domainRef": "agile-delivery",
+        "instanceRef": "FACTORY-311"
+      },
+      "target": {
+        "domainRef": "system-architecture",
+        "instanceRef": "notification-service",
+        "moduleRef": "notification-event-consumer"
+      },
+      "confidence": "high",
+      "evidence": [
+        {
+          "domainRef": "agile-delivery",
+          "instanceRef": "FACTORY-311",
+          "field": "requirements[0]"
+        },
+        {
+          "domainRef": "system-architecture",
+          "instanceRef": "notification-service",
+          "field": "description",
+          "moduleRef": "notification-event-consumer"
+        }
+      ],
+      "provenance": {
+        "sourceKind": "structured-field"
+      }
+    },
+    {
+      "id": "alert-routing-task-implements-notification-policy",
+      "relationshipTypeRef": "implements",
+      "source": {
+        "domainRef": "agile-delivery",
+        "instanceRef": "FACTORY-312"
+      },
+      "target": {
+        "domainRef": "system-architecture",
+        "instanceRef": "notification-service",
+        "moduleRef": "notification-policy"
+      },
+      "confidence": "high",
+      "evidence": [
+        {
+          "domainRef": "agile-delivery",
+          "instanceRef": "FACTORY-312",
+          "field": "requirements[0]"
+        },
+        {
+          "domainRef": "system-architecture",
+          "instanceRef": "notification-service",
+          "field": "description",
+          "moduleRef": "notification-policy"
+        }
+      ],
+      "provenance": {
+        "sourceKind": "structured-field"
+      }
+    },
+    {
+      "id": "notification-recovery-risk-requires-bug",
+      "relationshipTypeRef": "requires-delivery",
+      "source": {
+        "domainRef": "system-architecture",
+        "instanceRef": "notification-service",
+        "moduleRef": "notification-event-consumer"
+      },
+      "target": {
+        "domainRef": "agile-delivery",
+        "instanceRef": "FACTORY-313"
+      },
+      "confidence": "high",
+      "evidence": [
+        {
+          "domainRef": "system-architecture",
+          "instanceRef": "notification-service",
+          "field": "description",
+          "moduleRef": "notification-event-consumer"
+        },
+        {
+          "domainRef": "agile-delivery",
+          "instanceRef": "FACTORY-313",
+          "field": "acceptanceEvidence[0]"
+        }
+      ],
+      "provenance": {
+        "sourceKind": "structured-field"
+      }
+    }
+  ]
+}

@@ -1,0 +1,360 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "system-architecture",
+  "generationMode": "ai-gen",
+  "worldviewRef": "smart-factory-worldview",
+  "system": {
+    "id": "anomaly-detection-service",
+    "name": "Anomaly Detection Service",
+    "type": "kubernetes-microservice",
+    "description": "Detects abnormal vibration, temperature, pressure, and energy patterns and publishes explainable anomaly events.",
+    "metadata": {
+      "domain": "industrial-analytics",
+      "ownerTeam": "Machine Intelligence Team",
+      "criticality": "critical",
+      "lifecycleStatus": "active",
+      "dataClassification": "internal",
+      "businessFunction": "Real-time equipment anomaly detection"
+    },
+    "technical": {
+      "language": "Java",
+      "framework": "Spring Boot",
+      "buildTool": "Gradle",
+      "deploymentPlatform": "Kubernetes"
+    }
+  },
+  "roleInArchitecture": {
+    "summary": "Detects abnormal vibration, temperature, pressure, and energy patterns and publishes explainable anomaly events.",
+    "architectureRole": "Real-time equipment anomaly detection",
+    "primaryBusinessFunction": "Real-time equipment anomaly detection",
+    "mainResponsibilities": [
+      "Score telemetry windows for anomalies",
+      "Enrich ambiguous anomalies with vendor diagnostics",
+      "Publish failure-prediction signals"
+    ]
+  },
+  "visualization": {
+    "defaultRepresentation": "subflow",
+    "availableRepresentations": [
+      "single-node",
+      "subflow"
+    ],
+    "focusRepresentation": "subflow",
+    "layoutDirection": "RIGHT",
+    "showInternalFlows": true,
+    "showModules": true,
+    "decision": {
+      "recommendedBy": "flowverse-system-architecture-authoring",
+      "confidence": "high",
+      "reason": "Architecture-level modules and internal paths are useful for operational review.",
+      "detectedComplexity": {
+        "inboundInteractions": 1,
+        "outboundInteractions": 2,
+        "hasInternalFlow": true,
+        "hasEventProcessing": true,
+        "hasFileProcessing": false,
+        "hasSftpReadWrite": false,
+        "moduleCount": 4
+      },
+      "reviewRequired": false
+    }
+  },
+  "provenance": {
+    "origin": "ai-assisted",
+    "method": "Normalized from the user-provided smart-factory operations scenario.",
+    "confidence": "high",
+    "capturedBy": "flowverse-system-architecture-authoring",
+    "capturedAt": "2026-08-09",
+    "sourceRefs": [
+      {
+        "type": "system-description",
+        "label": "Smart factory operations scenario",
+        "finding": "Detects abnormal vibration, temperature, pressure, and energy patterns and publishes explainable anomaly events."
+      }
+    ]
+  },
+  "modules": [
+    {
+      "id": "anomaly-telemetry-consumer",
+      "name": "Anomaly Telemetry Consumer",
+      "nodeType": "module-event-consumer",
+      "description": "Consumes normalized telemetry for anomaly scoring.",
+      "metadata": {
+        "moduleType": "event-consumer",
+        "direction": "inbound",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "topic": "factory.telemetry.normalized",
+        "payload": "Canonical telemetry event"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Consumes normalized telemetry for anomaly scoring."
+          }
+        ]
+      }
+    },
+    {
+      "id": "anomaly-model",
+      "name": "Anomaly Scoring Model",
+      "nodeType": "module-business-processor",
+      "description": "Scores telemetry windows against machine-specific behavior baselines.",
+      "metadata": {
+        "moduleType": "business-processor",
+        "direction": "internal",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "businessFunction": "Anomaly detection",
+        "input": "Telemetry window and asset context",
+        "output": "Anomaly score and explanation",
+        "responsibility": "Detect abnormal vibration, temperature, pressure, and energy patterns"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Scores telemetry windows against machine-specific behavior baselines."
+          }
+        ]
+      }
+    },
+    {
+      "id": "failure-signal-publisher",
+      "name": "Failure Signal Publisher",
+      "nodeType": "module-event-publisher",
+      "description": "Publishes anomaly and predicted-failure signals.",
+      "metadata": {
+        "moduleType": "event-publisher",
+        "direction": "outbound",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "topic": "factory.machine-anomaly.detected",
+        "payload": "Anomaly score, explanation, and machine identity"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Publishes anomaly and predicted-failure signals."
+          }
+        ]
+      }
+    },
+    {
+      "id": "diagnostics-client",
+      "name": "Equipment Diagnostics Client",
+      "nodeType": "externalApi",
+      "description": "Requests manufacturer diagnostics when local evidence is insufficient.",
+      "metadata": {
+        "moduleType": "rest-api-client",
+        "direction": "outbound",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "protocol": "REST",
+        "operation": "Get equipment diagnostics",
+        "path": "/internal/v1/equipment/{machineId}/diagnostics",
+        "purpose": "Enrich anomaly evidence"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Requests manufacturer diagnostics when local evidence is insufficient."
+          }
+        ]
+      }
+    }
+  ],
+  "interactions": [
+    {
+      "id": "anomaly-service-consumes-telemetry",
+      "source": "kafka-platform",
+      "target": "anomaly-detection-service",
+      "targetModule": "anomaly-telemetry-consumer",
+      "protocol": "KAFKA",
+      "interactionType": "event-consume",
+      "purpose": "Consume telemetry windows for anomaly scoring.",
+      "synchronous": false,
+      "dataClassification": "internal",
+      "topicOrQueue": "factory.telemetry.normalized",
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Consume telemetry windows for anomaly scoring."
+          }
+        ]
+      }
+    },
+    {
+      "id": "anomaly-service-publishes-failure-signal",
+      "source": "anomaly-detection-service",
+      "sourceModule": "failure-signal-publisher",
+      "target": "kafka-platform",
+      "protocol": "KAFKA",
+      "interactionType": "event-publish",
+      "purpose": "Publish explainable anomaly and failure-prediction signals.",
+      "synchronous": false,
+      "dataClassification": "internal",
+      "topicOrQueue": "factory.machine-anomaly.detected",
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Publish explainable anomaly and failure-prediction signals."
+          }
+        ]
+      }
+    },
+    {
+      "id": "anomaly-service-requests-diagnostics",
+      "source": "anomaly-detection-service",
+      "sourceModule": "diagnostics-client",
+      "target": "vendor-adapter-service",
+      "targetModule": "diagnostics-request-api",
+      "protocol": "REST",
+      "interactionType": "api-call",
+      "purpose": "Request equipment-manufacturer diagnostics for an anomalous machine.",
+      "synchronous": true,
+      "dataClassification": "internal",
+      "endpoint": {
+        "method": "GET",
+        "path": "/internal/v1/equipment/{machineId}/diagnostics"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Request equipment-manufacturer diagnostics for an anomalous machine."
+          }
+        ]
+      }
+    }
+  ],
+  "internalFlows": [
+    {
+      "id": "score-machine-anomaly",
+      "name": "Score machine anomaly",
+      "steps": [
+        {
+          "order": 1,
+          "from": "anomaly-telemetry-consumer",
+          "to": "anomaly-model",
+          "description": "Build and score telemetry window"
+        },
+        {
+          "order": 2,
+          "from": "anomaly-model",
+          "to": "failure-signal-publisher",
+          "description": "Publish material anomaly"
+        }
+      ]
+    },
+    {
+      "id": "enrich-anomaly-diagnostics",
+      "name": "Enrich anomaly with diagnostics",
+      "steps": [
+        {
+          "order": 1,
+          "from": "anomaly-model",
+          "to": "diagnostics-client",
+          "description": "Request diagnostics when confidence is insufficient"
+        }
+      ]
+    }
+  ],
+  "dataFlows": [
+    {
+      "id": "equipment-anomaly-detection",
+      "name": "Equipment anomaly is detected and published",
+      "type": "event-driven-flow",
+      "trigger": "Kafka delivers normalized machine telemetry.",
+      "steps": [
+        "anomaly-service-consumes-telemetry",
+        "score-machine-anomaly",
+        "anomaly-service-publishes-failure-signal"
+      ]
+    },
+    {
+      "id": "equipment-diagnostic-enrichment",
+      "name": "Anomaly evidence is enriched with manufacturer diagnostics",
+      "type": "mixed-rest-integration-flow",
+      "trigger": "An anomaly score requires additional diagnostic evidence.",
+      "steps": [
+        "enrich-anomaly-diagnostics",
+        "anomaly-service-requests-diagnostics"
+      ]
+    }
+  ],
+  "risks": [
+    {
+      "id": "model-drift",
+      "type": "data-quality",
+      "severity": "high",
+      "description": "Changing tooling, materials, or operating regimes can reduce anomaly-model precision.",
+      "relatedModules": [
+        "anomaly-model"
+      ],
+      "relatedInteractions": []
+    }
+  ],
+  "reviewQuestions": [],
+  "review": {
+    "status": "reviewed",
+    "reviewedBy": "Factory Platform Architecture",
+    "lastReviewedAt": "2026-08-09",
+    "notes": "Synthetic development fixture aligned to the approved smart-factory scenario."
+  }
+}

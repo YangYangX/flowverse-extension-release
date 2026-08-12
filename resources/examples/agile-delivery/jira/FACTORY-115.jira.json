@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "flowverse-jira-item",
+  "agileDeliveryOntologyRef": "agile-delivery-ontology",
+  "worldviewRef": "smart-factory-agile-delivery",
+  "workItem": {
+    "id": "FACTORY-115",
+    "key": "FACTORY-115",
+    "project": "FACTORY",
+    "workItemType": "task",
+    "jiraIssueType": "Task",
+    "domainConceptRef": "work-item",
+    "summary": "Provision factory Kafka topics and retention policies",
+    "status": {
+      "ref": "done",
+      "jiraStatus": "Done",
+      "statusCategory": "done",
+      "domainConceptRef": "workflow-state"
+    },
+    "deliveryScope": {
+      "ref": "FACTORY-110",
+      "domainConceptRef": "delivery-scope"
+    },
+    "parentRef": {
+      "ref": "FACTORY-110",
+      "relationshipTypeRef": "parent-child",
+      "domainConceptRef": "work-item-hierarchy"
+    },
+    "disciplines": [
+      "ARCH",
+      "OPS"
+    ],
+    "assignee": {
+      "role": "assignee",
+      "displayName": "Platform Engineering",
+      "domainConceptRef": "delivery-actor"
+    },
+    "reporter": {
+      "role": "reporter",
+      "displayName": "Factory Digital Product Management",
+      "domainConceptRef": "delivery-actor"
+    },
+    "priority": "High",
+    "storyPoints": 5,
+    "jiraSprint": "Factory Platform Sprint 12"
+  },
+  "acceptanceEvidence": [
+    {
+      "text": "Each topic has ownership, schema compatibility, retention, partitioning, and alerting configured.",
+      "domainConceptRef": "readiness-gate",
+      "provenance": {
+        "origin": "user-provided",
+        "sourceKind": "structured-field",
+        "sourceRef": "FACTORY-115.acceptanceEvidence.1",
+        "confidence": "high",
+        "capturedAt": "2026-08-09T00:00:00.000Z"
+      }
+    }
+  ],
+  "completionCriteria": [
+    {
+      "text": "Topic configuration is promoted through the development and integration environments.",
+      "domainConceptRef": "readiness-gate",
+      "provenance": {
+        "origin": "user-provided",
+        "sourceKind": "structured-field",
+        "sourceRef": "FACTORY-115.completionCriteria.1",
+        "confidence": "high",
+        "capturedAt": "2026-08-09T00:00:00.000Z"
+      }
+    }
+  ],
+  "notes": [
+    {
+      "field": "description",
+      "domainConceptRef": "delivery-note",
+      "provenanceSourceKind": "structured-field",
+      "text": "Provision the telemetry, machine-state, anomaly, maintenance, production, and notification event contracts with replay-safe retention."
+    }
+  ],
+  "provenance": {
+    "origin": "user-provided",
+    "sourceKind": "structured-field",
+    "sourceRef": "FACTORY-115",
+    "confidence": "high",
+    "capturedAt": "2026-08-09T00:00:00.000Z"
+  }
+}

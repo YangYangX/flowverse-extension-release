@@ -1,0 +1,434 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "system-architecture",
+  "generationMode": "ai-gen",
+  "worldviewRef": "smart-factory-worldview",
+  "system": {
+    "id": "vendor-adapter-service",
+    "name": "Vendor Adapter Service",
+    "type": "kubernetes-microservice",
+    "description": "Provides stable internal APIs over CMMS, spare-parts supplier, and equipment-manufacturer services.",
+    "metadata": {
+      "domain": "external-vendors",
+      "ownerTeam": "Enterprise Integration Team",
+      "criticality": "high",
+      "lifecycleStatus": "active",
+      "dataClassification": "internal",
+      "businessFunction": "External vendor integration boundary"
+    },
+    "technical": {
+      "language": "Java",
+      "framework": "Spring Boot",
+      "buildTool": "Gradle",
+      "deploymentPlatform": "Kubernetes"
+    }
+  },
+  "roleInArchitecture": {
+    "summary": "Provides stable internal APIs over CMMS, spare-parts supplier, and equipment-manufacturer services.",
+    "architectureRole": "External vendor integration boundary",
+    "primaryBusinessFunction": "External vendor integration boundary",
+    "mainResponsibilities": [
+      "Translate internal requests to vendor contracts",
+      "Apply vendor authentication, timeout, and retry policies",
+      "Normalize vendor responses"
+    ]
+  },
+  "visualization": {
+    "defaultRepresentation": "subflow",
+    "availableRepresentations": [
+      "single-node",
+      "subflow"
+    ],
+    "focusRepresentation": "subflow",
+    "layoutDirection": "RIGHT",
+    "showInternalFlows": true,
+    "showModules": true,
+    "decision": {
+      "recommendedBy": "flowverse-system-architecture-authoring",
+      "confidence": "high",
+      "reason": "Architecture-level modules and internal paths are useful for operational review.",
+      "detectedComplexity": {
+        "inboundInteractions": 0,
+        "outboundInteractions": 3,
+        "hasInternalFlow": true,
+        "hasEventProcessing": false,
+        "hasFileProcessing": false,
+        "hasSftpReadWrite": false,
+        "moduleCount": 6
+      },
+      "reviewRequired": false
+    }
+  },
+  "provenance": {
+    "origin": "ai-assisted",
+    "method": "Normalized from the user-provided smart-factory operations scenario.",
+    "confidence": "high",
+    "capturedBy": "flowverse-system-architecture-authoring",
+    "capturedAt": "2026-08-09",
+    "sourceRefs": [
+      {
+        "type": "system-description",
+        "label": "Smart factory operations scenario",
+        "finding": "Provides stable internal APIs over CMMS, spare-parts supplier, and equipment-manufacturer services."
+      }
+    ]
+  },
+  "modules": [
+    {
+      "id": "cmms-command-api",
+      "name": "CMMS Command API",
+      "nodeType": "module-rest-api",
+      "description": "Accepts work-order registration requests from the Maintenance Service.",
+      "metadata": {
+        "moduleType": "rest-api",
+        "direction": "inbound",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "method": "POST",
+        "path": "/internal/v1/cmms/work-orders",
+        "operation": "Register CMMS work order"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Accepts work-order registration requests from the Maintenance Service."
+          }
+        ]
+      }
+    },
+    {
+      "id": "parts-order-api",
+      "name": "Parts Order API",
+      "nodeType": "module-rest-api",
+      "description": "Accepts replacement-part requests from the Maintenance Service.",
+      "metadata": {
+        "moduleType": "rest-api",
+        "direction": "inbound",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "method": "POST",
+        "path": "/internal/v1/parts/orders",
+        "operation": "Order replacement part"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Accepts replacement-part requests from the Maintenance Service."
+          }
+        ]
+      }
+    },
+    {
+      "id": "diagnostics-request-api",
+      "name": "Diagnostics Request API",
+      "nodeType": "module-rest-api",
+      "description": "Accepts equipment diagnostic requests from analytics services.",
+      "metadata": {
+        "moduleType": "rest-api",
+        "direction": "inbound",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "method": "GET",
+        "path": "/internal/v1/equipment/{machineId}/diagnostics",
+        "operation": "Get equipment diagnostics"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Accepts equipment diagnostic requests from analytics services."
+          }
+        ]
+      }
+    },
+    {
+      "id": "cmms-vendor-client",
+      "name": "CMMS Vendor Client",
+      "nodeType": "externalApi",
+      "description": "Calls the external CMMS simulator.",
+      "metadata": {
+        "moduleType": "external-api",
+        "direction": "outbound",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "protocol": "REST",
+        "operation": "Create work order",
+        "path": "/api/work-orders",
+        "purpose": "Register external maintenance work"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Calls the external CMMS simulator."
+          }
+        ]
+      }
+    },
+    {
+      "id": "parts-supplier-client",
+      "name": "Parts Supplier Client",
+      "nodeType": "externalApi",
+      "description": "Calls the spare-parts supplier simulator.",
+      "metadata": {
+        "moduleType": "external-api",
+        "direction": "outbound",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "protocol": "REST",
+        "operation": "Price and order part",
+        "path": "/api/parts/orders",
+        "purpose": "Get price, availability, and delivery date"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Calls the spare-parts supplier simulator."
+          }
+        ]
+      }
+    },
+    {
+      "id": "equipment-diagnostics-client",
+      "name": "Equipment Diagnostics Client",
+      "nodeType": "externalApi",
+      "description": "Calls the equipment-manufacturer simulator.",
+      "metadata": {
+        "moduleType": "external-api",
+        "direction": "outbound",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "protocol": "REST",
+        "operation": "Get machine diagnostics",
+        "path": "/api/machines/{machineId}/diagnostics",
+        "purpose": "Retrieve vendor diagnostic information"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Calls the equipment-manufacturer simulator."
+          }
+        ]
+      }
+    }
+  ],
+  "interactions": [
+    {
+      "id": "vendor-adapter-creates-cmms-work-order",
+      "source": "vendor-adapter-service",
+      "sourceModule": "cmms-vendor-client",
+      "target": "external-cmms",
+      "protocol": "REST",
+      "interactionType": "api-call",
+      "purpose": "Create and track a maintenance work order in the external CMMS.",
+      "synchronous": true,
+      "dataClassification": "internal",
+      "endpoint": {
+        "method": "POST",
+        "path": "/api/work-orders"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Create and track a maintenance work order in the external CMMS."
+          }
+        ]
+      }
+    },
+    {
+      "id": "vendor-adapter-orders-parts",
+      "source": "vendor-adapter-service",
+      "sourceModule": "parts-supplier-client",
+      "target": "spare-parts-supplier",
+      "protocol": "REST",
+      "interactionType": "api-call",
+      "purpose": "Get part price, availability, delivery date, and place the order.",
+      "synchronous": true,
+      "dataClassification": "internal",
+      "endpoint": {
+        "method": "POST",
+        "path": "/api/parts/orders"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Get part price, availability, delivery date, and place the order."
+          }
+        ]
+      }
+    },
+    {
+      "id": "vendor-adapter-gets-diagnostics",
+      "source": "vendor-adapter-service",
+      "sourceModule": "equipment-diagnostics-client",
+      "target": "equipment-manufacturer",
+      "protocol": "REST",
+      "interactionType": "api-call",
+      "purpose": "Retrieve manufacturer diagnostic information for a machine.",
+      "synchronous": true,
+      "dataClassification": "internal",
+      "endpoint": {
+        "method": "GET",
+        "path": "/api/machines/{machineId}/diagnostics"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Retrieve manufacturer diagnostic information for a machine."
+          }
+        ]
+      }
+    }
+  ],
+  "internalFlows": [
+    {
+      "id": "route-cmms-work-order",
+      "name": "Route CMMS work order",
+      "steps": [
+        {
+          "order": 1,
+          "from": "cmms-command-api",
+          "to": "cmms-vendor-client",
+          "description": "Translate and send work order"
+        }
+      ]
+    },
+    {
+      "id": "route-parts-order",
+      "name": "Route replacement-parts order",
+      "steps": [
+        {
+          "order": 1,
+          "from": "parts-order-api",
+          "to": "parts-supplier-client",
+          "description": "Translate and send part request"
+        }
+      ]
+    },
+    {
+      "id": "route-equipment-diagnostics",
+      "name": "Route equipment diagnostics",
+      "steps": [
+        {
+          "order": 1,
+          "from": "diagnostics-request-api",
+          "to": "equipment-diagnostics-client",
+          "description": "Translate and send diagnostic request"
+        }
+      ]
+    }
+  ],
+  "dataFlows": [
+    {
+      "id": "external-cmms-work-order-registration",
+      "name": "Maintenance work order is registered in the external CMMS",
+      "type": "mixed-rest-integration-flow",
+      "trigger": "The Maintenance Service submits a CMMS work order.",
+      "steps": [
+        "route-cmms-work-order",
+        "vendor-adapter-creates-cmms-work-order"
+      ]
+    },
+    {
+      "id": "replacement-parts-procurement",
+      "name": "Replacement-part availability and order are confirmed",
+      "type": "mixed-rest-integration-flow",
+      "trigger": "The Maintenance Service requests a replacement part.",
+      "steps": [
+        "route-parts-order",
+        "vendor-adapter-orders-parts"
+      ]
+    },
+    {
+      "id": "manufacturer-diagnostic-retrieval",
+      "name": "Manufacturer diagnostics enrich equipment analysis",
+      "type": "mixed-rest-integration-flow",
+      "trigger": "An analytics service requests vendor diagnostics.",
+      "steps": [
+        "route-equipment-diagnostics",
+        "vendor-adapter-gets-diagnostics"
+      ]
+    }
+  ],
+  "risks": [],
+  "reviewQuestions": [],
+  "review": {
+    "status": "reviewed",
+    "reviewedBy": "Factory Platform Architecture",
+    "lastReviewedAt": "2026-08-09",
+    "notes": "Synthetic development fixture aligned to the approved smart-factory scenario."
+  }
+}

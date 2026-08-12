@@ -1,0 +1,126 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "flowverse-jira-item",
+  "agileDeliveryOntologyRef": "agile-delivery-ontology",
+  "worldviewRef": "smart-factory-agile-delivery",
+  "workItem": {
+    "id": "FACTORY-213",
+    "key": "FACTORY-213",
+    "project": "FACTORY",
+    "workItemType": "bug",
+    "jiraIssueType": "Bug",
+    "domainConceptRef": "work-item",
+    "summary": "Resolve duplicate asset identity after source rename",
+    "status": {
+      "ref": "blocked-on-hold",
+      "jiraStatus": "Blocked",
+      "statusCategory": "indeterminate",
+      "domainConceptRef": "workflow-state"
+    },
+    "deliveryScope": {
+      "ref": "FACTORY-210",
+      "domainConceptRef": "delivery-scope"
+    },
+    "parentRef": {
+      "ref": "FACTORY-211",
+      "relationshipTypeRef": "parent-child",
+      "domainConceptRef": "work-item-hierarchy"
+    },
+    "disciplines": [
+      "DEV",
+      "QA"
+    ],
+    "assignee": {
+      "role": "assignee",
+      "displayName": "Asset Integration Team",
+      "domainConceptRef": "delivery-actor"
+    },
+    "reporter": {
+      "role": "reporter",
+      "displayName": "Factory Digital Product Management",
+      "domainConceptRef": "delivery-actor"
+    },
+    "priority": "High",
+    "storyPoints": 3,
+    "jiraSprint": "Factory Platform Sprint 12"
+  },
+  "workLinks": [
+    {
+      "linkType": "defect",
+      "direction": "outward",
+      "targetKey": "FACTORY-211",
+      "gatesFlow": false,
+      "domainConceptRef": "work-link",
+      "provenanceSourceKind": "issue-link"
+    }
+  ],
+  "requirements": [
+    {
+      "text": "A renamed source asset must update its canonical record instead of creating a second active identity.",
+      "domainConceptRef": "delivery-requirement",
+      "provenance": {
+        "origin": "user-provided",
+        "sourceKind": "structured-field",
+        "sourceRef": "FACTORY-213.requirements.1",
+        "confidence": "high",
+        "capturedAt": "2026-08-10T00:00:00.000Z"
+      }
+    }
+  ],
+  "acceptanceEvidence": [
+    {
+      "text": "Rename and move scenarios retain one canonical asset identifier and a complete change history.",
+      "domainConceptRef": "readiness-gate",
+      "provenance": {
+        "origin": "user-provided",
+        "sourceKind": "structured-field",
+        "sourceRef": "FACTORY-213.acceptanceEvidence.1",
+        "confidence": "high",
+        "capturedAt": "2026-08-10T00:00:00.000Z"
+      }
+    }
+  ],
+  "completionCriteria": [
+    {
+      "text": "The duplicate regression suite and production-data replay pass.",
+      "domainConceptRef": "readiness-gate",
+      "provenance": {
+        "origin": "user-provided",
+        "sourceKind": "structured-field",
+        "sourceRef": "FACTORY-213.completionCriteria.1",
+        "confidence": "high",
+        "capturedAt": "2026-08-10T00:00:00.000Z"
+      }
+    }
+  ],
+  "risks": [
+    {
+      "cause": "Historical source extracts do not consistently include the stable identifier.",
+      "effect": "Delivery or operational confidence remains reduced until the ambiguity is controlled.",
+      "mitigation": "Migrate ambiguous records through an reviewed reconciliation queue.",
+      "severity": "medium",
+      "provenance": {
+        "origin": "user-provided",
+        "sourceKind": "structured-field",
+        "sourceRef": "FACTORY-213.risks.1",
+        "confidence": "high",
+        "capturedAt": "2026-08-10T00:00:00.000Z"
+      }
+    }
+  ],
+  "notes": [
+    {
+      "field": "description",
+      "domainConceptRef": "delivery-note",
+      "provenanceSourceKind": "structured-field",
+      "text": "The nightly reconciliation treats a renamed line asset as new when the external stable identifier is present but the display name changes."
+    }
+  ],
+  "provenance": {
+    "origin": "user-provided",
+    "sourceKind": "structured-field",
+    "sourceRef": "FACTORY-213",
+    "confidence": "high",
+    "capturedAt": "2026-08-10T00:00:00.000Z"
+  }
+}

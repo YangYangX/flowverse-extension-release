@@ -1,0 +1,98 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "flowverse-jira-item",
+  "agileDeliveryOntologyRef": "agile-delivery-ontology",
+  "worldviewRef": "smart-factory-agile-delivery",
+  "workItem": {
+    "id": "FACTORY-125",
+    "key": "FACTORY-125",
+    "project": "FACTORY",
+    "workItemType": "task",
+    "jiraIssueType": "Task",
+    "domainConceptRef": "work-item",
+    "summary": "Publish maintenance recommendations to Kafka",
+    "status": {
+      "ref": "to-do",
+      "jiraStatus": "To Do",
+      "statusCategory": "new",
+      "domainConceptRef": "workflow-state"
+    },
+    "deliveryScope": {
+      "ref": "FACTORY-120",
+      "domainConceptRef": "delivery-scope"
+    },
+    "parentRef": {
+      "ref": "FACTORY-124",
+      "relationshipTypeRef": "parent-child",
+      "domainConceptRef": "work-item-hierarchy"
+    },
+    "disciplines": [
+      "DEV",
+      "QA"
+    ],
+    "assignee": {
+      "role": "assignee",
+      "displayName": "Reliability Engineering Team",
+      "domainConceptRef": "delivery-actor"
+    },
+    "reporter": {
+      "role": "reporter",
+      "displayName": "Factory Digital Product Management",
+      "domainConceptRef": "delivery-actor"
+    },
+    "priority": "High",
+    "storyPoints": 5,
+    "jiraSprint": "Factory Platform Sprint 12"
+  },
+  "workLinks": [
+    {
+      "linkType": "implements",
+      "direction": "outward",
+      "targetKey": "FACTORY-124",
+      "gatesFlow": false,
+      "domainConceptRef": "work-link",
+      "provenanceSourceKind": "issue-link"
+    }
+  ],
+  "acceptanceEvidence": [
+    {
+      "text": "The Maintenance Service can consume and idempotently correlate every recommendation.",
+      "domainConceptRef": "readiness-gate",
+      "provenance": {
+        "origin": "user-provided",
+        "sourceKind": "structured-field",
+        "sourceRef": "FACTORY-125.acceptanceEvidence.1",
+        "confidence": "high",
+        "capturedAt": "2026-08-09T00:00:00.000Z"
+      }
+    }
+  ],
+  "completionCriteria": [
+    {
+      "text": "Schema compatibility, retry, replay, and dead-letter behavior are tested.",
+      "domainConceptRef": "readiness-gate",
+      "provenance": {
+        "origin": "user-provided",
+        "sourceKind": "structured-field",
+        "sourceRef": "FACTORY-125.completionCriteria.1",
+        "confidence": "high",
+        "capturedAt": "2026-08-09T00:00:00.000Z"
+      }
+    }
+  ],
+  "notes": [
+    {
+      "field": "description",
+      "domainConceptRef": "delivery-note",
+      "provenanceSourceKind": "structured-field",
+      "text": "Publish actionable maintenance recommendations with machine, horizon, probability, confidence, and model evidence."
+    }
+  ],
+  "provenance": {
+    "origin": "user-provided",
+    "sourceKind": "structured-field",
+    "sourceRef": "FACTORY-125",
+    "confidence": "high",
+    "capturedAt": "2026-08-09T00:00:00.000Z"
+  }
+}

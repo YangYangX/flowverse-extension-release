@@ -1,0 +1,239 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "system-architecture",
+  "generationMode": "ai-gen",
+  "worldviewRef": "smart-factory-worldview",
+  "system": {
+    "id": "asset-registry-service",
+    "name": "Asset Registry Service",
+    "type": "kubernetes-microservice",
+    "description": "Stores factories, production lines, CNC machines, robots, PLCs, and sensors as a governed equipment hierarchy.",
+    "metadata": {
+      "domain": "factory-platform",
+      "ownerTeam": "Factory Platform Team",
+      "criticality": "high",
+      "lifecycleStatus": "active",
+      "dataClassification": "internal",
+      "businessFunction": "Factory asset system of record"
+    },
+    "technical": {
+      "language": "Java",
+      "framework": "Spring Boot",
+      "buildTool": "Gradle",
+      "deploymentPlatform": "Kubernetes"
+    }
+  },
+  "roleInArchitecture": {
+    "summary": "Stores factories, production lines, CNC machines, robots, PLCs, and sensors as a governed equipment hierarchy.",
+    "architectureRole": "Factory asset system of record",
+    "primaryBusinessFunction": "Factory asset system of record",
+    "mainResponsibilities": [
+      "Maintain equipment identity and hierarchy",
+      "Expose asset metadata to factory services",
+      "Track sensor-to-machine assignments"
+    ]
+  },
+  "visualization": {
+    "defaultRepresentation": "subflow",
+    "availableRepresentations": [
+      "single-node",
+      "subflow"
+    ],
+    "focusRepresentation": "subflow",
+    "layoutDirection": "RIGHT",
+    "showInternalFlows": true,
+    "showModules": true,
+    "decision": {
+      "recommendedBy": "flowverse-system-architecture-authoring",
+      "confidence": "high",
+      "reason": "Architecture-level modules and internal paths are useful for operational review.",
+      "detectedComplexity": {
+        "inboundInteractions": 0,
+        "outboundInteractions": 1,
+        "hasInternalFlow": true,
+        "hasEventProcessing": false,
+        "hasFileProcessing": false,
+        "hasSftpReadWrite": false,
+        "moduleCount": 3
+      },
+      "reviewRequired": false
+    }
+  },
+  "provenance": {
+    "origin": "ai-assisted",
+    "method": "Normalized from the user-provided smart-factory operations scenario.",
+    "confidence": "high",
+    "capturedBy": "flowverse-system-architecture-authoring",
+    "capturedAt": "2026-08-09",
+    "sourceRefs": [
+      {
+        "type": "system-description",
+        "label": "Smart factory operations scenario",
+        "finding": "Stores factories, production lines, CNC machines, robots, PLCs, and sensors as a governed equipment hierarchy."
+      }
+    ]
+  },
+  "modules": [
+    {
+      "id": "asset-api",
+      "name": "Asset Registry API",
+      "nodeType": "module-rest-api",
+      "description": "Returns registered factory assets and hierarchy.",
+      "metadata": {
+        "moduleType": "rest-api",
+        "direction": "inbound",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "method": "GET",
+        "path": "/internal/v1/assets/{assetId}",
+        "operation": "Get factory asset"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Returns registered factory assets and hierarchy."
+          }
+        ]
+      }
+    },
+    {
+      "id": "asset-catalog",
+      "name": "Asset Catalog",
+      "nodeType": "module-business-processor",
+      "description": "Applies asset identity and hierarchy rules.",
+      "metadata": {
+        "moduleType": "business-processor",
+        "direction": "internal",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "businessFunction": "Asset registry",
+        "input": "Asset query or change",
+        "output": "Governed asset record",
+        "responsibility": "Maintain factory, line, machine, and sensor relationships"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Applies asset identity and hierarchy rules."
+          }
+        ]
+      }
+    },
+    {
+      "id": "asset-repository",
+      "name": "Asset Repository",
+      "nodeType": "database",
+      "description": "Persists governed asset records.",
+      "metadata": {
+        "moduleType": "database",
+        "direction": "internal",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "product": "PostgreSQL",
+        "dataStore": "factory_assets",
+        "purpose": "Persist factory asset hierarchy"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Persists governed asset records."
+          }
+        ]
+      }
+    }
+  ],
+  "interactions": [
+    {
+      "id": "asset-registry-accesses-database",
+      "source": "asset-registry-service",
+      "sourceModule": "asset-repository",
+      "target": "factory-operations-database",
+      "protocol": "JDBC",
+      "interactionType": "database-access",
+      "purpose": "Read and persist factory asset records.",
+      "synchronous": true,
+      "dataClassification": "internal",
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Read and persist factory asset records."
+          }
+        ]
+      }
+    }
+  ],
+  "internalFlows": [
+    {
+      "id": "resolve-asset-record",
+      "name": "Resolve factory asset record",
+      "steps": [
+        {
+          "order": 1,
+          "from": "asset-api",
+          "to": "asset-catalog",
+          "description": "Validate asset identity"
+        },
+        {
+          "order": 2,
+          "from": "asset-catalog",
+          "to": "asset-repository",
+          "description": "Read governed asset record"
+        }
+      ]
+    }
+  ],
+  "dataFlows": [
+    {
+      "id": "factory-asset-lookup",
+      "name": "Factory asset identity is resolved",
+      "type": "synchronous-api-flow",
+      "trigger": "A service requests a factory asset.",
+      "steps": [
+        "resolve-asset-record",
+        "asset-registry-accesses-database"
+      ]
+    }
+  ],
+  "risks": [],
+  "reviewQuestions": [],
+  "review": {
+    "status": "reviewed",
+    "reviewedBy": "Factory Platform Architecture",
+    "lastReviewedAt": "2026-08-09",
+    "notes": "Synthetic development fixture aligned to the approved smart-factory scenario."
+  }
+}

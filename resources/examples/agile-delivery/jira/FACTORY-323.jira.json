@@ -1,0 +1,115 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "flowverse-jira-item",
+  "agileDeliveryOntologyRef": "agile-delivery-ontology",
+  "worldviewRef": "smart-factory-agile-delivery",
+  "workItem": {
+    "id": "FACTORY-323",
+    "key": "FACTORY-323",
+    "project": "FACTORY",
+    "workItemType": "spike",
+    "jiraIssueType": "Spike",
+    "domainConceptRef": "work-item",
+    "summary": "Model phased rollout risk across pilot plants",
+    "status": {
+      "ref": "to-do",
+      "jiraStatus": "To Do",
+      "statusCategory": "new",
+      "domainConceptRef": "workflow-state"
+    },
+    "deliveryScope": {
+      "ref": "FACTORY-320",
+      "domainConceptRef": "delivery-scope"
+    },
+    "parentRef": {
+      "ref": "FACTORY-320",
+      "relationshipTypeRef": "parent-child",
+      "domainConceptRef": "work-item-hierarchy"
+    },
+    "disciplines": [
+      "ARCH",
+      "DATA",
+      "OPS"
+    ],
+    "assignee": {
+      "role": "assignee",
+      "displayName": "Factory Systems Architecture",
+      "domainConceptRef": "delivery-actor"
+    },
+    "reporter": {
+      "role": "reporter",
+      "displayName": "Factory Digital Product Management",
+      "domainConceptRef": "delivery-actor"
+    },
+    "priority": "Medium",
+    "storyPoints": 5,
+    "jiraSprint": "Factory Platform Backlog"
+  },
+  "workLinks": [
+    {
+      "linkType": "validation",
+      "direction": "outward",
+      "targetKey": "FACTORY-320",
+      "gatesFlow": false,
+      "domainConceptRef": "work-link",
+      "provenanceSourceKind": "issue-link"
+    }
+  ],
+  "requirements": [
+    {
+      "text": "Compare rollout sequences using service dependencies, plant criticality, recovery time, and available operational coverage.",
+      "domainConceptRef": "delivery-requirement",
+      "provenance": {
+        "origin": "user-provided",
+        "sourceKind": "structured-field",
+        "sourceRef": "FACTORY-323.requirements.1",
+        "confidence": "high",
+        "capturedAt": "2026-08-10T00:00:00.000Z"
+      }
+    }
+  ],
+  "acceptanceEvidence": [
+    {
+      "text": "The study compares at least three rollout sequences and records assumptions, affected capabilities, risk, and recovery cost.",
+      "domainConceptRef": "readiness-gate",
+      "provenance": {
+        "origin": "user-provided",
+        "sourceKind": "structured-field",
+        "sourceRef": "FACTORY-323.acceptanceEvidence.1",
+        "confidence": "high",
+        "capturedAt": "2026-08-10T00:00:00.000Z"
+      }
+    }
+  ],
+  "completionCriteria": [
+    {
+      "text": "Plant operations and architecture owners select a rollout sequence or record the unresolved decision.",
+      "domainConceptRef": "readiness-gate",
+      "provenance": {
+        "origin": "user-provided",
+        "sourceKind": "structured-field",
+        "sourceRef": "FACTORY-323.completionCriteria.1",
+        "confidence": "high",
+        "capturedAt": "2026-08-10T00:00:00.000Z"
+      }
+    }
+  ],
+  "openQuestions": [
+    "Which plant provides the safest production-representative canary without delaying the target release?"
+  ],
+  "notes": [
+    {
+      "field": "description",
+      "domainConceptRef": "delivery-note",
+      "provenanceSourceKind": "structured-field",
+      "text": "Time-box a rollout-risk model to support the first multi-plant release decision."
+    }
+  ],
+  "provenance": {
+    "origin": "user-provided",
+    "sourceKind": "structured-field",
+    "sourceRef": "FACTORY-323",
+    "confidence": "high",
+    "capturedAt": "2026-08-10T00:00:00.000Z"
+  }
+}

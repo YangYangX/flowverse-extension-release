@@ -86,13 +86,14 @@ The architecture data records these paths as ordered data flows. Each step resol
 
 The fictional Factory Digital Platform programme uses Jira-style delivery records. Product, plant operations, industrial connectivity, platform, data science, reliability, security, and integration teams share one backlog while retaining clear ownership.
 
-The example contains 24 work items across five hierarchy levels:
+The example contains 66 work items, including 27 execution tasks, across three independent programme trees and up to five hierarchy levels:
 
-- `FACTORY-100` is the programme epic.
-- Child epics cover edge telemetry, machine intelligence, maintenance automation, and operator/production workflows.
-- Stories and tasks deliver protocol ingestion, Kafka contracts, anomaly models, failure prediction, CMMS integration, parts ordering, dashboards, and alerts.
+- `FACTORY-100` delivers the core operations platform: edge telemetry, machine intelligence, maintenance automation, and operator/production workflows.
+- `FACTORY-200` scales governed asset identity and replayable digital twins across plants.
+- `FACTORY-300` hardens service reliability and governs production release readiness.
+- Stories and tasks deliver protocol ingestion, Kafka contracts, anomaly models, asset synchronization, twin projection, CMMS integration, alert correlation, and release controls.
 - Bugs capture observable defects such as duplicate work orders.
-- A spike records bounded technical investigation before a delivery decision.
+- Spikes record bounded replay and rollout investigations before delivery decisions.
 
 Work items carry source-backed purpose, requirements, acceptance evidence, completion criteria, risks, open questions, ownership, estimates, relationships, comments, and provenance where relevant. `FACTORY-122` includes a complete example readiness assessment and discussion history for testing the Comments and AI Rating views.
 
@@ -113,6 +114,11 @@ The cross-domain link set connects delivery records to the exact architecture bo
 | `FACTORY-134` | required by | Maintenance Service / CMMS Adapter Client |
 | `FACTORY-142` | implements | Production Service / Production-impact Calculator |
 | `FACTORY-145` | implements | Notification Service / Provider Client |
+| `FACTORY-211` | implements | Asset Registry / Asset Catalog |
+| `FACTORY-221` | implements | Digital Twin Service / Twin Projector |
+| `FACTORY-222` | implements | Digital Twin Service / Twin Cache |
+| `FACTORY-311` | implements | Notification Service / Event Consumer |
+| `FACTORY-312` | implements | Notification Service / Notification Policy |
 
 The link set references existing records; it does not copy them. Architecture and Agile Delivery remain independently owned sources, and the unified view resolves their relationships at load time.
 
@@ -128,4 +134,4 @@ resources/examples/
   unified-worldview.instance.json
 ```
 
-Open [`flowverse-plugin.code-workspace`](../flowverse-plugin.code-workspace), run **Run FlowVerse**, and then open the System Architecture, Agile Delivery, or Unified Worldview canvas. The example contract test validates schemas, registered references, hierarchy depth, architecture modules, cross-domain endpoints, and connector projection. The full test suite and both TypeScript checks provide the release gate.
+Open the repository folder in VS Code, run **Run FlowVerse with Smart Factory Example**, and then open the System Architecture, Agile Delivery, or Unified Worldview canvas. The example contract test validates schemas, registered references, hierarchy depth, architecture modules, cross-domain endpoints, and connector projection. The full test suite and both TypeScript checks provide the release gate.

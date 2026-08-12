@@ -1,0 +1,101 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "flowverse-jira-item",
+  "agileDeliveryOntologyRef": "agile-delivery-ontology",
+  "worldviewRef": "smart-factory-agile-delivery",
+  "workItem": {
+    "id": "FACTORY-118",
+    "key": "FACTORY-118",
+    "project": "FACTORY",
+    "workItemType": "task",
+    "jiraIssueType": "Task",
+    "domainConceptRef": "work-item",
+    "summary": "Configure telemetry retention and partition controls",
+    "status": {
+      "ref": "to-do",
+      "jiraStatus": "To Do",
+      "statusCategory": "new",
+      "domainConceptRef": "workflow-state"
+    },
+    "deliveryScope": {
+      "ref": "FACTORY-110",
+      "domainConceptRef": "delivery-scope"
+    },
+    "parentRef": {
+      "ref": "FACTORY-114",
+      "relationshipTypeRef": "parent-child",
+      "domainConceptRef": "work-item-hierarchy"
+    },
+    "disciplines": [
+      "DEV",
+      "OPS"
+    ],
+    "assignee": {
+      "role": "assignee",
+      "displayName": "Telemetry Platform Team",
+      "domainConceptRef": "delivery-actor"
+    },
+    "reporter": {
+      "role": "reporter",
+      "displayName": "Factory Digital Product Management",
+      "domainConceptRef": "delivery-actor"
+    },
+    "priority": "Medium",
+    "storyPoints": 5,
+    "jiraSprint": "Factory Platform Backlog"
+  },
+  "requirements": [
+    {
+      "text": "Apply retention, partitioning, and compaction controls by telemetry class and plant policy.",
+      "domainConceptRef": "delivery-requirement",
+      "provenance": {
+        "origin": "user-provided",
+        "sourceKind": "structured-field",
+        "sourceRef": "FACTORY-118.requirements.1",
+        "confidence": "high",
+        "capturedAt": "2026-08-10T00:00:00.000Z"
+      }
+    }
+  ],
+  "acceptanceEvidence": [
+    {
+      "text": "Each telemetry class resolves to an approved retention and partition policy with observable enforcement.",
+      "domainConceptRef": "readiness-gate",
+      "provenance": {
+        "origin": "user-provided",
+        "sourceKind": "structured-field",
+        "sourceRef": "FACTORY-118.acceptanceEvidence.1",
+        "confidence": "high",
+        "capturedAt": "2026-08-10T00:00:00.000Z"
+      }
+    }
+  ],
+  "completionCriteria": [
+    {
+      "text": "Capacity, expiry, partition rebalance, restore, and policy-audit checks pass.",
+      "domainConceptRef": "readiness-gate",
+      "provenance": {
+        "origin": "user-provided",
+        "sourceKind": "structured-field",
+        "sourceRef": "FACTORY-118.completionCriteria.1",
+        "confidence": "high",
+        "capturedAt": "2026-08-10T00:00:00.000Z"
+      }
+    }
+  ],
+  "notes": [
+    {
+      "field": "description",
+      "domainConceptRef": "delivery-note",
+      "provenanceSourceKind": "structured-field",
+      "text": "Configure storage controls so telemetry remains queryable for operational and analytical use without unbounded growth."
+    }
+  ],
+  "provenance": {
+    "origin": "user-provided",
+    "sourceKind": "structured-field",
+    "sourceRef": "FACTORY-118",
+    "confidence": "high",
+    "capturedAt": "2026-08-10T00:00:00.000Z"
+  }
+}

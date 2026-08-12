@@ -17,7 +17,7 @@ npm ci
 npm run build
 ```
 
-Open [flowverse-plugin.code-workspace](../flowverse-plugin.code-workspace), select **Run FlowVerse**, and press `F5`. The Extension Development Host opens `resources/examples/`, allowing the System Architecture, Agile Delivery, and Unified Worldview canvases to use the same development dataset.
+Open the repository folder in VS Code, select **Run FlowVerse with Smart Factory Example**, and press `F5`. The Extension Development Host opens `resources/examples/`, allowing the System Architecture, Agile Delivery, and Unified Worldview canvases to use the same development dataset. Select **Run FlowVerse** instead to start with an empty workspace.
 
 Useful commands:
 
@@ -56,13 +56,15 @@ The package is written to:
 dist/flowverse-vscode-preview.vsix
 ```
 
-Production packaging includes `prod.env` and bundled knowledge, while excluding examples, `dev.env`, source files, tests, and development documentation.
+Production packaging includes bundled knowledge and a credential-free `prod.env` reserved for non-secret runtime defaults, while excluding examples, `dev.env`, source files, tests, and development documentation. Jira connection settings are supplied by the installed VS Code host.
 
 ## Continuous Integration and Releases
 
 Every push to `master` runs the tests, both type checks, extension-host tests, and a production VSIX build. The VSIX is retained as a GitHub Actions artifact for that commit.
 
 To publish a release, include the exact uppercase token `RELEASE` in the latest Conventional Commit message. Commits since the previous `v*` release determine the next version: breaking changes increment major, `feat` increments minor, and other changes increment patch. The workflow updates the package version, commits it as `chore: publish vX.Y.Z [skip ci]`, creates the matching tag and GitHub Release, and attaches `flowverse-vscode-vX.Y.Z.vsix` with commit-based release notes.
+
+After creating the release, the workflow uses the `FLOWVERSE_RELEASE_REPO_TOKEN` secret to update `YangYangX/flowverse-extension-release`. It mirrors `README.md`, `README-zh_CN.md`, `docs/`, and the complete Smart Factory dataset at `resources/examples/`, removes stale mirrored content, and publishes the current VSIX at `releases/flowverse-vscode-vX.Y.Z.vsix`.
 
 ## Repository Structure
 

@@ -1,0 +1,101 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "flowverse-jira-item",
+  "agileDeliveryOntologyRef": "agile-delivery-ontology",
+  "worldviewRef": "smart-factory-agile-delivery",
+  "workItem": {
+    "id": "FACTORY-127",
+    "key": "FACTORY-127",
+    "project": "FACTORY",
+    "workItemType": "task",
+    "jiraIssueType": "Task",
+    "domainConceptRef": "work-item",
+    "summary": "Expose current machine state through the query API",
+    "status": {
+      "ref": "to-do",
+      "jiraStatus": "To Do",
+      "statusCategory": "new",
+      "domainConceptRef": "workflow-state"
+    },
+    "deliveryScope": {
+      "ref": "FACTORY-120",
+      "domainConceptRef": "delivery-scope"
+    },
+    "parentRef": {
+      "ref": "FACTORY-121",
+      "relationshipTypeRef": "parent-child",
+      "domainConceptRef": "work-item-hierarchy"
+    },
+    "disciplines": [
+      "DEV",
+      "QA"
+    ],
+    "assignee": {
+      "role": "assignee",
+      "displayName": "Machine State Team",
+      "domainConceptRef": "delivery-actor"
+    },
+    "reporter": {
+      "role": "reporter",
+      "displayName": "Factory Digital Product Management",
+      "domainConceptRef": "delivery-actor"
+    },
+    "priority": "Medium",
+    "storyPoints": 5,
+    "jiraSprint": "Factory Platform Backlog"
+  },
+  "requirements": [
+    {
+      "text": "Return current machine state, transition time, contributing signals, and freshness for an authorized asset.",
+      "domainConceptRef": "delivery-requirement",
+      "provenance": {
+        "origin": "user-provided",
+        "sourceKind": "structured-field",
+        "sourceRef": "FACTORY-127.requirements.1",
+        "confidence": "high",
+        "capturedAt": "2026-08-10T00:00:00.000Z"
+      }
+    }
+  ],
+  "acceptanceEvidence": [
+    {
+      "text": "Contract tests cover all state values, stale data, unknown assets, and access control.",
+      "domainConceptRef": "readiness-gate",
+      "provenance": {
+        "origin": "user-provided",
+        "sourceKind": "structured-field",
+        "sourceRef": "FACTORY-127.acceptanceEvidence.1",
+        "confidence": "high",
+        "capturedAt": "2026-08-10T00:00:00.000Z"
+      }
+    }
+  ],
+  "completionCriteria": [
+    {
+      "text": "API compatibility, latency, cache fallback, and observability checks pass.",
+      "domainConceptRef": "readiness-gate",
+      "provenance": {
+        "origin": "user-provided",
+        "sourceKind": "structured-field",
+        "sourceRef": "FACTORY-127.completionCriteria.1",
+        "confidence": "high",
+        "capturedAt": "2026-08-10T00:00:00.000Z"
+      }
+    }
+  ],
+  "notes": [
+    {
+      "field": "description",
+      "domainConceptRef": "delivery-note",
+      "provenanceSourceKind": "structured-field",
+      "text": "Implement the query contract used by operator and maintenance workflows to retrieve calculated machine state."
+    }
+  ],
+  "provenance": {
+    "origin": "user-provided",
+    "sourceKind": "structured-field",
+    "sourceRef": "FACTORY-127",
+    "confidence": "high",
+    "capturedAt": "2026-08-10T00:00:00.000Z"
+  }
+}

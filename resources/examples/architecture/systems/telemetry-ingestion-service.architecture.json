@@ -1,0 +1,318 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "system-architecture",
+  "generationMode": "ai-gen",
+  "worldviewRef": "smart-factory-worldview",
+  "system": {
+    "id": "telemetry-ingestion-service",
+    "name": "Telemetry Ingestion Service",
+    "type": "kubernetes-microservice",
+    "description": "Consumes normalized machine measurements, validates telemetry quality, persists time-series data, and exposes telemetry queries.",
+    "metadata": {
+      "domain": "factory-platform",
+      "ownerTeam": "Telemetry Platform Team",
+      "criticality": "critical",
+      "lifecycleStatus": "active",
+      "dataClassification": "internal",
+      "businessFunction": "Machine telemetry ingestion and query"
+    },
+    "technical": {
+      "language": "Java",
+      "framework": "Spring Boot",
+      "buildTool": "Gradle",
+      "deploymentPlatform": "Kubernetes"
+    }
+  },
+  "roleInArchitecture": {
+    "summary": "Consumes normalized machine measurements, validates telemetry quality, persists time-series data, and exposes telemetry queries.",
+    "architectureRole": "Machine telemetry ingestion and query",
+    "primaryBusinessFunction": "Machine telemetry ingestion and query",
+    "mainResponsibilities": [
+      "Validate canonical telemetry",
+      "Persist machine measurements",
+      "Serve recent telemetry to operator and analytics clients"
+    ]
+  },
+  "visualization": {
+    "defaultRepresentation": "subflow",
+    "availableRepresentations": [
+      "single-node",
+      "subflow"
+    ],
+    "focusRepresentation": "subflow",
+    "layoutDirection": "RIGHT",
+    "showInternalFlows": true,
+    "showModules": true,
+    "decision": {
+      "recommendedBy": "flowverse-system-architecture-authoring",
+      "confidence": "high",
+      "reason": "Architecture-level modules and internal paths are useful for operational review.",
+      "detectedComplexity": {
+        "inboundInteractions": 1,
+        "outboundInteractions": 1,
+        "hasInternalFlow": true,
+        "hasEventProcessing": true,
+        "hasFileProcessing": false,
+        "hasSftpReadWrite": false,
+        "moduleCount": 4
+      },
+      "reviewRequired": false
+    }
+  },
+  "provenance": {
+    "origin": "ai-assisted",
+    "method": "Normalized from the user-provided smart-factory operations scenario.",
+    "confidence": "high",
+    "capturedBy": "flowverse-system-architecture-authoring",
+    "capturedAt": "2026-08-09",
+    "sourceRefs": [
+      {
+        "type": "system-description",
+        "label": "Smart factory operations scenario",
+        "finding": "Consumes normalized machine measurements, validates telemetry quality, persists time-series data, and exposes telemetry queries."
+      }
+    ]
+  },
+  "modules": [
+    {
+      "id": "telemetry-consumer",
+      "name": "Telemetry Consumer",
+      "nodeType": "module-event-consumer",
+      "description": "Consumes normalized machine telemetry from Kafka.",
+      "metadata": {
+        "moduleType": "event-consumer",
+        "direction": "inbound",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "topic": "factory.telemetry.normalized",
+        "payload": "Canonical telemetry event"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Consumes normalized machine telemetry from Kafka."
+          }
+        ]
+      }
+    },
+    {
+      "id": "telemetry-validator",
+      "name": "Telemetry Validator",
+      "nodeType": "module-business-processor",
+      "description": "Validates asset identity, measurement units, timestamps, and quality flags.",
+      "metadata": {
+        "moduleType": "validation-processor",
+        "direction": "internal",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "businessFunction": "Telemetry validation",
+        "input": "Canonical telemetry event",
+        "output": "Accepted or rejected measurement",
+        "responsibility": "Enforce telemetry quality rules"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Validates asset identity, measurement units, timestamps, and quality flags."
+          }
+        ]
+      }
+    },
+    {
+      "id": "telemetry-repository",
+      "name": "Telemetry Repository",
+      "nodeType": "database",
+      "description": "Writes and reads machine time-series measurements.",
+      "metadata": {
+        "moduleType": "database",
+        "direction": "internal",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "product": "TimescaleDB",
+        "dataStore": "machine_telemetry",
+        "purpose": "Persist machine measurements"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Writes and reads machine time-series measurements."
+          }
+        ]
+      }
+    },
+    {
+      "id": "telemetry-query-api",
+      "name": "Telemetry Query API",
+      "nodeType": "module-rest-api",
+      "description": "Returns recent telemetry for a machine.",
+      "metadata": {
+        "moduleType": "rest-api",
+        "direction": "inbound",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "method": "GET",
+        "path": "/internal/v1/machines/{machineId}/telemetry",
+        "operation": "Query machine telemetry"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Returns recent telemetry for a machine."
+          }
+        ]
+      }
+    }
+  ],
+  "interactions": [
+    {
+      "id": "telemetry-service-consumes-measurements",
+      "source": "kafka-platform",
+      "target": "telemetry-ingestion-service",
+      "targetModule": "telemetry-consumer",
+      "protocol": "KAFKA",
+      "interactionType": "event-consume",
+      "purpose": "Consume normalized machine telemetry.",
+      "synchronous": false,
+      "dataClassification": "internal",
+      "topicOrQueue": "factory.telemetry.normalized",
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Consume normalized machine telemetry."
+          }
+        ]
+      }
+    },
+    {
+      "id": "telemetry-service-accesses-timeseries",
+      "source": "telemetry-ingestion-service",
+      "sourceModule": "telemetry-repository",
+      "target": "telemetry-database",
+      "protocol": "JDBC",
+      "interactionType": "database-access",
+      "purpose": "Append and query machine measurements.",
+      "synchronous": true,
+      "dataClassification": "internal",
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Append and query machine measurements."
+          }
+        ]
+      }
+    }
+  ],
+  "internalFlows": [
+    {
+      "id": "validate-and-store-telemetry",
+      "name": "Validate and store telemetry",
+      "steps": [
+        {
+          "order": 1,
+          "from": "telemetry-consumer",
+          "to": "telemetry-validator",
+          "description": "Validate telemetry quality"
+        },
+        {
+          "order": 2,
+          "from": "telemetry-validator",
+          "to": "telemetry-repository",
+          "description": "Persist accepted measurement"
+        }
+      ]
+    },
+    {
+      "id": "serve-machine-telemetry",
+      "name": "Serve machine telemetry",
+      "steps": [
+        {
+          "order": 1,
+          "from": "telemetry-query-api",
+          "to": "telemetry-repository",
+          "description": "Read recent measurements"
+        }
+      ]
+    }
+  ],
+  "dataFlows": [
+    {
+      "id": "machine-telemetry-persistence",
+      "name": "Machine telemetry is validated and retained",
+      "type": "event-driven-flow",
+      "trigger": "Kafka delivers a normalized telemetry event.",
+      "steps": [
+        "telemetry-service-consumes-measurements",
+        "validate-and-store-telemetry",
+        "telemetry-service-accesses-timeseries"
+      ]
+    },
+    {
+      "id": "recent-machine-telemetry-query",
+      "name": "Recent machine telemetry is returned",
+      "type": "synchronous-api-flow",
+      "trigger": "The API Gateway requests telemetry for a machine.",
+      "steps": [
+        "serve-machine-telemetry",
+        "telemetry-service-accesses-timeseries"
+      ]
+    }
+  ],
+  "risks": [],
+  "reviewQuestions": [],
+  "review": {
+    "status": "reviewed",
+    "reviewedBy": "Factory Platform Architecture",
+    "lastReviewedAt": "2026-08-09",
+    "notes": "Synthetic development fixture aligned to the approved smart-factory scenario."
+  }
+}

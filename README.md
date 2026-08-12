@@ -1,5 +1,7 @@
 # FlowVerse for VS Code
 
+[简体中文](README-zh_CN.md)
+
 ## Introduction
 
 FlowVerse is an AI-native engineering platform for connecting the perspectives needed to launch, operate, and continuously evolve complex products at speed.
@@ -8,7 +10,29 @@ Configured and authorized domain knowledge forms a connected, source-backed cont
 
 Using this connected knowledge across authorized domains, AI agents working through FlowVerse can answer questions and generate grounded solution proposals. FlowVerse can then present and connect those proposals and their approved outcomes—through governed domain commands—to the relevant records across domains, giving teams a traceable path from context and analysis to decisions and results. When those domains are registered, the same pattern connects proposals to requirement changes, PLM and model revisions, digital-twin scenarios, industrial automation configurations, asset context, and operational evidence—not only to software changes.
 
-The bundled development composition follows a smart factory whose in-house Kubernetes services operate CNC machines, robots, and assembly lines. It combines OPC UA and MQTT telemetry, Kafka event processing, anomaly detection, predictive maintenance, vendor integrations, and a five-level Agile delivery backlog. Read the [Smart Factory Operations Example](docs/smart-factory-operations-example.md) for the system story, service responsibilities, operational flows, delivery model, and cross-domain traceability.
+## Smart Factory Demo
+
+### Background
+
+The included demo models a manufacturer whose in-house Kubernetes platform operates CNC machines, robots, and assembly lines. Industrial equipment publishes OPC UA and MQTT telemetry into a Kafka event backbone; platform services turn those signals into machine state, anomaly alerts, failure predictions, maintenance work orders, operator notifications, and production-impact records. External CMMS, ERP/MES, supplier, equipment-manufacturer, and notification systems complete the operational landscape.
+
+The same product is represented from two independently owned perspectives. The System Architecture domain describes services, modules, interfaces, infrastructure, and operational data flows. The Agile Delivery domain describes a five-level portfolio of epics, stories, tasks, bugs, and a spike. Explicit cross-domain links connect delivery intent to the systems and modules it scopes or implements without copying either source record. All organizations, teams, issue keys, endpoints, and operational content are fictional.
+
+### Use the released demo
+
+1. Install the latest `releases/flowverse-vscode-vX.Y.Z.vsix` from the release repository with **Extensions: Install from VSIX...**.
+2. Open `resources/examples/` as a folder in VS Code. FlowVerse discovers its `unified-worldview.instance.json` and the referenced architecture, delivery, and cross-domain records.
+3. Open the FlowVerse activity-bar view, or use the Command Palette to run one of these commands:
+
+   - **FlowVerse: Open System Architecture Canvas** for the operational technology and software landscape;
+   - **FlowVerse: Open Agile Delivery Canvas** for delivery hierarchy, dependencies, blockers, evidence, and readiness;
+   - **FlowVerse: Open Unified Worldview Canvas** for the connected cross-domain view.
+
+4. Select cards, relationships, or data-flow steps to inspect their source-backed details. Use `@flowverse` to navigate the same context, answer questions, or focus a named entity when Copilot Chat is available.
+
+For extension development, open this source repository, select **Run FlowVerse with Smart Factory Example** in Run and Debug, and press `F5`. The Extension Development Host opens the same dataset directly.
+
+Read the [Smart Factory Operations Example](docs/smart-factory-operations-example.md) for the complete system story, service responsibilities, operational flows, delivery model, and cross-domain traceability.
 
 ## Source-backed Architecture
 

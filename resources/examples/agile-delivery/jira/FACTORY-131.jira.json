@@ -1,0 +1,102 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "flowverse-jira-item",
+  "agileDeliveryOntologyRef": "agile-delivery-ontology",
+  "worldviewRef": "smart-factory-agile-delivery",
+  "workItem": {
+    "id": "FACTORY-131",
+    "key": "FACTORY-131",
+    "project": "FACTORY",
+    "workItemType": "story",
+    "jiraIssueType": "Story",
+    "domainConceptRef": "work-item",
+    "summary": "Create maintenance work orders from predictions and operator requests",
+    "status": {
+      "ref": "in-progress",
+      "jiraStatus": "In Progress",
+      "statusCategory": "indeterminate",
+      "domainConceptRef": "workflow-state"
+    },
+    "deliveryScope": {
+      "ref": "FACTORY-130",
+      "domainConceptRef": "delivery-scope"
+    },
+    "parentRef": {
+      "ref": "FACTORY-130",
+      "relationshipTypeRef": "parent-child",
+      "domainConceptRef": "work-item-hierarchy"
+    },
+    "disciplines": [
+      "DEV",
+      "QA",
+      "OPS"
+    ],
+    "assignee": {
+      "role": "assignee",
+      "displayName": "Maintenance Platform Team",
+      "domainConceptRef": "delivery-actor"
+    },
+    "reporter": {
+      "role": "reporter",
+      "displayName": "Factory Digital Product Management",
+      "domainConceptRef": "delivery-actor"
+    },
+    "priority": "High",
+    "storyPoints": 8,
+    "jiraSprint": "Factory Platform Sprint 12"
+  },
+  "requirements": [
+    {
+      "text": "Work-order creation must be idempotent and preserve the originating prediction or operator request.",
+      "domainConceptRef": "delivery-requirement",
+      "provenance": {
+        "origin": "user-provided",
+        "sourceKind": "structured-field",
+        "sourceRef": "FACTORY-131.requirements.1",
+        "confidence": "high",
+        "capturedAt": "2026-08-09T00:00:00.000Z"
+      }
+    }
+  ],
+  "acceptanceEvidence": [
+    {
+      "text": "Repeated delivery of the same source event produces one work order and one external correlation identifier.",
+      "domainConceptRef": "readiness-gate",
+      "provenance": {
+        "origin": "user-provided",
+        "sourceKind": "structured-field",
+        "sourceRef": "FACTORY-131.acceptanceEvidence.1",
+        "confidence": "high",
+        "capturedAt": "2026-08-09T00:00:00.000Z"
+      }
+    }
+  ],
+  "completionCriteria": [
+    {
+      "text": "Lifecycle, audit, retry, and operator visibility tests pass.",
+      "domainConceptRef": "readiness-gate",
+      "provenance": {
+        "origin": "user-provided",
+        "sourceKind": "structured-field",
+        "sourceRef": "FACTORY-131.completionCriteria.1",
+        "confidence": "high",
+        "capturedAt": "2026-08-09T00:00:00.000Z"
+      }
+    }
+  ],
+  "notes": [
+    {
+      "field": "description",
+      "domainConceptRef": "delivery-note",
+      "provenanceSourceKind": "structured-field",
+      "text": "As a maintenance coordinator, I need one work-order lifecycle for predictive and operator-raised maintenance."
+    }
+  ],
+  "provenance": {
+    "origin": "user-provided",
+    "sourceKind": "structured-field",
+    "sourceRef": "FACTORY-131",
+    "confidence": "high",
+    "capturedAt": "2026-08-09T00:00:00.000Z"
+  }
+}

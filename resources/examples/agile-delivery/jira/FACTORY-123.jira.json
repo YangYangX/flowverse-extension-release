@@ -1,0 +1,98 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "flowverse-jira-item",
+  "agileDeliveryOntologyRef": "agile-delivery-ontology",
+  "worldviewRef": "smart-factory-agile-delivery",
+  "workItem": {
+    "id": "FACTORY-123",
+    "key": "FACTORY-123",
+    "project": "FACTORY",
+    "workItemType": "spike",
+    "jiraIssueType": "Spike",
+    "domainConceptRef": "work-item",
+    "summary": "Evaluate vibration anomaly models on plant replay data",
+    "status": {
+      "ref": "done",
+      "jiraStatus": "Done",
+      "statusCategory": "done",
+      "domainConceptRef": "workflow-state"
+    },
+    "deliveryScope": {
+      "ref": "FACTORY-120",
+      "domainConceptRef": "delivery-scope"
+    },
+    "parentRef": {
+      "ref": "FACTORY-122",
+      "relationshipTypeRef": "parent-child",
+      "domainConceptRef": "work-item-hierarchy"
+    },
+    "disciplines": [
+      "DATA",
+      "QA"
+    ],
+    "assignee": {
+      "role": "assignee",
+      "displayName": "Industrial Data Science",
+      "domainConceptRef": "delivery-actor"
+    },
+    "reporter": {
+      "role": "reporter",
+      "displayName": "Factory Digital Product Management",
+      "domainConceptRef": "delivery-actor"
+    },
+    "priority": "High",
+    "storyPoints": 5,
+    "jiraSprint": "Factory Platform Sprint 12"
+  },
+  "workLinks": [
+    {
+      "linkType": "validation",
+      "direction": "outward",
+      "targetKey": "FACTORY-122",
+      "gatesFlow": false,
+      "domainConceptRef": "work-link",
+      "provenanceSourceKind": "issue-link"
+    }
+  ],
+  "acceptanceEvidence": [
+    {
+      "text": "The spike records recall, false-alert rate, inference latency, explanation quality, and operational trade-offs for each candidate.",
+      "domainConceptRef": "readiness-gate",
+      "provenance": {
+        "origin": "user-provided",
+        "sourceKind": "structured-field",
+        "sourceRef": "FACTORY-123.acceptanceEvidence.1",
+        "confidence": "high",
+        "capturedAt": "2026-08-09T00:00:00.000Z"
+      }
+    }
+  ],
+  "completionCriteria": [
+    {
+      "text": "Reliability Engineering accepts the recommendation and retained evidence.",
+      "domainConceptRef": "readiness-gate",
+      "provenance": {
+        "origin": "user-provided",
+        "sourceKind": "structured-field",
+        "sourceRef": "FACTORY-123.completionCriteria.1",
+        "confidence": "high",
+        "capturedAt": "2026-08-09T00:00:00.000Z"
+      }
+    }
+  ],
+  "notes": [
+    {
+      "field": "description",
+      "domainConceptRef": "delivery-note",
+      "provenanceSourceKind": "structured-field",
+      "text": "Compare interpretable statistical and machine-learning models using labeled plant telemetry replays."
+    }
+  ],
+  "provenance": {
+    "origin": "user-provided",
+    "sourceKind": "structured-field",
+    "sourceRef": "FACTORY-123",
+    "confidence": "high",
+    "capturedAt": "2026-08-09T00:00:00.000Z"
+  }
+}

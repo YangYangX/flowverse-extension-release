@@ -10,45 +10,44 @@ For a visual explanation of the runtime flow, open the [FlowVerse Copilot agent 
 
 The FlowVerse participant can:
 
-- Fetch a Jira issue and build its base report.
+- Fetch and retain a Jira issue as Agile Delivery context.
 - Refine requirements, acceptance criteria, gaps, and open questions.
 - Inspect relevant systems, modules, interfaces, messages, flows, dependencies, risks, and evidence.
 - Compare solutions and explain tradeoffs without treating a proposal as an approved decision.
 - Analyze impact, critical path, compatibility, test coverage, drift, and release readiness.
-- Generate issue-grounded ontology content, static diagrams, and implementation-task drafts.
+- Generate issue-grounded structured representations, static diagrams, and implementation-task drafts.
 - Explain decisions and their alternatives from retained evidence.
 - Prepare Jira and workspace-file change plans without applying them.
 - Apply only a current reviewed plan after native confirmation and revision checks.
 
-Fetching is deliberately narrow: it acquires Jira evidence, produces the base report, and opens that report. Optional analyses and specialized architecture views run only when requested.
+Fetching is deliberately narrow: it acquires and normalizes Jira evidence. Optional analyses and specialized views run only when requested.
 
 ## Jira Target and Context
 
 FlowVerse resolves one Jira target in this order:
 
 1. A single Jira key written in the current request.
-2. The issue whose FlowVerse report is the current editor tab.
-3. The most recently used issue in the current FlowVerse conversation.
-4. The sole usable issue retained in the current VS Code window.
-5. A clarification question when none of those rules yields one issue.
+2. The most recently used issue in the current FlowVerse conversation.
+3. The sole usable issue retained in the current VS Code window.
+4. A clarification question when none of those rules yields one issue.
 
-A key in the current request intentionally overrides the active report. Multiple explicit candidates or conflicting action metadata are ambiguous; FlowVerse asks instead of guessing.
+A key in the current request takes precedence. Multiple explicit candidates or conflicting action metadata are ambiguous; FlowVerse asks instead of guessing.
 
-Full Jira evidence, reports, generated artifacts, and pending plans are window-scoped. A successful acquisition is fresh for 30 minutes. At 30 minutes it becomes stale but remains usable, and no read or report open silently contacts Jira. Ask FlowVerse to refresh the issue or retrieve the latest Jira state when freshness matters.
+Full Jira evidence, generated artifacts, and pending plans are window-scoped. A successful acquisition is fresh for 30 minutes. At 30 minutes it becomes stale but remains usable, and no read silently contacts Jira. Ask FlowVerse to refresh the issue or retrieve the latest Jira state when freshness matters.
 
-A successful refresh creates a new source revision and regenerates the base report. Existing optional sections remain visible with their original revision and are labeled stale until you rerun them. If refresh fails, the last good report and context remain available and stale.
+A successful refresh creates a new source revision. Existing optional analyses retain their original revision and are labeled stale until you rerun them. If refresh fails, the last good context remains available and stale.
 
-Across restart, FlowVerse may retain only navigation metadata such as known issue keys, timestamps, or report pointers. That metadata cannot satisfy a request, render a report, or count as cached context. Use a visible fetch or refresh to restore usable content.
+Across restart, FlowVerse may retain only navigation metadata such as known issue keys and timestamps. That metadata cannot satisfy a request or count as cached context. Use a visible fetch or refresh to restore usable content.
 
 ## Workbench Layout
 
 The recommended layout is:
 
-- **Editor area:** Jira reports, explicitly opened architecture canvases, raw JSON, and service previews.
+- **Editor area:** domain canvases, raw JSON, and service previews.
 - **Right sidebar:** native Copilot Chat with `@flowverse`.
 - **Bottom panel:** FlowVerse Output for technical diagnostics.
 
-VS Code lets you move these views. The layout does not affect targeting; only the current FlowVerse report tab receives active-report precedence.
+VS Code lets you move these views. The layout does not affect Jira target resolution.
 
 ## Start with the Local Jira Simulator
 
@@ -89,16 +88,15 @@ npm run build:prod
 
 Install `dist/flowverse-vscode-preview.vsix` with **Extensions: Install from VSIX...**. Then:
 
-1. Run **FlowVerse: Set Jira PAT**.
-2. Enter the PAT into the native secret input.
+1. Run **FlowVerse: Set Jira Base URL** and enter the Jira instance URL.
+2. Run **FlowVerse: Set Jira PAT** and enter the PAT into the native secret input.
 3. Run **Developer: Reload Window**.
-4. Use the Jira URL bundled in `prod.env`, or set `flowverse.jiraBaseUrl` for another Jira environment.
 
 Do not place credentials in environment files, settings JSON, prompts, or documentation. The VSIX contains its own architecture knowledge pack; repository-root architecture files are not required unless you intentionally configure an override.
 
 ## Primary Chat Workflow
 
-### Fetch and open a report
+### Fetch Jira context
 
 Open Copilot Chat and enter:
 
@@ -114,20 +112,19 @@ During a successful first fetch, Chat reports these user-meaningful stages in or
 2. Retrieving the issue.
 3. Parsing retrieved fields.
 4. Processing acceptance criteria.
-5. Generating the rich Jira report.
-6. Opening the report in the editor.
+5. Retaining the normalized source context.
 
-The result is a clean `KEY — summary` report tab and a concise Chat summary. Fetch does not run optional launch analyses or open a diagram.
+The result is retained Agile Delivery context and a concise Chat summary. Fetch does not run optional analyses or open a diagram.
 
-### Continue from the active report
+### Continue from retained context
 
-Leave the fetched report as the current editor tab and ask, for example:
+Continue in the same FlowVerse conversation and ask, for example:
 
 ```text
 @flowverse Create integration and end-to-end test scenarios for this issue.
 ```
 
-You do not need to repeat the key while that report remains current. FlowVerse reports whether its retained evidence is fresh or stale, then runs the requested read-only work without refreshing implicitly. A successful named result updates only its corresponding latest generated section in the report.
+You do not need to repeat the key while it remains the conversation target. FlowVerse reports whether its retained evidence is fresh or stale, then runs the requested read-only work without refreshing implicitly. A successful named result updates only its corresponding generated analysis.
 
 ### Capabilities by user outcome
 
@@ -136,7 +133,6 @@ Ask in natural language for the outcome you need:
 | Outcome | Example request |
 | --- | --- |
 | Refresh Jira evidence | `Get the latest Jira state for this issue.` |
-| Reopen a retained report | `Open the Jira report for FACTORY-100.` |
 | Refine requirements | `Refine the scope, acceptance criteria, gaps, and open questions.` |
 | Analyze architecture impact | `Trace the affected systems, interfaces, flows, and owners.` |
 | Compare solutions | `Compare two production-ready options and their tradeoffs.` |
@@ -146,36 +142,36 @@ Ask in natural language for the outcome you need:
 | Generate test scenarios | `Create positive, negative, integration, validation, and end-to-end tests.` |
 | Analyze drift | `Compare approved intent with current architecture and workspace evidence.` |
 | Assess release readiness | `Explain each passed, review, failed, or unknown readiness gate.` |
-| Generate ontology content | `Generate an issue-grounded ontology representation.` |
-| Generate a static Jira diagram | `Generate a static issue relationship diagram for the report.` |
+| Generate a structured representation | `Generate an issue-grounded structured representation.` |
+| Generate a delivery diagram | `Generate an issue relationship diagram from retained context.` |
 | Draft implementation tasks | `Draft development, documentation, and test tasks without creating them.` |
 | Explain a decision | `Explain why this option was selected and what alternatives were rejected.` |
 | Inspect architecture | `Inspect the relevant architecture evidence without opening a view.` |
 | Open a specialized diagram | `Open the layered architecture and focus the affected machine-telemetry adapter.` |
 
-Read-only capabilities can use retained evidence and update their own generated report section. They do not change Jira or workspace files.
+Read-only capabilities can use retained evidence and update their own generated analysis. They do not change Jira or workspace files.
 
-## Report Contract
+## Retained Context Contract
 
-The Jira report is an analysis-only projection of retained evidence and artifacts. Its title contains only the Jira key and summary. It has no workflow actions, next-step cards, pending-plan controls, loading workflow, or buttons that initiate analysis.
+Jira acquisition stores a normalized, source-backed revision for the current VS Code window. FlowVerse exposes that evidence through the Agile Delivery canvas, FlowVerse Details, and explicitly requested analyses.
 
-Report content is visibly attributed as **Jira Source**, **AI Generated**, **Tool Generated**, or **User Note**. Generated sections show a human-readable capability label, generation time, source revision, and freshness without exposing internal identifiers. Original Jira evidence remains structurally faithful and is not rewritten as if generated text were source.
+Content is visibly attributed as **Jira Source**, **AI Generated**, **Tool Generated**, or **User Note**. Generated analyses preserve generation time, source revision, freshness, and provenance without exposing internal identifiers. Original Jira evidence remains structurally faithful and is not rewritten as if generated text were source.
 
-Only the latest successful version of each generated section appears in the report. Prior versions remain queryable through Chat for the current window, but there is no report history UI. A failed or cancelled rerun does not replace the latest successful section. Externally supplied user notes can be displayed with provenance but are immutable; note editing is outside this workflow.
+Only the latest successful version of each generated analysis is active. Prior versions remain queryable through Chat for the current window. A failed or cancelled rerun does not replace the latest successful version. Externally supplied user notes retain provenance and are immutable in this workflow.
 
-Generated results update non-destructively by section. Replacing the entire report or modifying user-authored content is a destructive operation and requires the confirmed-change flow.
+Generated results update non-destructively by analysis type. Modifying source records or user-authored content requires the confirmed-change flow.
 
 ## Visible UI Action Routing
 
 FlowVerse-owned buttons, follow-up actions, related-issue links, and retained commands do not invoke hidden workflows. Each action captures its issue and artifact bindings before focus changes, opens or reveals Chat, displays a complete human-readable `@flowverse` prompt, and submits it automatically.
 
-For a related issue already retained in the window, the visible prompt asks to open or reveal its report. For an uncached related issue, it asks to fetch that exact key. The clicked key is carried in the prompt; selecting a link never changes a hidden global issue.
+For a related issue already retained in the window, the visible prompt focuses that work item. For an uncached related issue, it asks to fetch that exact key. The clicked key is carried in the prompt; selecting a link never changes a hidden global issue.
 
 Presentation-only interactions such as scrolling, expanding content, copying text, closing tabs, splitting editors, and native editor controls remain local.
 
 ## Architecture and Visualization
 
-Architecture inspection is read-only and does not open a view. Ask explicitly to open, show, visualize, or inspect interactively when you want a layered diagram or another specialized visualization. Ordinary analysis and report opening never open one automatically.
+Architecture inspection is read-only and does not open a view. Ask explicitly to open, show, visualize, or inspect interactively when you want a layered diagram or another specialized visualization. Ordinary analysis never opens one automatically.
 
 Selecting a diagram item changes only selection. It does not adopt a proposal, approve a write, or change the active Jira target.
 
@@ -197,7 +193,7 @@ When the plan is correct, ask:
 
 FlowVerse then presents the complete preview through native VS Code confirmation and applies only when you approve. Immediately before apply it rechecks the issue, context, architecture, Jira, and file-content revisions bound into the plan. Expired, used, rejected, mismatched, or stale plans cannot apply. Partial results identify each succeeded and failed operation, and mutations are never retried automatically.
 
-This confirmation boundary applies to Jira creation and updates, links, transitions, workspace file creation or overwrite, full-report replacement, user-authored content changes, and other external writes. Jira reads, explicit refresh, context reads, analysis, section upserts, report opening, explicit visualization, and plan previews do not require semantic confirmation.
+This confirmation boundary applies to Jira creation and updates, links, transitions, workspace file creation or overwrite, user-authored content changes, and other external writes. Jira reads, explicit refresh, context reads, analysis, generated-analysis upserts, explicit visualization, and plan previews do not require semantic confirmation.
 
 Simulator mutations exist only in memory and disappear when the simulator restarts or is reset.
 
@@ -205,24 +201,24 @@ Simulator mutations exist only in memory and disappear when the simulator restar
 
 Legacy Jira aliases, the former generic analysis alias, and the four retained launch commands remain registered only for the first release containing this redesign. They are deprecated adapters, excluded from normal FlowVerse capability selection, and should not be used for new workflows.
 
-During that release they preserve their existing public inputs and result fields while routing through the same context, refresh, visualization, and confirmation boundaries as the canonical capabilities. Retained commands display and automatically submit the corresponding Chat prompt; they do not directly run an analysis or open a view. Unsupported legacy requests are rejected rather than restoring hidden refresh, automatic view opening, report workflow controls, or weaker write confirmation.
+During that release they preserve their existing public inputs and result fields while routing through the same context, refresh, visualization, and confirmation boundaries as the canonical capabilities. Retained commands display and automatically submit the corresponding Chat prompt; they do not directly run an analysis or open a view. Unsupported legacy requests are rejected rather than restoring hidden refresh, automatic view opening, or weaker write confirmation.
 
 ## Manual Copilot Smoke Test
 
 Run this sequence first against the simulator, then repeat the relevant read-only steps against a permitted real Jira project with an installed production build:
 
 1. Enter a plain unambiguous FlowVerse request and confirm VS Code routes it without intercepting an unrelated prompt.
-2. Fetch a known issue and observe the six ordered progress stages.
-3. Confirm the report opens with a clean `KEY — summary` title and no optional diagram.
-4. Keep the report current and request an analysis without repeating the key.
-5. Confirm only the matching latest generated section changes and shows provenance, revision, and freshness.
+2. Fetch a known issue and observe the five ordered progress stages.
+3. Confirm the issue is retained without opening a report or optional diagram.
+4. Request an analysis without repeating the key.
+5. Confirm only the matching generated analysis changes and shows provenance, revision, and freshness.
 6. Select cached and uncached related issues and confirm each visible automatically submitted prompt contains the clicked key.
 7. Invoke each retained launch command and confirm it visibly submits a Chat prompt instead of running a hidden workflow.
 8. Ask to inspect architecture, confirm no view opens, then explicitly ask to open a diagram and confirm it opens only then.
 9. Plan a Jira mutation and a workspace file create or overwrite. Inspect and reject the preview once; create a fresh plan, approve it, and confirm revision and digest enforcement.
-10. Restart the Extension Development Host and confirm prior full issue/report content is unusable until a visible fetch or refresh succeeds.
+10. Restart the Extension Development Host and confirm prior full issue context is unusable until a visible fetch or refresh succeeds.
 
-For the real-Copilot pass, use an issue you are authorized to read, avoid mutation unless you have a disposable test project, and verify that no prompt, output, or report exposes credentials or raw authentication details.
+For the real-Copilot pass, use an issue you are authorized to read, avoid mutation unless you have a disposable test project, and verify that no prompt, output, or view exposes credentials or raw authentication details.
 
 ## Watching and Reloading During Development
 
@@ -240,16 +236,12 @@ The local Jira launch starts durable extension and webview watchers.
 1. Run **FlowVerse: Show Output**.
 2. For local development, verify `curl http://127.0.0.1:4876/health` succeeds.
 3. Verify the Extension Development Host was started from `flowverse-offline-debug.code-workspace`.
-4. For production, run **FlowVerse: Set Jira PAT**, then **Developer: Reload Window**.
-5. Confirm the Jira base URL through `prod.env`, `FLOWVERSE_JIRA_BASE_URL`, or `flowverse.jiraBaseUrl`.
+4. For production, run **FlowVerse: Set Jira Base URL** and **FlowVerse: Set Jira PAT**, then **Developer: Reload Window**.
+5. Confirm the Jira base URL in the `flowverse.jiraBaseUrl` machine setting or the VS Code process environment.
 
 ### Retained context is stale
 
-Stale context remains readable and never refreshes itself. Ask FlowVerse to refresh the issue or retrieve the latest Jira state. If refresh fails, continue using the preserved last-good report only when stale evidence is acceptable.
-
-### A report will not open after restart
-
-Restart metadata is navigation-only. Fetch the issue again or request an explicit refresh before opening the report.
+Stale context remains readable and never refreshes itself. Ask FlowVerse to refresh the issue or retrieve the latest Jira state. If refresh fails, continue using the preserved last-good context only when stale evidence is acceptable.
 
 ### A diagram did not open
 

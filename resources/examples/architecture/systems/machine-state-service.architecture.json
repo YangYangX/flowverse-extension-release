@@ -1,0 +1,376 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "system-architecture",
+  "generationMode": "ai-gen",
+  "worldviewRef": "smart-factory-worldview",
+  "system": {
+    "id": "machine-state-service",
+    "name": "Machine State Service",
+    "type": "kubernetes-microservice",
+    "description": "Calculates running, idle, warning, and stopped states from telemetry and exposes the latest machine state.",
+    "metadata": {
+      "domain": "industrial-analytics",
+      "ownerTeam": "Machine Intelligence Team",
+      "criticality": "high",
+      "lifecycleStatus": "active",
+      "dataClassification": "internal",
+      "businessFunction": "Machine operating-state calculation"
+    },
+    "technical": {
+      "language": "Java",
+      "framework": "Spring Boot",
+      "buildTool": "Gradle",
+      "deploymentPlatform": "Kubernetes"
+    }
+  },
+  "roleInArchitecture": {
+    "summary": "Calculates running, idle, warning, and stopped states from telemetry and exposes the latest machine state.",
+    "architectureRole": "Machine operating-state calculation",
+    "primaryBusinessFunction": "Machine operating-state calculation",
+    "mainResponsibilities": [
+      "Derive machine operating state",
+      "Publish state changes",
+      "Serve the latest state with low latency"
+    ]
+  },
+  "visualization": {
+    "defaultRepresentation": "subflow",
+    "availableRepresentations": [
+      "single-node",
+      "subflow"
+    ],
+    "focusRepresentation": "subflow",
+    "layoutDirection": "RIGHT",
+    "showInternalFlows": true,
+    "showModules": true,
+    "decision": {
+      "recommendedBy": "flowverse-system-architecture-authoring",
+      "confidence": "high",
+      "reason": "Architecture-level modules and internal paths are useful for operational review.",
+      "detectedComplexity": {
+        "inboundInteractions": 1,
+        "outboundInteractions": 2,
+        "hasInternalFlow": true,
+        "hasEventProcessing": true,
+        "hasFileProcessing": false,
+        "hasSftpReadWrite": false,
+        "moduleCount": 5
+      },
+      "reviewRequired": false
+    }
+  },
+  "provenance": {
+    "origin": "ai-assisted",
+    "method": "Normalized from the user-provided smart-factory operations scenario.",
+    "confidence": "high",
+    "capturedBy": "flowverse-system-architecture-authoring",
+    "capturedAt": "2026-08-09",
+    "sourceRefs": [
+      {
+        "type": "system-description",
+        "label": "Smart factory operations scenario",
+        "finding": "Calculates running, idle, warning, and stopped states from telemetry and exposes the latest machine state."
+      }
+    ]
+  },
+  "modules": [
+    {
+      "id": "state-telemetry-consumer",
+      "name": "State Telemetry Consumer",
+      "nodeType": "module-event-consumer",
+      "description": "Consumes normalized telemetry used for state calculation.",
+      "metadata": {
+        "moduleType": "event-consumer",
+        "direction": "inbound",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "topic": "factory.telemetry.normalized",
+        "payload": "Canonical telemetry event"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Consumes normalized telemetry used for state calculation."
+          }
+        ]
+      }
+    },
+    {
+      "id": "state-calculator",
+      "name": "Machine State Calculator",
+      "nodeType": "module-business-processor",
+      "description": "Calculates running, idle, warning, or stopped state.",
+      "metadata": {
+        "moduleType": "business-processor",
+        "direction": "internal",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "businessFunction": "Machine state calculation",
+        "input": "Machine telemetry",
+        "output": "Machine state change",
+        "responsibility": "Apply state transition rules"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Calculates running, idle, warning, or stopped state."
+          }
+        ]
+      }
+    },
+    {
+      "id": "state-event-publisher",
+      "name": "Machine State Publisher",
+      "nodeType": "module-event-publisher",
+      "description": "Publishes machine-state changes.",
+      "metadata": {
+        "moduleType": "event-publisher",
+        "direction": "outbound",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "topic": "factory.machine-state.changed",
+        "payload": "Machine state change"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Publishes machine-state changes."
+          }
+        ]
+      }
+    },
+    {
+      "id": "machine-state-api",
+      "name": "Machine State API",
+      "nodeType": "module-rest-api",
+      "description": "Returns the latest operating state for a machine.",
+      "metadata": {
+        "moduleType": "rest-api",
+        "direction": "inbound",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "method": "GET",
+        "path": "/internal/v1/machines/{machineId}/state",
+        "operation": "Get machine state"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Returns the latest operating state for a machine."
+          }
+        ]
+      }
+    },
+    {
+      "id": "state-cache-adapter",
+      "name": "State Cache Adapter",
+      "nodeType": "module-cache",
+      "description": "Reads and writes the latest machine state.",
+      "metadata": {
+        "moduleType": "cache",
+        "direction": "internal",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "product": "Redis",
+        "cacheKey": "machine-state:{machineId}",
+        "ttl": "24h",
+        "consistency": "eventually consistent"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Reads and writes the latest machine state."
+          }
+        ]
+      }
+    }
+  ],
+  "interactions": [
+    {
+      "id": "machine-state-consumes-telemetry",
+      "source": "kafka-platform",
+      "target": "machine-state-service",
+      "targetModule": "state-telemetry-consumer",
+      "protocol": "KAFKA",
+      "interactionType": "event-consume",
+      "purpose": "Consume telemetry for machine-state calculation.",
+      "synchronous": false,
+      "dataClassification": "internal",
+      "topicOrQueue": "factory.telemetry.normalized",
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Consume telemetry for machine-state calculation."
+          }
+        ]
+      }
+    },
+    {
+      "id": "machine-state-publishes-change",
+      "source": "machine-state-service",
+      "sourceModule": "state-event-publisher",
+      "target": "kafka-platform",
+      "protocol": "KAFKA",
+      "interactionType": "event-publish",
+      "purpose": "Publish a changed machine operating state.",
+      "synchronous": false,
+      "dataClassification": "internal",
+      "topicOrQueue": "factory.machine-state.changed",
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Publish a changed machine operating state."
+          }
+        ]
+      }
+    },
+    {
+      "id": "machine-state-accesses-cache",
+      "source": "machine-state-service",
+      "sourceModule": "state-cache-adapter",
+      "target": "machine-state-cache",
+      "protocol": "CACHE",
+      "interactionType": "cache-access",
+      "purpose": "Store and retrieve the latest calculated machine state.",
+      "synchronous": true,
+      "dataClassification": "internal",
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Store and retrieve the latest calculated machine state."
+          }
+        ]
+      }
+    }
+  ],
+  "internalFlows": [
+    {
+      "id": "calculate-machine-state",
+      "name": "Calculate machine state",
+      "steps": [
+        {
+          "order": 1,
+          "from": "state-telemetry-consumer",
+          "to": "state-calculator",
+          "description": "Evaluate state rules"
+        },
+        {
+          "order": 2,
+          "from": "state-calculator",
+          "to": "state-event-publisher",
+          "description": "Publish changed state"
+        }
+      ]
+    },
+    {
+      "id": "serve-current-machine-state",
+      "name": "Serve current machine state",
+      "steps": [
+        {
+          "order": 1,
+          "from": "machine-state-api",
+          "to": "state-cache-adapter",
+          "description": "Read latest state"
+        }
+      ]
+    }
+  ],
+  "dataFlows": [
+    {
+      "id": "machine-state-change-publication",
+      "name": "Machine operating-state changes are published",
+      "type": "event-driven-flow",
+      "trigger": "A normalized telemetry event arrives.",
+      "steps": [
+        "machine-state-consumes-telemetry",
+        "calculate-machine-state",
+        "machine-state-accesses-cache",
+        "machine-state-publishes-change"
+      ]
+    },
+    {
+      "id": "current-machine-state-query",
+      "name": "Current machine state is returned",
+      "type": "cache-assisted-api-flow",
+      "trigger": "A client requests the latest machine state.",
+      "steps": [
+        "serve-current-machine-state",
+        "machine-state-accesses-cache"
+      ]
+    }
+  ],
+  "risks": [],
+  "reviewQuestions": [],
+  "review": {
+    "status": "reviewed",
+    "reviewedBy": "Factory Platform Architecture",
+    "lastReviewedAt": "2026-08-09",
+    "notes": "Synthetic development fixture aligned to the approved smart-factory scenario."
+  }
+}

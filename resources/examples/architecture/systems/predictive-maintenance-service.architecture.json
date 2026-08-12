@@ -1,0 +1,296 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "system-architecture",
+  "generationMode": "ai-gen",
+  "worldviewRef": "smart-factory-worldview",
+  "system": {
+    "id": "predictive-maintenance-service",
+    "name": "Predictive Maintenance Service",
+    "type": "kubernetes-microservice",
+    "description": "Estimates equipment failure probability and remaining useful life and publishes maintenance recommendations.",
+    "metadata": {
+      "domain": "industrial-analytics",
+      "ownerTeam": "Reliability Engineering Team",
+      "criticality": "critical",
+      "lifecycleStatus": "active",
+      "dataClassification": "internal",
+      "businessFunction": "Predictive equipment-health assessment"
+    },
+    "technical": {
+      "language": "Java",
+      "framework": "Spring Boot",
+      "buildTool": "Gradle",
+      "deploymentPlatform": "Kubernetes"
+    }
+  },
+  "roleInArchitecture": {
+    "summary": "Estimates equipment failure probability and remaining useful life and publishes maintenance recommendations.",
+    "architectureRole": "Predictive equipment-health assessment",
+    "primaryBusinessFunction": "Predictive equipment-health assessment",
+    "mainResponsibilities": [
+      "Estimate failure probability",
+      "Calculate remaining useful life",
+      "Publish prioritized maintenance recommendations"
+    ]
+  },
+  "visualization": {
+    "defaultRepresentation": "subflow",
+    "availableRepresentations": [
+      "single-node",
+      "subflow"
+    ],
+    "focusRepresentation": "subflow",
+    "layoutDirection": "RIGHT",
+    "showInternalFlows": true,
+    "showModules": true,
+    "decision": {
+      "recommendedBy": "flowverse-system-architecture-authoring",
+      "confidence": "high",
+      "reason": "Architecture-level modules and internal paths are useful for operational review.",
+      "detectedComplexity": {
+        "inboundInteractions": 1,
+        "outboundInteractions": 1,
+        "hasInternalFlow": true,
+        "hasEventProcessing": true,
+        "hasFileProcessing": false,
+        "hasSftpReadWrite": false,
+        "moduleCount": 4
+      },
+      "reviewRequired": false
+    }
+  },
+  "provenance": {
+    "origin": "ai-assisted",
+    "method": "Normalized from the user-provided smart-factory operations scenario.",
+    "confidence": "high",
+    "capturedBy": "flowverse-system-architecture-authoring",
+    "capturedAt": "2026-08-09",
+    "sourceRefs": [
+      {
+        "type": "system-description",
+        "label": "Smart factory operations scenario",
+        "finding": "Estimates equipment failure probability and remaining useful life and publishes maintenance recommendations."
+      }
+    ]
+  },
+  "modules": [
+    {
+      "id": "failure-signal-consumer",
+      "name": "Failure Signal Consumer",
+      "nodeType": "module-event-consumer",
+      "description": "Consumes anomaly and failure-prediction signals.",
+      "metadata": {
+        "moduleType": "event-consumer",
+        "direction": "inbound",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "topic": "factory.machine-anomaly.detected",
+        "payload": "Anomaly and failure-prediction signal"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Consumes anomaly and failure-prediction signals."
+          }
+        ]
+      }
+    },
+    {
+      "id": "remaining-life-estimator",
+      "name": "Remaining Life Estimator",
+      "nodeType": "module-business-processor",
+      "description": "Estimates failure probability and remaining useful life.",
+      "metadata": {
+        "moduleType": "business-processor",
+        "direction": "internal",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "businessFunction": "Predictive maintenance",
+        "input": "Anomaly history and operating context",
+        "output": "Failure probability and remaining useful life",
+        "responsibility": "Prioritize maintenance before equipment failure"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Estimates failure probability and remaining useful life."
+          }
+        ]
+      }
+    },
+    {
+      "id": "prediction-api",
+      "name": "Maintenance Prediction API",
+      "nodeType": "module-rest-api",
+      "description": "Returns current equipment-health predictions.",
+      "metadata": {
+        "moduleType": "rest-api",
+        "direction": "inbound",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "method": "GET",
+        "path": "/internal/v1/machines/{machineId}/prediction",
+        "operation": "Get maintenance prediction"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Returns current equipment-health predictions."
+          }
+        ]
+      }
+    },
+    {
+      "id": "maintenance-recommendation-publisher",
+      "name": "Maintenance Recommendation Publisher",
+      "nodeType": "module-event-publisher",
+      "description": "Publishes actionable maintenance recommendations.",
+      "metadata": {
+        "moduleType": "event-publisher",
+        "direction": "outbound",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "topic": "factory.maintenance.recommended",
+        "payload": "Failure probability, remaining useful life, and recommended action"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Publishes actionable maintenance recommendations."
+          }
+        ]
+      }
+    }
+  ],
+  "interactions": [
+    {
+      "id": "predictive-maintenance-consumes-anomalies",
+      "source": "kafka-platform",
+      "target": "predictive-maintenance-service",
+      "targetModule": "failure-signal-consumer",
+      "protocol": "KAFKA",
+      "interactionType": "event-consume",
+      "purpose": "Consume anomaly evidence for failure prediction.",
+      "synchronous": false,
+      "dataClassification": "internal",
+      "topicOrQueue": "factory.machine-anomaly.detected",
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Consume anomaly evidence for failure prediction."
+          }
+        ]
+      }
+    },
+    {
+      "id": "predictive-maintenance-publishes-recommendation",
+      "source": "predictive-maintenance-service",
+      "sourceModule": "maintenance-recommendation-publisher",
+      "target": "kafka-platform",
+      "protocol": "KAFKA",
+      "interactionType": "event-publish",
+      "purpose": "Publish prioritized maintenance recommendations.",
+      "synchronous": false,
+      "dataClassification": "internal",
+      "topicOrQueue": "factory.maintenance.recommended",
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Publish prioritized maintenance recommendations."
+          }
+        ]
+      }
+    }
+  ],
+  "internalFlows": [
+    {
+      "id": "estimate-and-recommend-maintenance",
+      "name": "Estimate and recommend maintenance",
+      "steps": [
+        {
+          "order": 1,
+          "from": "failure-signal-consumer",
+          "to": "remaining-life-estimator",
+          "description": "Estimate failure probability and remaining life"
+        },
+        {
+          "order": 2,
+          "from": "remaining-life-estimator",
+          "to": "maintenance-recommendation-publisher",
+          "description": "Publish actionable recommendation"
+        }
+      ]
+    }
+  ],
+  "dataFlows": [
+    {
+      "id": "predicted-failure-maintenance-recommendation",
+      "name": "Predicted equipment failure becomes a maintenance recommendation",
+      "type": "event-driven-flow",
+      "trigger": "An anomaly signal is published.",
+      "steps": [
+        "predictive-maintenance-consumes-anomalies",
+        "estimate-and-recommend-maintenance",
+        "predictive-maintenance-publishes-recommendation"
+      ]
+    }
+  ],
+  "risks": [],
+  "reviewQuestions": [],
+  "review": {
+    "status": "reviewed",
+    "reviewedBy": "Factory Platform Architecture",
+    "lastReviewedAt": "2026-08-09",
+    "notes": "Synthetic development fixture aligned to the approved smart-factory scenario."
+  }
+}

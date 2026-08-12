@@ -67,7 +67,7 @@ The single-service preview resolves its System Architecture worldview separately
 Jira base URL resolution:
 
 1. `FLOWVERSE_JIRA_BASE_URL` from the VS Code process;
-2. `dev.env` in an Extension Development Host or `prod.env` in an installed extension;
-3. `flowverse.jiraBaseUrl`.
+2. the machine-local `flowverse.jiraBaseUrl` setting;
+3. `dev.env` only in an Extension Development Host.
 
-Environment files contain URLs only. Jira credentials come from VS Code SecretStorage or the process `JIRA_PAT`; never place credentials in an environment file.
+Use **FlowVerse: Set Jira Base URL** to configure an installed extension. Jira credentials come from VS Code SecretStorage or the process `JIRA_PAT`; never place credentials in an environment file or workspace file.

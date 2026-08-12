@@ -1,0 +1,493 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "system-architecture",
+  "generationMode": "ai-gen",
+  "worldviewRef": "smart-factory-worldview",
+  "system": {
+    "id": "production-service",
+    "name": "Production Service",
+    "type": "kubernetes-microservice",
+    "description": "Tracks production jobs, output, downtime, rejected units, and the production impact of equipment events.",
+    "metadata": {
+      "domain": "factory-platform",
+      "ownerTeam": "Production Systems Team",
+      "criticality": "critical",
+      "lifecycleStatus": "active",
+      "dataClassification": "internal",
+      "businessFunction": "Production execution and impact tracking"
+    },
+    "technical": {
+      "language": "Java",
+      "framework": "Spring Boot",
+      "buildTool": "Gradle",
+      "deploymentPlatform": "Kubernetes"
+    }
+  },
+  "roleInArchitecture": {
+    "summary": "Tracks production jobs, output, downtime, rejected units, and the production impact of equipment events.",
+    "architectureRole": "Production execution and impact tracking",
+    "primaryBusinessFunction": "Production execution and impact tracking",
+    "mainResponsibilities": [
+      "Track jobs, output, downtime, and rejected units",
+      "Receive production orders from ERP/MES",
+      "Report downtime and publish production impact"
+    ]
+  },
+  "visualization": {
+    "defaultRepresentation": "subflow",
+    "availableRepresentations": [
+      "single-node",
+      "subflow"
+    ],
+    "focusRepresentation": "subflow",
+    "layoutDirection": "RIGHT",
+    "showInternalFlows": true,
+    "showModules": true,
+    "decision": {
+      "recommendedBy": "flowverse-system-architecture-authoring",
+      "confidence": "high",
+      "reason": "Architecture-level modules and internal paths are useful for operational review.",
+      "detectedComplexity": {
+        "inboundInteractions": 1,
+        "outboundInteractions": 4,
+        "hasInternalFlow": true,
+        "hasEventProcessing": true,
+        "hasFileProcessing": false,
+        "hasSftpReadWrite": false,
+        "moduleCount": 6
+      },
+      "reviewRequired": false
+    }
+  },
+  "provenance": {
+    "origin": "ai-assisted",
+    "method": "Normalized from the user-provided smart-factory operations scenario.",
+    "confidence": "high",
+    "capturedBy": "flowverse-system-architecture-authoring",
+    "capturedAt": "2026-08-09",
+    "sourceRefs": [
+      {
+        "type": "system-description",
+        "label": "Smart factory operations scenario",
+        "finding": "Tracks production jobs, output, downtime, rejected units, and the production impact of equipment events."
+      }
+    ]
+  },
+  "modules": [
+    {
+      "id": "production-event-consumer",
+      "name": "Production Event Consumer",
+      "nodeType": "module-event-consumer",
+      "description": "Consumes machine-state and maintenance-status events.",
+      "metadata": {
+        "moduleType": "event-consumer",
+        "direction": "inbound",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "topic": "factory.machine-state.changed, factory.maintenance.status",
+        "payload": "Machine and maintenance status"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Consumes machine-state and maintenance-status events."
+          }
+        ]
+      }
+    },
+    {
+      "id": "production-impact-api",
+      "name": "Production Impact API",
+      "nodeType": "module-rest-api",
+      "description": "Returns current downtime, output, and rejected-unit impact.",
+      "metadata": {
+        "moduleType": "rest-api",
+        "direction": "inbound",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "method": "GET",
+        "path": "/internal/v1/production/impact",
+        "operation": "Get production impact"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Returns current downtime, output, and rejected-unit impact."
+          }
+        ]
+      }
+    },
+    {
+      "id": "production-impact-calculator",
+      "name": "Production Impact Calculator",
+      "nodeType": "module-business-processor",
+      "description": "Calculates output and schedule impact from machine and maintenance events.",
+      "metadata": {
+        "moduleType": "business-processor",
+        "direction": "internal",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "businessFunction": "Production impact",
+        "input": "Machine state, work order, and job plan",
+        "output": "Downtime and production impact",
+        "responsibility": "Quantify lost output and schedule risk"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Calculates output and schedule impact from machine and maintenance events."
+          }
+        ]
+      }
+    },
+    {
+      "id": "erp-mes-client",
+      "name": "ERP/MES Client",
+      "nodeType": "externalApi",
+      "description": "Receives production orders and reports equipment downtime.",
+      "metadata": {
+        "moduleType": "rest-api-client",
+        "direction": "outbound",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "protocol": "REST",
+        "operation": "Synchronize production orders and downtime",
+        "path": "/api/v1/production",
+        "purpose": "Integrate factory execution with enterprise planning"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Receives production orders and reports equipment downtime."
+          }
+        ]
+      }
+    },
+    {
+      "id": "production-repository",
+      "name": "Production Repository",
+      "nodeType": "database",
+      "description": "Persists production jobs, output, downtime, and rejected units.",
+      "metadata": {
+        "moduleType": "database",
+        "direction": "internal",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "product": "PostgreSQL",
+        "dataStore": "production_execution",
+        "purpose": "Persist production execution state"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Persists production jobs, output, downtime, and rejected units."
+          }
+        ]
+      }
+    },
+    {
+      "id": "production-event-publisher",
+      "name": "Production Impact Publisher",
+      "nodeType": "module-event-publisher",
+      "description": "Publishes production-impact changes.",
+      "metadata": {
+        "moduleType": "event-publisher",
+        "direction": "outbound",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "topic": "factory.production.impact",
+        "payload": "Production impact event"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Publishes production-impact changes."
+          }
+        ]
+      }
+    }
+  ],
+  "interactions": [
+    {
+      "id": "production-consumes-factory-events",
+      "source": "kafka-platform",
+      "target": "production-service",
+      "targetModule": "production-event-consumer",
+      "protocol": "KAFKA",
+      "interactionType": "event-consume",
+      "purpose": "Consume machine-state and maintenance events that affect production.",
+      "synchronous": false,
+      "dataClassification": "internal",
+      "topicOrQueue": "factory.machine-state.changed, factory.maintenance.status",
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Consume machine-state and maintenance events that affect production."
+          }
+        ]
+      }
+    },
+    {
+      "id": "production-fetches-orders",
+      "source": "production-service",
+      "sourceModule": "erp-mes-client",
+      "target": "external-erp-mes",
+      "protocol": "REST",
+      "interactionType": "api-call",
+      "purpose": "Retrieve production orders from the external ERP/MES.",
+      "synchronous": true,
+      "dataClassification": "internal",
+      "endpoint": {
+        "method": "GET",
+        "path": "/api/v1/production-orders"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Retrieve production orders from the external ERP/MES."
+          }
+        ]
+      }
+    },
+    {
+      "id": "production-reports-downtime",
+      "source": "production-service",
+      "sourceModule": "erp-mes-client",
+      "target": "external-erp-mes",
+      "protocol": "REST",
+      "interactionType": "api-call",
+      "purpose": "Report machine downtime and production impact to the external ERP/MES.",
+      "synchronous": true,
+      "dataClassification": "internal",
+      "endpoint": {
+        "method": "POST",
+        "path": "/api/v1/downtime-reports"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Report machine downtime and production impact to the external ERP/MES."
+          }
+        ]
+      }
+    },
+    {
+      "id": "production-accesses-database",
+      "source": "production-service",
+      "sourceModule": "production-repository",
+      "target": "factory-operations-database",
+      "protocol": "JDBC",
+      "interactionType": "database-access",
+      "purpose": "Persist and query production execution state.",
+      "synchronous": true,
+      "dataClassification": "internal",
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Persist and query production execution state."
+          }
+        ]
+      }
+    },
+    {
+      "id": "production-publishes-impact",
+      "source": "production-service",
+      "sourceModule": "production-event-publisher",
+      "target": "kafka-platform",
+      "protocol": "KAFKA",
+      "interactionType": "event-publish",
+      "purpose": "Publish changed production impact for operators and planning.",
+      "synchronous": false,
+      "dataClassification": "internal",
+      "topicOrQueue": "factory.production.impact",
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Publish changed production impact for operators and planning."
+          }
+        ]
+      }
+    }
+  ],
+  "internalFlows": [
+    {
+      "id": "calculate-production-impact",
+      "name": "Calculate production impact",
+      "steps": [
+        {
+          "order": 1,
+          "from": "production-event-consumer",
+          "to": "production-impact-calculator",
+          "description": "Calculate downtime and output impact"
+        },
+        {
+          "order": 2,
+          "from": "production-impact-calculator",
+          "to": "production-repository",
+          "description": "Persist impact"
+        },
+        {
+          "order": 3,
+          "from": "production-impact-calculator",
+          "to": "production-event-publisher",
+          "description": "Publish changed impact"
+        }
+      ]
+    },
+    {
+      "id": "synchronize-production-orders",
+      "name": "Synchronize production orders",
+      "steps": [
+        {
+          "order": 1,
+          "from": "production-impact-api",
+          "to": "erp-mes-client",
+          "description": "Retrieve production plan"
+        }
+      ]
+    },
+    {
+      "id": "report-production-downtime",
+      "name": "Report production downtime",
+      "steps": [
+        {
+          "order": 1,
+          "from": "production-impact-calculator",
+          "to": "erp-mes-client",
+          "description": "Send downtime report"
+        }
+      ]
+    }
+  ],
+  "dataFlows": [
+    {
+      "id": "production-impact-tracking",
+      "name": "Equipment events update production impact",
+      "type": "event-driven-flow",
+      "trigger": "A machine-state or maintenance-status event arrives.",
+      "steps": [
+        "production-consumes-factory-events",
+        "calculate-production-impact",
+        "production-accesses-database",
+        "production-publishes-impact"
+      ]
+    },
+    {
+      "id": "production-order-synchronization",
+      "name": "Production orders are synchronized from ERP/MES",
+      "type": "mixed-rest-integration-flow",
+      "trigger": "Production planning requests the current order set.",
+      "steps": [
+        "synchronize-production-orders",
+        "production-fetches-orders"
+      ]
+    },
+    {
+      "id": "downtime-reporting",
+      "name": "Equipment downtime is reported to ERP/MES",
+      "type": "mixed-rest-integration-flow",
+      "trigger": "Calculated production impact includes reportable downtime.",
+      "steps": [
+        "report-production-downtime",
+        "production-reports-downtime"
+      ]
+    }
+  ],
+  "risks": [],
+  "reviewQuestions": [],
+  "review": {
+    "status": "reviewed",
+    "reviewedBy": "Factory Platform Architecture",
+    "lastReviewedAt": "2026-08-09",
+    "notes": "Synthetic development fixture aligned to the approved smart-factory scenario."
+  }
+}

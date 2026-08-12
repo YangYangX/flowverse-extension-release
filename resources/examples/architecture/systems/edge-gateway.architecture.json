@@ -1,0 +1,375 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "system-architecture",
+  "generationMode": "ai-gen",
+  "worldviewRef": "smart-factory-worldview",
+  "system": {
+    "id": "edge-gateway",
+    "name": "Industrial Edge Gateway",
+    "type": "edge-gateway",
+    "description": "Acquires OPC UA and MQTT signals from CNC machines, robots, and PLCs, normalizes measurements, and publishes telemetry to Kafka.",
+    "metadata": {
+      "domain": "factory-edge",
+      "ownerTeam": "Industrial Connectivity Team",
+      "criticality": "critical",
+      "lifecycleStatus": "active",
+      "dataClassification": "internal",
+      "businessFunction": "Industrial protocol boundary"
+    },
+    "technical": {
+      "language": "Java",
+      "framework": "Spring Boot",
+      "buildTool": "Gradle",
+      "deploymentPlatform": "Kubernetes"
+    }
+  },
+  "roleInArchitecture": {
+    "summary": "Acquires OPC UA and MQTT signals from CNC machines, robots, and PLCs, normalizes measurements, and publishes telemetry to Kafka.",
+    "architectureRole": "Industrial protocol boundary",
+    "primaryBusinessFunction": "Industrial protocol boundary",
+    "mainResponsibilities": [
+      "Acquire OPC UA and MQTT machine signals",
+      "Normalize equipment identifiers, timestamps, units, and quality flags",
+      "Buffer and publish normalized telemetry during intermittent plant connectivity"
+    ]
+  },
+  "visualization": {
+    "defaultRepresentation": "subflow",
+    "availableRepresentations": [
+      "single-node",
+      "subflow"
+    ],
+    "focusRepresentation": "subflow",
+    "layoutDirection": "RIGHT",
+    "showInternalFlows": true,
+    "showModules": true,
+    "decision": {
+      "recommendedBy": "flowverse-system-architecture-authoring",
+      "confidence": "high",
+      "reason": "Architecture-level modules and internal paths are useful for operational review.",
+      "detectedComplexity": {
+        "inboundInteractions": 2,
+        "outboundInteractions": 1,
+        "hasInternalFlow": true,
+        "hasEventProcessing": true,
+        "hasFileProcessing": false,
+        "hasSftpReadWrite": false,
+        "moduleCount": 4
+      },
+      "reviewRequired": false
+    }
+  },
+  "provenance": {
+    "origin": "ai-assisted",
+    "method": "Normalized from the user-provided smart-factory operations scenario.",
+    "confidence": "high",
+    "capturedBy": "flowverse-system-architecture-authoring",
+    "capturedAt": "2026-08-09",
+    "sourceRefs": [
+      {
+        "type": "system-description",
+        "label": "Smart factory operations scenario",
+        "finding": "Acquires OPC UA and MQTT signals from CNC machines, robots, and PLCs, normalizes measurements, and publishes telemetry to Kafka."
+      }
+    ]
+  },
+  "modules": [
+    {
+      "id": "opc-ua-ingress",
+      "name": "OPC UA Ingress",
+      "nodeType": "module-event-consumer",
+      "description": "Collects measurements and operating state from industrial OPC UA endpoints.",
+      "metadata": {
+        "moduleType": "event-consumer",
+        "direction": "inbound",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "protocol": "OPC UA",
+        "source": "CNC machines, robots, and assembly-line PLCs",
+        "payload": "Temperature, vibration, pressure, energy, and production-cycle measurements"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Collects measurements and operating state from industrial OPC UA endpoints."
+          }
+        ]
+      }
+    },
+    {
+      "id": "mqtt-ingress",
+      "name": "MQTT Ingress",
+      "nodeType": "module-event-consumer",
+      "description": "Collects telemetry from MQTT-capable sensors and edge devices.",
+      "metadata": {
+        "moduleType": "event-consumer",
+        "direction": "inbound",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "protocol": "MQTT",
+        "topic": "factory/{site}/{line}/{machine}/telemetry",
+        "payload": "Machine and sensor measurements"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Collects telemetry from MQTT-capable sensors and edge devices."
+          }
+        ]
+      }
+    },
+    {
+      "id": "telemetry-normalizer",
+      "name": "Telemetry Normalizer",
+      "nodeType": "module-business-processor",
+      "description": "Normalizes industrial signals into the canonical machine-telemetry envelope.",
+      "metadata": {
+        "moduleType": "business-processor",
+        "direction": "internal",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "businessFunction": "Telemetry normalization",
+        "input": "Raw OPC UA or MQTT measurement",
+        "output": "Canonical telemetry event",
+        "responsibility": "Normalize units, timestamps, quality, and asset identity"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Normalizes industrial signals into the canonical machine-telemetry envelope."
+          }
+        ]
+      }
+    },
+    {
+      "id": "kafka-telemetry-publisher",
+      "name": "Kafka Telemetry Publisher",
+      "nodeType": "module-event-publisher",
+      "description": "Publishes normalized telemetry to the factory event backbone.",
+      "metadata": {
+        "moduleType": "event-publisher",
+        "direction": "outbound",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "topic": "factory.telemetry.normalized",
+        "payload": "Canonical telemetry event",
+        "purpose": "Distribute real-time machine measurements"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Publishes normalized telemetry to the factory event backbone."
+          }
+        ]
+      }
+    }
+  ],
+  "interactions": [
+    {
+      "id": "machines-publish-opc-ua-telemetry",
+      "source": "machines-and-plcs",
+      "target": "edge-gateway",
+      "targetModule": "opc-ua-ingress",
+      "protocol": "OPC-UA",
+      "interactionType": "industrial-opc-ua",
+      "purpose": "Acquire industrial measurements and machine state through OPC UA.",
+      "synchronous": false,
+      "dataClassification": "internal",
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Acquire industrial measurements and machine state through OPC UA."
+          }
+        ]
+      }
+    },
+    {
+      "id": "machines-publish-mqtt-telemetry",
+      "source": "machines-and-plcs",
+      "target": "edge-gateway",
+      "targetModule": "mqtt-ingress",
+      "protocol": "MQTT",
+      "interactionType": "industrial-mqtt",
+      "purpose": "Acquire telemetry from MQTT-capable sensors and edge devices.",
+      "synchronous": false,
+      "dataClassification": "internal",
+      "topicOrQueue": "factory/{site}/{line}/{machine}/telemetry",
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Acquire telemetry from MQTT-capable sensors and edge devices."
+          }
+        ]
+      }
+    },
+    {
+      "id": "edge-publishes-normalized-telemetry",
+      "source": "edge-gateway",
+      "sourceModule": "kafka-telemetry-publisher",
+      "target": "kafka-platform",
+      "protocol": "KAFKA",
+      "interactionType": "event-publish",
+      "purpose": "Publish normalized machine telemetry for operational services and analytics.",
+      "synchronous": false,
+      "dataClassification": "internal",
+      "topicOrQueue": "factory.telemetry.normalized",
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Publish normalized machine telemetry for operational services and analytics."
+          }
+        ]
+      }
+    }
+  ],
+  "internalFlows": [
+    {
+      "id": "normalize-opc-ua-telemetry",
+      "name": "Normalize OPC UA telemetry",
+      "steps": [
+        {
+          "order": 1,
+          "from": "opc-ua-ingress",
+          "to": "telemetry-normalizer",
+          "description": "Normalize OPC UA measurements"
+        },
+        {
+          "order": 2,
+          "from": "telemetry-normalizer",
+          "to": "kafka-telemetry-publisher",
+          "description": "Forward canonical telemetry"
+        }
+      ]
+    },
+    {
+      "id": "normalize-mqtt-telemetry",
+      "name": "Normalize MQTT telemetry",
+      "steps": [
+        {
+          "order": 1,
+          "from": "mqtt-ingress",
+          "to": "telemetry-normalizer",
+          "description": "Normalize MQTT measurements"
+        },
+        {
+          "order": 2,
+          "from": "telemetry-normalizer",
+          "to": "kafka-telemetry-publisher",
+          "description": "Forward canonical telemetry"
+        }
+      ]
+    }
+  ],
+  "dataFlows": [
+    {
+      "id": "opc-ua-telemetry-publication",
+      "name": "OPC UA telemetry enters the factory event backbone",
+      "type": "event-driven-flow",
+      "trigger": "A machine or PLC publishes an OPC UA value change.",
+      "steps": [
+        "machines-publish-opc-ua-telemetry",
+        "normalize-opc-ua-telemetry",
+        "edge-publishes-normalized-telemetry"
+      ]
+    },
+    {
+      "id": "mqtt-telemetry-publication",
+      "name": "MQTT telemetry enters the factory event backbone",
+      "type": "event-driven-flow",
+      "trigger": "A sensor publishes an MQTT measurement.",
+      "steps": [
+        "machines-publish-mqtt-telemetry",
+        "normalize-mqtt-telemetry",
+        "edge-publishes-normalized-telemetry"
+      ]
+    }
+  ],
+  "risks": [
+    {
+      "id": "edge-clock-skew",
+      "type": "data-quality",
+      "severity": "high",
+      "description": "Unsynchronized equipment clocks can corrupt production-cycle ordering and anomaly windows.",
+      "relatedModules": [
+        "telemetry-normalizer"
+      ],
+      "relatedInteractions": []
+    },
+    {
+      "id": "edge-buffer-capacity",
+      "type": "availability",
+      "severity": "high",
+      "description": "A prolonged Kafka outage can exhaust the gateway buffer and create telemetry gaps.",
+      "relatedModules": [
+        "kafka-telemetry-publisher"
+      ],
+      "relatedInteractions": [
+        "edge-publishes-normalized-telemetry"
+      ]
+    }
+  ],
+  "reviewQuestions": [],
+  "review": {
+    "status": "reviewed",
+    "reviewedBy": "Factory Platform Architecture",
+    "lastReviewedAt": "2026-08-09",
+    "notes": "Synthetic development fixture aligned to the approved smart-factory scenario."
+  }
+}

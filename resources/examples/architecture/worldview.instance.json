@@ -1,0 +1,469 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "flowverse-worldview-instance",
+  "ontologyRef": "flowverse-core-ontology",
+  "architectureOntologyRef": "system-architecture-ontology",
+  "world": {
+    "id": "smart-factory-worldview",
+    "name": "Smart Factory Operations Platform",
+    "description": "In-house Kubernetes microservices connect industrial equipment, real-time telemetry, predictive maintenance, production operations, and external vendor services.",
+    "ownerTeam": "Factory Digital Platform",
+    "defaultEnvironment": "development"
+  },
+  "systems": [
+    {
+      "id": "machines-and-plcs",
+      "name": "Machines and PLCs",
+      "type": "industrial-equipment",
+      "description": "CNC machines, robots, assembly-line equipment, PLCs, and attached sensors publishing industrial signals.",
+      "criticality": "critical",
+      "ownership": "Plant Operations",
+      "visualization": {
+        "layoutZone": "west"
+      }
+    },
+    {
+      "id": "operator-ui",
+      "name": "Operator UI",
+      "type": "operator-application",
+      "description": "Factory operator workspace for machine health, production impact, alerts, and maintenance actions.",
+      "criticality": "high",
+      "ownership": "Operator Experience Team",
+      "visualization": {
+        "layoutZone": "northWest"
+      }
+    },
+    {
+      "id": "edge-gateway",
+      "architectureRef": "systems/edge-gateway.architecture.json",
+      "enabled": true,
+      "visualization": {
+        "layoutZone": "west"
+      }
+    },
+    {
+      "id": "kafka-platform",
+      "architectureRef": "systems/kafka-platform.architecture.json",
+      "enabled": true,
+      "visualization": {
+        "layoutZone": "center"
+      }
+    },
+    {
+      "id": "api-gateway",
+      "architectureRef": "systems/api-gateway.architecture.json",
+      "enabled": true,
+      "visualization": {
+        "layoutZone": "north"
+      }
+    },
+    {
+      "id": "asset-registry-service",
+      "architectureRef": "systems/asset-registry-service.architecture.json",
+      "enabled": true,
+      "visualization": {
+        "layoutZone": "east"
+      }
+    },
+    {
+      "id": "telemetry-ingestion-service",
+      "architectureRef": "systems/telemetry-ingestion-service.architecture.json",
+      "enabled": true,
+      "visualization": {
+        "layoutZone": "east"
+      }
+    },
+    {
+      "id": "machine-state-service",
+      "architectureRef": "systems/machine-state-service.architecture.json",
+      "enabled": true,
+      "visualization": {
+        "layoutZone": "east"
+      }
+    },
+    {
+      "id": "anomaly-detection-service",
+      "architectureRef": "systems/anomaly-detection-service.architecture.json",
+      "enabled": true,
+      "visualization": {
+        "layoutZone": "east"
+      }
+    },
+    {
+      "id": "predictive-maintenance-service",
+      "architectureRef": "systems/predictive-maintenance-service.architecture.json",
+      "enabled": true,
+      "visualization": {
+        "layoutZone": "east"
+      }
+    },
+    {
+      "id": "maintenance-service",
+      "architectureRef": "systems/maintenance-service.architecture.json",
+      "enabled": true,
+      "visualization": {
+        "layoutZone": "east"
+      }
+    },
+    {
+      "id": "production-service",
+      "architectureRef": "systems/production-service.architecture.json",
+      "enabled": true,
+      "visualization": {
+        "layoutZone": "east"
+      }
+    },
+    {
+      "id": "vendor-adapter-service",
+      "architectureRef": "systems/vendor-adapter-service.architecture.json",
+      "enabled": true,
+      "visualization": {
+        "layoutZone": "east"
+      }
+    },
+    {
+      "id": "notification-service",
+      "architectureRef": "systems/notification-service.architecture.json",
+      "enabled": true,
+      "visualization": {
+        "layoutZone": "east"
+      }
+    },
+    {
+      "id": "digital-twin-service",
+      "architectureRef": "systems/digital-twin-service.architecture.json",
+      "enabled": true,
+      "visualization": {
+        "layoutZone": "east"
+      }
+    },
+    {
+      "id": "external-erp-mes",
+      "name": "External ERP/MES",
+      "type": "external-system",
+      "description": "Simulator that provides production orders and receives downtime reports.",
+      "criticality": "critical",
+      "ownership": "Enterprise Manufacturing Systems",
+      "visualization": {
+        "layoutZone": "southEast"
+      }
+    },
+    {
+      "id": "external-cmms",
+      "name": "External CMMS",
+      "type": "external-system",
+      "description": "Simulator that receives and tracks maintenance work orders.",
+      "criticality": "high",
+      "ownership": "Maintenance Systems Vendor",
+      "visualization": {
+        "layoutZone": "southEast"
+      }
+    },
+    {
+      "id": "spare-parts-supplier",
+      "name": "Spare-parts Supplier",
+      "type": "external-system",
+      "description": "Simulator that returns part price, availability, delivery date, and order confirmation.",
+      "criticality": "high",
+      "ownership": "Supply Chain Vendor",
+      "visualization": {
+        "layoutZone": "southEast"
+      }
+    },
+    {
+      "id": "equipment-manufacturer",
+      "name": "Equipment Manufacturer",
+      "type": "external-system",
+      "description": "Simulator that provides model-specific machine diagnostic information.",
+      "criticality": "medium",
+      "ownership": "Equipment Vendor",
+      "visualization": {
+        "layoutZone": "southEast"
+      }
+    },
+    {
+      "id": "notification-provider",
+      "name": "Notification Provider",
+      "type": "external-system",
+      "description": "Simulator for SMS, email, and Teams operator alerts.",
+      "criticality": "high",
+      "ownership": "Communication Services Vendor",
+      "visualization": {
+        "layoutZone": "southEast"
+      }
+    },
+    {
+      "id": "factory-operations-database",
+      "name": "Factory Operations Database",
+      "type": "service-database",
+      "description": "Shared PostgreSQL development boundary for asset and production records.",
+      "criticality": "critical",
+      "ownership": "Data Platform Team",
+      "visualization": {
+        "layoutZone": "south"
+      }
+    },
+    {
+      "id": "telemetry-database",
+      "name": "Telemetry Database",
+      "type": "service-database",
+      "description": "Time-series database for high-volume machine measurements.",
+      "criticality": "critical",
+      "ownership": "Telemetry Platform Team",
+      "visualization": {
+        "layoutZone": "south"
+      }
+    },
+    {
+      "id": "machine-state-cache",
+      "name": "Machine State Cache",
+      "type": "service-cache",
+      "description": "Low-latency Redis boundary for current machine state and digital twins.",
+      "criticality": "high",
+      "ownership": "Platform Engineering",
+      "visualization": {
+        "layoutZone": "south"
+      }
+    }
+  ],
+  "views": [
+    {
+      "id": "factory-architecture-landscape",
+      "name": "Factory architecture landscape",
+      "description": "Layered industrial equipment, in-house services, event backbone, data stores, and external vendor integrations.",
+      "domainConceptRef": "architecture-view",
+      "default": true,
+      "entityConceptRefs": [
+        "system",
+        "module",
+        "infrastructure"
+      ],
+      "relationshipConceptRefs": [
+        "system-module-hierarchy",
+        "interaction"
+      ],
+      "layout": {
+        "kind": "layered-network",
+        "direction": "RIGHT",
+        "structuralRelationshipConceptRef": "system-module-hierarchy"
+      }
+    }
+  ],
+  "domains": [
+    {
+      "id": "factory-edge",
+      "name": "Factory Edge",
+      "domainConceptRef": "architecture-context",
+      "description": "Industrial equipment connectivity and normalization."
+    },
+    {
+      "id": "factory-platform",
+      "name": "Factory Operations",
+      "domainConceptRef": "architecture-context",
+      "description": "Core production, telemetry, asset, and operator services."
+    },
+    {
+      "id": "industrial-analytics",
+      "name": "Industrial Analytics",
+      "domainConceptRef": "architecture-context",
+      "description": "Machine state, anomaly detection, prediction, and digital twins."
+    },
+    {
+      "id": "maintenance-operations",
+      "name": "Maintenance Operations",
+      "domainConceptRef": "architecture-context",
+      "description": "Maintenance work orders and operational notifications."
+    },
+    {
+      "id": "external-vendors",
+      "name": "External Vendors",
+      "domainConceptRef": "architecture-context",
+      "description": "ERP/MES, CMMS, parts, equipment, and notification provider boundaries."
+    }
+  ],
+  "architectureVocabulary": {
+    "systemTypes": [
+      {
+        "id": "kubernetes-microservice",
+        "name": "Kubernetes Microservice",
+        "domainConceptRef": "system",
+        "category": "application"
+      },
+      {
+        "id": "api-gateway",
+        "name": "API Gateway",
+        "domainConceptRef": "system",
+        "category": "integration"
+      },
+      {
+        "id": "edge-gateway",
+        "name": "Industrial Edge Gateway",
+        "domainConceptRef": "system",
+        "category": "integration"
+      },
+      {
+        "id": "industrial-equipment",
+        "name": "Industrial Equipment",
+        "domainConceptRef": "infrastructure",
+        "category": "infrastructure"
+      },
+      {
+        "id": "operator-application",
+        "name": "Operator Application",
+        "domainConceptRef": "system",
+        "category": "application"
+      },
+      {
+        "id": "external-system",
+        "name": "External Vendor System",
+        "domainConceptRef": "system",
+        "category": "platform"
+      },
+      {
+        "id": "event-platform",
+        "name": "Event Streaming Platform",
+        "domainConceptRef": "infrastructure",
+        "category": "integration"
+      },
+      {
+        "id": "service-database",
+        "name": "Service Database",
+        "domainConceptRef": "infrastructure",
+        "category": "data"
+      },
+      {
+        "id": "service-cache",
+        "name": "Service Cache",
+        "domainConceptRef": "infrastructure",
+        "category": "data"
+      }
+    ],
+    "protocols": [
+      {
+        "id": "REST",
+        "name": "REST API",
+        "category": "sync-api",
+        "domainConceptRef": "protocol"
+      },
+      {
+        "id": "KAFKA",
+        "name": "Kafka",
+        "category": "async-messaging",
+        "domainConceptRef": "protocol"
+      },
+      {
+        "id": "MQTT",
+        "name": "MQTT",
+        "category": "other",
+        "domainConceptRef": "protocol"
+      },
+      {
+        "id": "OPC-UA",
+        "name": "OPC UA",
+        "category": "other",
+        "domainConceptRef": "protocol"
+      },
+      {
+        "id": "JDBC",
+        "name": "JDBC",
+        "category": "database",
+        "domainConceptRef": "protocol"
+      },
+      {
+        "id": "CACHE",
+        "name": "Cache Access",
+        "category": "cache",
+        "domainConceptRef": "protocol"
+      }
+    ],
+    "interactionTypes": [
+      {
+        "id": "api-call",
+        "name": "API Call",
+        "domainConceptRef": "interaction",
+        "defaultProtocol": "REST"
+      },
+      {
+        "id": "event-consume",
+        "name": "Event Consume",
+        "domainConceptRef": "interaction",
+        "defaultProtocol": "KAFKA"
+      },
+      {
+        "id": "event-publish",
+        "name": "Event Publish",
+        "domainConceptRef": "interaction",
+        "defaultProtocol": "KAFKA"
+      },
+      {
+        "id": "industrial-mqtt",
+        "name": "MQTT Telemetry",
+        "domainConceptRef": "interaction",
+        "defaultProtocol": "MQTT"
+      },
+      {
+        "id": "industrial-opc-ua",
+        "name": "OPC UA Telemetry",
+        "domainConceptRef": "interaction",
+        "defaultProtocol": "OPC-UA"
+      },
+      {
+        "id": "database-access",
+        "name": "Database Access",
+        "domainConceptRef": "interaction",
+        "defaultProtocol": "JDBC"
+      },
+      {
+        "id": "cache-access",
+        "name": "Cache Access",
+        "domainConceptRef": "interaction",
+        "defaultProtocol": "CACHE"
+      }
+    ]
+  },
+  "layout": {
+    "defaultDirection": "RIGHT",
+    "architectureCenter": {
+      "nodeId": "kafka-platform",
+      "label": "Factory event backbone",
+      "reason": "Kafka connects edge telemetry to operational and analytical services."
+    },
+    "layoutZones": [
+      {
+        "id": "west",
+        "name": "Plant and edge",
+        "description": "Machines, PLCs, operator clients, and industrial ingress."
+      },
+      {
+        "id": "center",
+        "name": "Event backbone",
+        "description": "Kafka-centered real-time integration."
+      },
+      {
+        "id": "east",
+        "name": "In-house services",
+        "description": "Kubernetes microservices for operations and intelligence."
+      },
+      {
+        "id": "southEast",
+        "name": "External vendors",
+        "description": "Enterprise and supplier service boundaries."
+      },
+      {
+        "id": "south",
+        "name": "Data services",
+        "description": "Operational persistence and low-latency state."
+      }
+    ]
+  },
+  "governanceRules": {
+    "requireSystemOwner": true,
+    "requireVisualizationDecision": true,
+    "requireReviewBeforePublished": true,
+    "allowedSystemRepresentations": [
+      "single-node",
+      "subflow",
+      "auto"
+    ]
+  }
+}

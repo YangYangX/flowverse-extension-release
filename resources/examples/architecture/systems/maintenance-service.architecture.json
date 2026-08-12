@@ -1,0 +1,497 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "system-architecture",
+  "generationMode": "ai-gen",
+  "worldviewRef": "smart-factory-worldview",
+  "system": {
+    "id": "maintenance-service",
+    "name": "Maintenance Service",
+    "type": "kubernetes-microservice",
+    "description": "Creates and tracks maintenance work orders from predicted failures or operator requests and coordinates vendor actions.",
+    "metadata": {
+      "domain": "maintenance-operations",
+      "ownerTeam": "Maintenance Platform Team",
+      "criticality": "critical",
+      "lifecycleStatus": "active",
+      "dataClassification": "internal",
+      "businessFunction": "Maintenance work-order orchestration"
+    },
+    "technical": {
+      "language": "Java",
+      "framework": "Spring Boot",
+      "buildTool": "Gradle",
+      "deploymentPlatform": "Kubernetes"
+    }
+  },
+  "roleInArchitecture": {
+    "summary": "Creates and tracks maintenance work orders from predicted failures or operator requests and coordinates vendor actions.",
+    "architectureRole": "Maintenance work-order orchestration",
+    "primaryBusinessFunction": "Maintenance work-order orchestration",
+    "mainResponsibilities": [
+      "Create and track maintenance work orders",
+      "Request CMMS registration and spare parts",
+      "Publish maintenance status for operators and production planning"
+    ]
+  },
+  "visualization": {
+    "defaultRepresentation": "subflow",
+    "availableRepresentations": [
+      "single-node",
+      "subflow"
+    ],
+    "focusRepresentation": "subflow",
+    "layoutDirection": "RIGHT",
+    "showInternalFlows": true,
+    "showModules": true,
+    "decision": {
+      "recommendedBy": "flowverse-system-architecture-authoring",
+      "confidence": "high",
+      "reason": "Architecture-level modules and internal paths are useful for operational review.",
+      "detectedComplexity": {
+        "inboundInteractions": 1,
+        "outboundInteractions": 3,
+        "hasInternalFlow": true,
+        "hasEventProcessing": true,
+        "hasFileProcessing": false,
+        "hasSftpReadWrite": false,
+        "moduleCount": 6
+      },
+      "reviewRequired": false
+    }
+  },
+  "provenance": {
+    "origin": "ai-assisted",
+    "method": "Normalized from the user-provided smart-factory operations scenario.",
+    "confidence": "high",
+    "capturedBy": "flowverse-system-architecture-authoring",
+    "capturedAt": "2026-08-09",
+    "sourceRefs": [
+      {
+        "type": "system-description",
+        "label": "Smart factory operations scenario",
+        "finding": "Creates and tracks maintenance work orders from predicted failures or operator requests and coordinates vendor actions."
+      }
+    ]
+  },
+  "modules": [
+    {
+      "id": "maintenance-recommendation-consumer",
+      "name": "Maintenance Recommendation Consumer",
+      "nodeType": "module-event-consumer",
+      "description": "Consumes predictive maintenance recommendations.",
+      "metadata": {
+        "moduleType": "event-consumer",
+        "direction": "inbound",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "topic": "factory.maintenance.recommended",
+        "payload": "Maintenance recommendation"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Consumes predictive maintenance recommendations."
+          }
+        ]
+      }
+    },
+    {
+      "id": "create-work-order-api",
+      "name": "Create Work Order API",
+      "nodeType": "module-rest-api",
+      "description": "Creates an operator-requested maintenance work order.",
+      "metadata": {
+        "moduleType": "rest-api",
+        "direction": "inbound",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "method": "POST",
+        "path": "/internal/v1/work-orders",
+        "operation": "Create maintenance work order"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Creates an operator-requested maintenance work order."
+          }
+        ]
+      }
+    },
+    {
+      "id": "work-order-coordinator",
+      "name": "Work Order Coordinator",
+      "nodeType": "module-business-processor",
+      "description": "Creates the internal work order and coordinates vendor requests.",
+      "metadata": {
+        "moduleType": "business-processor",
+        "direction": "internal",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "businessFunction": "Maintenance orchestration",
+        "input": "Recommendation or operator request",
+        "output": "Tracked maintenance work order",
+        "responsibility": "Coordinate work order, parts, and status"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Creates the internal work order and coordinates vendor requests."
+          }
+        ]
+      }
+    },
+    {
+      "id": "cmms-adapter-client",
+      "name": "CMMS Adapter Client",
+      "nodeType": "externalApi",
+      "description": "Sends work orders through the vendor adapter.",
+      "metadata": {
+        "moduleType": "rest-api-client",
+        "direction": "outbound",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "protocol": "REST",
+        "operation": "Register CMMS work order",
+        "path": "/internal/v1/cmms/work-orders",
+        "purpose": "Create external maintenance work order"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Sends work orders through the vendor adapter."
+          }
+        ]
+      }
+    },
+    {
+      "id": "parts-adapter-client",
+      "name": "Parts Adapter Client",
+      "nodeType": "externalApi",
+      "description": "Requests replacement-part price, availability, and delivery through the vendor adapter.",
+      "metadata": {
+        "moduleType": "rest-api-client",
+        "direction": "outbound",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "protocol": "REST",
+        "operation": "Order replacement parts",
+        "path": "/internal/v1/parts/orders",
+        "purpose": "Source required replacement parts"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Requests replacement-part price, availability, and delivery through the vendor adapter."
+          }
+        ]
+      }
+    },
+    {
+      "id": "maintenance-event-publisher",
+      "name": "Maintenance Event Publisher",
+      "nodeType": "module-event-publisher",
+      "description": "Publishes work-order and maintenance-impact events.",
+      "metadata": {
+        "moduleType": "event-publisher",
+        "direction": "outbound",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "topic": "factory.maintenance.status",
+        "payload": "Maintenance work-order status"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Publishes work-order and maintenance-impact events."
+          }
+        ]
+      }
+    }
+  ],
+  "interactions": [
+    {
+      "id": "maintenance-consumes-recommendation",
+      "source": "kafka-platform",
+      "target": "maintenance-service",
+      "targetModule": "maintenance-recommendation-consumer",
+      "protocol": "KAFKA",
+      "interactionType": "event-consume",
+      "purpose": "Consume predicted-failure maintenance recommendations.",
+      "synchronous": false,
+      "dataClassification": "internal",
+      "topicOrQueue": "factory.maintenance.recommended",
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Consume predicted-failure maintenance recommendations."
+          }
+        ]
+      }
+    },
+    {
+      "id": "maintenance-registers-cmms-work-order",
+      "source": "maintenance-service",
+      "sourceModule": "cmms-adapter-client",
+      "target": "vendor-adapter-service",
+      "targetModule": "cmms-command-api",
+      "protocol": "REST",
+      "interactionType": "api-call",
+      "purpose": "Register a maintenance work order with the external CMMS through the vendor adapter.",
+      "synchronous": true,
+      "dataClassification": "internal",
+      "endpoint": {
+        "method": "POST",
+        "path": "/internal/v1/cmms/work-orders"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Register a maintenance work order with the external CMMS through the vendor adapter."
+          }
+        ]
+      }
+    },
+    {
+      "id": "maintenance-orders-replacement-parts",
+      "source": "maintenance-service",
+      "sourceModule": "parts-adapter-client",
+      "target": "vendor-adapter-service",
+      "targetModule": "parts-order-api",
+      "protocol": "REST",
+      "interactionType": "api-call",
+      "purpose": "Request replacement-part price, availability, and delivery.",
+      "synchronous": true,
+      "dataClassification": "internal",
+      "endpoint": {
+        "method": "POST",
+        "path": "/internal/v1/parts/orders"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Request replacement-part price, availability, and delivery."
+          }
+        ]
+      }
+    },
+    {
+      "id": "maintenance-publishes-work-order-status",
+      "source": "maintenance-service",
+      "sourceModule": "maintenance-event-publisher",
+      "target": "kafka-platform",
+      "protocol": "KAFKA",
+      "interactionType": "event-publish",
+      "purpose": "Publish maintenance status for production tracking and operator notification.",
+      "synchronous": false,
+      "dataClassification": "internal",
+      "topicOrQueue": "factory.maintenance.status",
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Publish maintenance status for production tracking and operator notification."
+          }
+        ]
+      }
+    }
+  ],
+  "internalFlows": [
+    {
+      "id": "create-predicted-maintenance-work-order",
+      "name": "Create predicted maintenance work order",
+      "steps": [
+        {
+          "order": 1,
+          "from": "maintenance-recommendation-consumer",
+          "to": "work-order-coordinator",
+          "description": "Create work order from recommendation"
+        },
+        {
+          "order": 2,
+          "from": "work-order-coordinator",
+          "to": "cmms-adapter-client",
+          "description": "Register external work order"
+        }
+      ]
+    },
+    {
+      "id": "create-operator-maintenance-work-order",
+      "name": "Create operator maintenance work order",
+      "steps": [
+        {
+          "order": 1,
+          "from": "create-work-order-api",
+          "to": "work-order-coordinator",
+          "description": "Validate operator request"
+        },
+        {
+          "order": 2,
+          "from": "work-order-coordinator",
+          "to": "cmms-adapter-client",
+          "description": "Register external work order"
+        }
+      ]
+    },
+    {
+      "id": "source-maintenance-parts",
+      "name": "Source maintenance parts",
+      "steps": [
+        {
+          "order": 1,
+          "from": "work-order-coordinator",
+          "to": "parts-adapter-client",
+          "description": "Request required replacement parts"
+        }
+      ]
+    },
+    {
+      "id": "publish-maintenance-status",
+      "name": "Publish maintenance status",
+      "steps": [
+        {
+          "order": 1,
+          "from": "work-order-coordinator",
+          "to": "maintenance-event-publisher",
+          "description": "Publish work-order status"
+        }
+      ]
+    }
+  ],
+  "dataFlows": [
+    {
+      "id": "predicted-failure-work-order",
+      "name": "Predicted equipment failure creates a maintenance work order",
+      "type": "event-driven-flow",
+      "trigger": "A maintenance recommendation arrives.",
+      "steps": [
+        "maintenance-consumes-recommendation",
+        "create-predicted-maintenance-work-order",
+        "maintenance-registers-cmms-work-order",
+        "publish-maintenance-status",
+        "maintenance-publishes-work-order-status"
+      ]
+    },
+    {
+      "id": "operator-maintenance-work-order",
+      "name": "Operator request creates a maintenance work order",
+      "type": "mixed-rest-integration-flow",
+      "trigger": "The API Gateway submits an operator maintenance request.",
+      "steps": [
+        "create-operator-maintenance-work-order",
+        "maintenance-registers-cmms-work-order"
+      ]
+    },
+    {
+      "id": "replacement-parts-order",
+      "name": "Required replacement parts are ordered",
+      "type": "mixed-rest-integration-flow",
+      "trigger": "A work order identifies a required part.",
+      "steps": [
+        "source-maintenance-parts",
+        "maintenance-orders-replacement-parts"
+      ]
+    }
+  ],
+  "risks": [
+    {
+      "id": "duplicate-external-work-order",
+      "type": "idempotency",
+      "severity": "high",
+      "description": "Retries after an ambiguous vendor timeout can create duplicate CMMS work orders.",
+      "relatedModules": [
+        "cmms-adapter-client"
+      ],
+      "relatedInteractions": [
+        "maintenance-registers-cmms-work-order"
+      ]
+    }
+  ],
+  "reviewQuestions": [],
+  "review": {
+    "status": "reviewed",
+    "reviewedBy": "Factory Platform Architecture",
+    "lastReviewedAt": "2026-08-09",
+    "notes": "Synthetic development fixture aligned to the approved smart-factory scenario."
+  }
+}

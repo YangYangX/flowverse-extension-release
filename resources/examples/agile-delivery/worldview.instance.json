@@ -1,0 +1,789 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "flowverse-agile-delivery-worldview-instance",
+  "ontologyRef": "flowverse-core-ontology",
+  "agileDeliveryOntologyRef": "agile-delivery-ontology",
+  "world": {
+    "id": "smart-factory-agile-delivery",
+    "name": "Smart Factory Platform Delivery",
+    "description": "Synthetic Jira-style portfolio for delivering, scaling, and governing the in-house smart-factory operations platform.",
+    "ownerTeam": "Factory Digital Product Management",
+    "defaultEnvironment": "synthetic-jira"
+  },
+  "domains": [
+    {
+      "id": "delivery-scopes",
+      "name": "Delivery Scopes",
+      "domainConceptRef": "delivery-scope",
+      "description": "Programme and capability epics for the smart-factory platform."
+    },
+    {
+      "id": "work-items",
+      "name": "Work Items",
+      "domainConceptRef": "work-item",
+      "description": "Stories, tasks, spikes, and bugs executed by factory platform teams."
+    },
+    {
+      "id": "delivery-controls",
+      "name": "Delivery Controls",
+      "domainConceptRef": "delivery-risk",
+      "description": "Dependencies, blockers, validation evidence, defects, and readiness decisions."
+    }
+  ],
+  "views": [
+    {
+      "id": "factory-delivery-hierarchy",
+      "name": "Factory delivery hierarchy",
+      "description": "Organization-chart projection driven by immediate parent-child relationships, with delivery dependencies retained as semantic edges.",
+      "domainConceptRef": "delivery-view",
+      "default": true,
+      "entityConceptRefs": [
+        "delivery-scope",
+        "work-item"
+      ],
+      "relationshipConceptRefs": [
+        "work-item-hierarchy",
+        "work-link"
+      ],
+      "layout": {
+        "kind": "organization-chart",
+        "direction": "DOWN",
+        "structuralRelationshipConceptRef": "work-item-hierarchy"
+      }
+    }
+  ],
+  "assessmentProfiles": [
+    {
+      "id": "delivery-readiness",
+      "name": "Delivery readiness",
+      "description": "Evidence-based readiness of a work item for shared understanding, planning, implementation, and completion.",
+      "domainConceptRef": "delivery-metric",
+      "default": true,
+      "aggregation": "weighted-mean",
+      "recommendationLimit": 5,
+      "factors": [
+        {
+          "id": "purpose-context",
+          "name": "Purpose and context",
+          "description": "Clarity of the intended outcome, operational context, and reason the work is needed.",
+          "weight": 20
+        },
+        {
+          "id": "scope-requirements",
+          "name": "Scope and requirements",
+          "description": "Clarity, completeness, and testability of scope and requirements.",
+          "weight": 20
+        },
+        {
+          "id": "acceptance-completion",
+          "name": "Acceptance and completion",
+          "description": "Evidence that acceptance criteria and completion conditions are explicit and verifiable.",
+          "weight": 20
+        },
+        {
+          "id": "ownership-planning",
+          "name": "Ownership and planning",
+          "description": "Sufficiency of ownership, responsibility, iteration, priority, and delivery planning.",
+          "weight": 20
+        },
+        {
+          "id": "dependencies-risks",
+          "name": "Dependencies and risks",
+          "description": "Visibility and resolution of dependencies, blockers, risks, assumptions, and open decisions.",
+          "weight": 20
+        }
+      ],
+      "ratingBands": [
+        {
+          "id": "ready",
+          "name": "Ready",
+          "minimumScore": 85
+        },
+        {
+          "id": "mostly-ready",
+          "name": "Mostly ready",
+          "minimumScore": 70
+        },
+        {
+          "id": "needs-refinement",
+          "name": "Needs refinement",
+          "minimumScore": 50
+        },
+        {
+          "id": "at-risk",
+          "name": "At risk",
+          "minimumScore": 0
+        }
+      ]
+    }
+  ],
+  "deliveryVocabulary": {
+    "sourceVocabularyRef": "agile-delivery-starter-vocabulary",
+    "workItemTypes": [
+      {
+        "id": "epic",
+        "name": "Epic",
+        "hierarchyLevel": "epic",
+        "isSubtask": false,
+        "domainConceptRef": "delivery-scope"
+      },
+      {
+        "id": "story",
+        "name": "Story",
+        "hierarchyLevel": "standard",
+        "isSubtask": false,
+        "domainConceptRef": "work-item"
+      },
+      {
+        "id": "task",
+        "name": "Task",
+        "hierarchyLevel": "standard",
+        "isSubtask": false,
+        "domainConceptRef": "work-item"
+      },
+      {
+        "id": "spike",
+        "name": "Spike",
+        "hierarchyLevel": "standard",
+        "isSubtask": false,
+        "domainConceptRef": "work-item"
+      },
+      {
+        "id": "bug",
+        "name": "Bug",
+        "hierarchyLevel": "standard",
+        "isSubtask": false,
+        "domainConceptRef": "work-item"
+      }
+    ],
+    "workflowStates": [
+      {
+        "id": "to-do",
+        "name": "To Do",
+        "statusCategory": "new",
+        "domainConceptRef": "workflow-state"
+      },
+      {
+        "id": "in-progress",
+        "name": "In Progress",
+        "statusCategory": "indeterminate",
+        "domainConceptRef": "workflow-state"
+      },
+      {
+        "id": "blocked-on-hold",
+        "name": "Blocked / On Hold",
+        "statusCategory": "indeterminate",
+        "domainConceptRef": "workflow-state"
+      },
+      {
+        "id": "done",
+        "name": "Done",
+        "statusCategory": "done",
+        "domainConceptRef": "workflow-state"
+      }
+    ],
+    "workflowTransitions": [
+      {
+        "id": "start",
+        "name": "Start work",
+        "from": "to-do",
+        "to": "in-progress",
+        "domainConceptRef": "workflow-transition"
+      },
+      {
+        "id": "block",
+        "name": "Block",
+        "from": "in-progress",
+        "to": "blocked-on-hold",
+        "domainConceptRef": "workflow-transition"
+      },
+      {
+        "id": "unblock",
+        "name": "Unblock",
+        "from": "blocked-on-hold",
+        "to": "in-progress",
+        "domainConceptRef": "workflow-transition"
+      },
+      {
+        "id": "complete",
+        "name": "Complete",
+        "from": "in-progress",
+        "to": "done",
+        "domainConceptRef": "workflow-transition"
+      }
+    ],
+    "linkTypes": [
+      {
+        "id": "parent-child",
+        "name": "Parent / child",
+        "outward": "contains",
+        "inward": "is child of",
+        "structural": true,
+        "gatesFlow": false,
+        "domainConceptRef": "work-item-hierarchy"
+      },
+      {
+        "id": "blocks",
+        "name": "Blocks",
+        "outward": "blocks",
+        "inward": "is blocked by",
+        "gatesFlow": true,
+        "domainConceptRef": "work-link"
+      },
+      {
+        "id": "dependency",
+        "name": "Dependency",
+        "outward": "depends on",
+        "inward": "is depended on by",
+        "gatesFlow": true,
+        "domainConceptRef": "work-link"
+      },
+      {
+        "id": "implements",
+        "name": "Implements",
+        "outward": "implements",
+        "inward": "is implemented by",
+        "gatesFlow": false,
+        "domainConceptRef": "work-link"
+      },
+      {
+        "id": "validation",
+        "name": "Validation",
+        "outward": "is validated by",
+        "inward": "validates",
+        "gatesFlow": false,
+        "domainConceptRef": "work-link"
+      },
+      {
+        "id": "relates",
+        "name": "Relates",
+        "outward": "relates to",
+        "inward": "relates to",
+        "gatesFlow": false,
+        "domainConceptRef": "work-link"
+      },
+      {
+        "id": "defect",
+        "name": "Defect",
+        "outward": "has defect",
+        "inward": "is defect for",
+        "gatesFlow": false,
+        "domainConceptRef": "work-link"
+      }
+    ],
+    "disciplines": [
+      {
+        "id": "BA",
+        "name": "Business Analysis",
+        "domainConceptRef": "delivery-discipline"
+      },
+      {
+        "id": "ARCH",
+        "name": "Architecture",
+        "domainConceptRef": "delivery-discipline"
+      },
+      {
+        "id": "DEV",
+        "name": "Development",
+        "domainConceptRef": "delivery-discipline"
+      },
+      {
+        "id": "DATA",
+        "name": "Data Science",
+        "domainConceptRef": "delivery-discipline"
+      },
+      {
+        "id": "QA",
+        "name": "Quality Assurance",
+        "domainConceptRef": "delivery-discipline"
+      },
+      {
+        "id": "OPS",
+        "name": "Platform Operations",
+        "domainConceptRef": "delivery-discipline"
+      }
+    ],
+    "roles": [
+      {
+        "id": "assignee",
+        "name": "Assignee",
+        "domainConceptRef": "delivery-actor"
+      },
+      {
+        "id": "reporter",
+        "name": "Reporter",
+        "domainConceptRef": "delivery-actor"
+      },
+      {
+        "id": "delivery-scope-owner",
+        "name": "Delivery Scope Owner",
+        "domainConceptRef": "delivery-actor"
+      }
+    ],
+    "sprints": [
+      {
+        "id": "factory-platform-sprint-12",
+        "name": "Factory Platform Sprint 12",
+        "state": "active",
+        "domainConceptRef": "delivery-flow"
+      },
+      {
+        "id": "factory-platform-backlog",
+        "name": "Factory Platform Backlog",
+        "state": "future",
+        "domainConceptRef": "delivery-flow"
+      }
+    ],
+    "noteFields": [
+      {
+        "id": "description",
+        "name": "Description",
+        "jiraField": "description",
+        "multiValued": false,
+        "domainConceptRef": "delivery-note"
+      },
+      {
+        "id": "comments",
+        "name": "Comments",
+        "jiraField": "comment",
+        "multiValued": true,
+        "domainConceptRef": "delivery-note"
+      }
+    ],
+    "provenanceSourceKinds": [
+      {
+        "id": "structured-field",
+        "name": "Structured field",
+        "structured": true,
+        "domainConceptRef": "fact-provenance"
+      },
+      {
+        "id": "issue-link",
+        "name": "Issue link",
+        "structured": true,
+        "domainConceptRef": "fact-provenance"
+      },
+      {
+        "id": "free-text",
+        "name": "Free text",
+        "structured": false,
+        "domainConceptRef": "fact-provenance"
+      },
+      {
+        "id": "inferred",
+        "name": "Inferred",
+        "structured": false,
+        "domainConceptRef": "fact-provenance"
+      }
+    ]
+  },
+  "workItems": [
+    {
+      "id": "FACTORY-100",
+      "jiraRef": "jira/FACTORY-100.jira.json",
+      "enabled": true,
+      "domain": "delivery-scopes"
+    },
+    {
+      "id": "FACTORY-110",
+      "jiraRef": "jira/FACTORY-110.jira.json",
+      "enabled": true,
+      "domain": "delivery-scopes"
+    },
+    {
+      "id": "FACTORY-111",
+      "jiraRef": "jira/FACTORY-111.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-112",
+      "jiraRef": "jira/FACTORY-112.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-113",
+      "jiraRef": "jira/FACTORY-113.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-114",
+      "jiraRef": "jira/FACTORY-114.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-115",
+      "jiraRef": "jira/FACTORY-115.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-120",
+      "jiraRef": "jira/FACTORY-120.jira.json",
+      "enabled": true,
+      "domain": "delivery-scopes"
+    },
+    {
+      "id": "FACTORY-121",
+      "jiraRef": "jira/FACTORY-121.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-122",
+      "jiraRef": "jira/FACTORY-122.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-123",
+      "jiraRef": "jira/FACTORY-123.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-124",
+      "jiraRef": "jira/FACTORY-124.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-125",
+      "jiraRef": "jira/FACTORY-125.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-130",
+      "jiraRef": "jira/FACTORY-130.jira.json",
+      "enabled": true,
+      "domain": "delivery-scopes"
+    },
+    {
+      "id": "FACTORY-131",
+      "jiraRef": "jira/FACTORY-131.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-132",
+      "jiraRef": "jira/FACTORY-132.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-133",
+      "jiraRef": "jira/FACTORY-133.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-134",
+      "jiraRef": "jira/FACTORY-134.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-140",
+      "jiraRef": "jira/FACTORY-140.jira.json",
+      "enabled": true,
+      "domain": "delivery-scopes"
+    },
+    {
+      "id": "FACTORY-141",
+      "jiraRef": "jira/FACTORY-141.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-142",
+      "jiraRef": "jira/FACTORY-142.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-143",
+      "jiraRef": "jira/FACTORY-143.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-144",
+      "jiraRef": "jira/FACTORY-144.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-145",
+      "jiraRef": "jira/FACTORY-145.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-200",
+      "jiraRef": "jira/FACTORY-200.jira.json",
+      "enabled": true,
+      "domain": "delivery-scopes"
+    },
+    {
+      "id": "FACTORY-210",
+      "jiraRef": "jira/FACTORY-210.jira.json",
+      "enabled": true,
+      "domain": "delivery-scopes"
+    },
+    {
+      "id": "FACTORY-211",
+      "jiraRef": "jira/FACTORY-211.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-212",
+      "jiraRef": "jira/FACTORY-212.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-213",
+      "jiraRef": "jira/FACTORY-213.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-220",
+      "jiraRef": "jira/FACTORY-220.jira.json",
+      "enabled": true,
+      "domain": "delivery-scopes"
+    },
+    {
+      "id": "FACTORY-221",
+      "jiraRef": "jira/FACTORY-221.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-222",
+      "jiraRef": "jira/FACTORY-222.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-223",
+      "jiraRef": "jira/FACTORY-223.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-300",
+      "jiraRef": "jira/FACTORY-300.jira.json",
+      "enabled": true,
+      "domain": "delivery-scopes"
+    },
+    {
+      "id": "FACTORY-310",
+      "jiraRef": "jira/FACTORY-310.jira.json",
+      "enabled": true,
+      "domain": "delivery-scopes"
+    },
+    {
+      "id": "FACTORY-311",
+      "jiraRef": "jira/FACTORY-311.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-312",
+      "jiraRef": "jira/FACTORY-312.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-313",
+      "jiraRef": "jira/FACTORY-313.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-320",
+      "jiraRef": "jira/FACTORY-320.jira.json",
+      "enabled": true,
+      "domain": "delivery-scopes"
+    },
+    {
+      "id": "FACTORY-321",
+      "jiraRef": "jira/FACTORY-321.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-322",
+      "jiraRef": "jira/FACTORY-322.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-323",
+      "jiraRef": "jira/FACTORY-323.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-116",
+      "jiraRef": "jira/FACTORY-116.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-117",
+      "jiraRef": "jira/FACTORY-117.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-126",
+      "jiraRef": "jira/FACTORY-126.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-146",
+      "jiraRef": "jira/FACTORY-146.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-230",
+      "jiraRef": "jira/FACTORY-230.jira.json",
+      "enabled": true,
+      "domain": "delivery-scopes"
+    },
+    {
+      "id": "FACTORY-231",
+      "jiraRef": "jira/FACTORY-231.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-232",
+      "jiraRef": "jira/FACTORY-232.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-233",
+      "jiraRef": "jira/FACTORY-233.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-330",
+      "jiraRef": "jira/FACTORY-330.jira.json",
+      "enabled": true,
+      "domain": "delivery-scopes"
+    },
+    {
+      "id": "FACTORY-331",
+      "jiraRef": "jira/FACTORY-331.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-332",
+      "jiraRef": "jira/FACTORY-332.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-333",
+      "jiraRef": "jira/FACTORY-333.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-118",
+      "jiraRef": "jira/FACTORY-118.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-127",
+      "jiraRef": "jira/FACTORY-127.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-137",
+      "jiraRef": "jira/FACTORY-137.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-147",
+      "jiraRef": "jira/FACTORY-147.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-216",
+      "jiraRef": "jira/FACTORY-216.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-226",
+      "jiraRef": "jira/FACTORY-226.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-234",
+      "jiraRef": "jira/FACTORY-234.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-235",
+      "jiraRef": "jira/FACTORY-235.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-316",
+      "jiraRef": "jira/FACTORY-316.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-326",
+      "jiraRef": "jira/FACTORY-326.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-334",
+      "jiraRef": "jira/FACTORY-334.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    },
+    {
+      "id": "FACTORY-335",
+      "jiraRef": "jira/FACTORY-335.jira.json",
+      "enabled": true,
+      "domain": "work-items"
+    }
+  ],
+  "governanceRules": {
+    "requireAssignee": true,
+    "requireStatus": true,
+    "requireDeliveryScopeForWorkItems": true,
+    "allowedProvenanceSourceKinds": [
+      "structured-field",
+      "issue-link",
+      "free-text",
+      "inferred"
+    ]
+  }
+}

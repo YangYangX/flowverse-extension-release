@@ -1,0 +1,238 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "flowverse-jira-item",
+  "agileDeliveryOntologyRef": "agile-delivery-ontology",
+  "worldviewRef": "smart-factory-agile-delivery",
+  "workItem": {
+    "id": "FACTORY-122",
+    "key": "FACTORY-122",
+    "project": "FACTORY",
+    "workItemType": "story",
+    "jiraIssueType": "Story",
+    "domainConceptRef": "work-item",
+    "summary": "Detect abnormal vibration and temperature",
+    "status": {
+      "ref": "in-progress",
+      "jiraStatus": "In Progress",
+      "statusCategory": "indeterminate",
+      "domainConceptRef": "workflow-state"
+    },
+    "deliveryScope": {
+      "ref": "FACTORY-120",
+      "domainConceptRef": "delivery-scope"
+    },
+    "parentRef": {
+      "ref": "FACTORY-120",
+      "relationshipTypeRef": "parent-child",
+      "domainConceptRef": "work-item-hierarchy"
+    },
+    "disciplines": [
+      "BA",
+      "ARCH",
+      "DEV",
+      "DATA"
+    ],
+    "assignee": {
+      "role": "assignee",
+      "displayName": "Machine Intelligence Team",
+      "domainConceptRef": "delivery-actor"
+    },
+    "reporter": {
+      "role": "reporter",
+      "displayName": "Factory Digital Product Management",
+      "domainConceptRef": "delivery-actor"
+    },
+    "priority": "High",
+    "storyPoints": 13,
+    "jiraSprint": "Factory Platform Sprint 12"
+  },
+  "businessObjectives": [
+    {
+      "text": "Reduce unplanned downtime without overwhelming maintenance teams with low-value alerts.",
+      "domainConceptRef": "delivery-objective",
+      "provenance": {
+        "origin": "user-provided",
+        "sourceKind": "structured-field",
+        "sourceRef": "FACTORY-122.businessObjectives.1",
+        "confidence": "high",
+        "capturedAt": "2026-08-09T00:00:00.000Z"
+      }
+    }
+  ],
+  "requirements": [
+    {
+      "text": "The service must score rolling vibration and temperature windows against machine-specific baselines.",
+      "domainConceptRef": "delivery-requirement",
+      "provenance": {
+        "origin": "user-provided",
+        "sourceKind": "structured-field",
+        "sourceRef": "FACTORY-122.requirements.1",
+        "confidence": "high",
+        "capturedAt": "2026-08-09T00:00:00.000Z"
+      }
+    },
+    {
+      "text": "Every material anomaly must include machine identity, signal, observed value, baseline, confidence, and explanation.",
+      "domainConceptRef": "delivery-requirement",
+      "provenance": {
+        "origin": "user-provided",
+        "sourceKind": "structured-field",
+        "sourceRef": "FACTORY-122.requirements.2",
+        "confidence": "high",
+        "capturedAt": "2026-08-09T00:00:00.000Z"
+      }
+    }
+  ],
+  "acceptanceEvidence": [
+    {
+      "text": "Given the approved bearing-fault replay set, when anomaly scoring runs, then detection recall is at least 90% and false-alert rate remains below 5%.",
+      "domainConceptRef": "readiness-gate",
+      "provenance": {
+        "origin": "user-provided",
+        "sourceKind": "structured-field",
+        "sourceRef": "FACTORY-122.acceptanceEvidence.1",
+        "confidence": "high",
+        "capturedAt": "2026-08-09T00:00:00.000Z"
+      }
+    },
+    {
+      "text": "Given normal warm-up behavior, when temperature rises within the approved envelope, then no maintenance recommendation is emitted.",
+      "domainConceptRef": "readiness-gate",
+      "provenance": {
+        "origin": "user-provided",
+        "sourceKind": "structured-field",
+        "sourceRef": "FACTORY-122.acceptanceEvidence.2",
+        "confidence": "high",
+        "capturedAt": "2026-08-09T00:00:00.000Z"
+      }
+    }
+  ],
+  "completionCriteria": [
+    {
+      "text": "Model versioning, replay validation, production monitoring, rollback, and reliability-engineer acceptance are complete.",
+      "domainConceptRef": "readiness-gate",
+      "provenance": {
+        "origin": "user-provided",
+        "sourceKind": "structured-field",
+        "sourceRef": "FACTORY-122.completionCriteria.1",
+        "confidence": "high",
+        "capturedAt": "2026-08-09T00:00:00.000Z"
+      }
+    }
+  ],
+  "risks": [
+    {
+      "cause": "The labeled bearing-fault dataset covers only two CNC machine models.",
+      "effect": "The initial model may overstate confidence for other machines.",
+      "mitigation": "Use model-specific confidence thresholds and shadow evaluation until sufficient labeled data is available.",
+      "severity": "medium",
+      "provenance": {
+        "origin": "user-provided",
+        "sourceKind": "structured-field",
+        "sourceRef": "FACTORY-122.risks.1",
+        "confidence": "high",
+        "capturedAt": "2026-08-09T00:00:00.000Z"
+      }
+    }
+  ],
+  "openQuestions": [
+    "Which additional machine models must pass replay validation before production rollout?"
+  ],
+  "assessment": {
+    "domainConceptRef": "delivery-metric",
+    "profileRef": "delivery-readiness",
+    "source": "flowverse-ai",
+    "generatedAt": "2026-08-08T16:00:00.000Z",
+    "model": "FlowVerse example assessment",
+    "overallScore": 83,
+    "summary": "The outcome, anomaly contract, replay evidence, ownership, and completion controls are clear. Readiness is reduced by the unresolved production rollout scope for machine models without labeled fault data.",
+    "factors": [
+      {
+        "id": "purpose-context",
+        "score": 95,
+        "rationale": "The downtime-reduction outcome and false-alert constraint establish clear operational intent."
+      },
+      {
+        "id": "scope-requirements",
+        "score": 90,
+        "rationale": "Signals, scoring context, explanation fields, and model-specific behavior are explicitly required."
+      },
+      {
+        "id": "acceptance-completion",
+        "score": 86,
+        "rationale": "Replay thresholds and completion controls cover quality, monitoring, rollback, and operational acceptance."
+      },
+      {
+        "id": "ownership-planning",
+        "score": 82,
+        "rationale": "The owning team, disciplines, sprint, priority, and estimate provide actionable planning context."
+      },
+      {
+        "id": "dependencies-risks",
+        "score": 62,
+        "rationale": "The limited labeled dataset is visible with a mitigation, but the rollout decision remains unresolved."
+      }
+    ],
+    "recommendations": [
+      "Agree the production rollout machine-model set and record the reliability owner for each acceptance decision.",
+      "Attach shadow-scoring evidence for unsupported machine models before enabling automated maintenance recommendations."
+    ]
+  },
+  "notes": [
+    {
+      "field": "description",
+      "domainConceptRef": "delivery-note",
+      "provenanceSourceKind": "structured-field",
+      "text": "As a reliability engineer, I need explainable anomaly detection across vibration and temperature signals so that maintenance can act before equipment fails."
+    },
+    {
+      "id": "FACTORY-122-comment-1",
+      "field": "comment",
+      "domainConceptRef": "delivery-note",
+      "provenanceSourceKind": "structured-field",
+      "author": {
+        "role": "comment-author",
+        "displayName": "Reliability Engineering",
+        "domainConceptRef": "delivery-actor"
+      },
+      "createdAt": "2026-08-07T09:10:00.000Z",
+      "updatedAt": "2026-08-07T09:10:00.000Z",
+      "text": "The bearing-fault replay set and normal warm-up examples are available for model validation."
+    },
+    {
+      "id": "FACTORY-122-comment-2",
+      "field": "comment",
+      "domainConceptRef": "delivery-note",
+      "provenanceSourceKind": "structured-field",
+      "author": {
+        "role": "comment-author",
+        "displayName": "Machine Intelligence Team",
+        "domainConceptRef": "delivery-actor"
+      },
+      "createdAt": "2026-08-07T12:40:00.000Z",
+      "updatedAt": "2026-08-07T12:40:00.000Z",
+      "text": "The current model meets recall on the two labeled CNC models; shadow scoring is enabled for the remaining fleet."
+    },
+    {
+      "id": "FACTORY-122-comment-3",
+      "field": "comment",
+      "domainConceptRef": "delivery-note",
+      "provenanceSourceKind": "structured-field",
+      "author": {
+        "role": "comment-author",
+        "displayName": "Factory Digital Product Management",
+        "domainConceptRef": "delivery-actor"
+      },
+      "createdAt": "2026-08-07T15:20:00.000Z",
+      "updatedAt": "2026-08-07T15:20:00.000Z",
+      "text": "Keep the rollout scope explicit and attach the reliability-engineer approval before refinement closes."
+    }
+  ],
+  "provenance": {
+    "origin": "user-provided",
+    "sourceKind": "structured-field",
+    "sourceRef": "FACTORY-122",
+    "confidence": "high",
+    "capturedAt": "2026-08-09T00:00:00.000Z"
+  }
+}

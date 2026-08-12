@@ -1,0 +1,270 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "system-architecture",
+  "generationMode": "ai-gen",
+  "worldviewRef": "smart-factory-worldview",
+  "system": {
+    "id": "notification-service",
+    "name": "Notification Service",
+    "type": "kubernetes-microservice",
+    "description": "Routes maintenance, anomaly, and production-impact alerts to operators and maintenance teams.",
+    "metadata": {
+      "domain": "maintenance-operations",
+      "ownerTeam": "Operator Experience Team",
+      "criticality": "high",
+      "lifecycleStatus": "active",
+      "dataClassification": "internal",
+      "businessFunction": "Operational alert delivery"
+    },
+    "technical": {
+      "language": "Java",
+      "framework": "Spring Boot",
+      "buildTool": "Gradle",
+      "deploymentPlatform": "Kubernetes"
+    }
+  },
+  "roleInArchitecture": {
+    "summary": "Routes maintenance, anomaly, and production-impact alerts to operators and maintenance teams.",
+    "architectureRole": "Operational alert delivery",
+    "primaryBusinessFunction": "Operational alert delivery",
+    "mainResponsibilities": [
+      "Consume operational alerts",
+      "Apply recipient and channel policy",
+      "Deliver SMS, email, or Teams notifications"
+    ]
+  },
+  "visualization": {
+    "defaultRepresentation": "subflow",
+    "availableRepresentations": [
+      "single-node",
+      "subflow"
+    ],
+    "focusRepresentation": "subflow",
+    "layoutDirection": "RIGHT",
+    "showInternalFlows": true,
+    "showModules": true,
+    "decision": {
+      "recommendedBy": "flowverse-system-architecture-authoring",
+      "confidence": "high",
+      "reason": "Architecture-level modules and internal paths are useful for operational review.",
+      "detectedComplexity": {
+        "inboundInteractions": 1,
+        "outboundInteractions": 1,
+        "hasInternalFlow": true,
+        "hasEventProcessing": true,
+        "hasFileProcessing": false,
+        "hasSftpReadWrite": false,
+        "moduleCount": 3
+      },
+      "reviewRequired": false
+    }
+  },
+  "provenance": {
+    "origin": "ai-assisted",
+    "method": "Normalized from the user-provided smart-factory operations scenario.",
+    "confidence": "high",
+    "capturedBy": "flowverse-system-architecture-authoring",
+    "capturedAt": "2026-08-09",
+    "sourceRefs": [
+      {
+        "type": "system-description",
+        "label": "Smart factory operations scenario",
+        "finding": "Routes maintenance, anomaly, and production-impact alerts to operators and maintenance teams."
+      }
+    ]
+  },
+  "modules": [
+    {
+      "id": "notification-event-consumer",
+      "name": "Notification Event Consumer",
+      "nodeType": "module-event-consumer",
+      "description": "Consumes anomaly, maintenance, and production-impact events.",
+      "metadata": {
+        "moduleType": "event-consumer",
+        "direction": "inbound",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "topic": "factory.machine-anomaly.detected, factory.maintenance.status, factory.production.impact",
+        "payload": "Operational alert event"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Consumes anomaly, maintenance, and production-impact events."
+          }
+        ]
+      }
+    },
+    {
+      "id": "notification-policy",
+      "name": "Notification Policy",
+      "nodeType": "module-business-processor",
+      "description": "Selects recipients, urgency, and delivery channels.",
+      "metadata": {
+        "moduleType": "business-processor",
+        "direction": "internal",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "businessFunction": "Operational notification",
+        "input": "Operational alert",
+        "output": "Recipient and channel plan",
+        "responsibility": "Route alerts by site, line, machine, severity, and on-call ownership"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Selects recipients, urgency, and delivery channels."
+          }
+        ]
+      }
+    },
+    {
+      "id": "notification-provider-client",
+      "name": "Notification Provider Client",
+      "nodeType": "externalApi",
+      "description": "Calls the notification provider simulator.",
+      "metadata": {
+        "moduleType": "external-api",
+        "direction": "outbound",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "protocol": "REST",
+        "operation": "Send notification",
+        "path": "/api/v1/notifications",
+        "purpose": "Deliver SMS, email, or Teams alert"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Calls the notification provider simulator."
+          }
+        ]
+      }
+    }
+  ],
+  "interactions": [
+    {
+      "id": "notification-service-consumes-alerts",
+      "source": "kafka-platform",
+      "target": "notification-service",
+      "targetModule": "notification-event-consumer",
+      "protocol": "KAFKA",
+      "interactionType": "event-consume",
+      "purpose": "Consume actionable operational events.",
+      "synchronous": false,
+      "dataClassification": "internal",
+      "topicOrQueue": "factory.machine-anomaly.detected, factory.maintenance.status, factory.production.impact",
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Consume actionable operational events."
+          }
+        ]
+      }
+    },
+    {
+      "id": "notification-service-delivers-alert",
+      "source": "notification-service",
+      "sourceModule": "notification-provider-client",
+      "target": "notification-provider",
+      "protocol": "REST",
+      "interactionType": "api-call",
+      "purpose": "Deliver an operator or maintenance-team alert through the selected channel.",
+      "synchronous": true,
+      "dataClassification": "internal",
+      "endpoint": {
+        "method": "POST",
+        "path": "/api/v1/notifications"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Deliver an operator or maintenance-team alert through the selected channel."
+          }
+        ]
+      }
+    }
+  ],
+  "internalFlows": [
+    {
+      "id": "route-operational-alert",
+      "name": "Route operational alert",
+      "steps": [
+        {
+          "order": 1,
+          "from": "notification-event-consumer",
+          "to": "notification-policy",
+          "description": "Select recipients and channels"
+        },
+        {
+          "order": 2,
+          "from": "notification-policy",
+          "to": "notification-provider-client",
+          "description": "Build provider request"
+        }
+      ]
+    }
+  ],
+  "dataFlows": [
+    {
+      "id": "operator-alert-delivery",
+      "name": "Operational event becomes an operator notification",
+      "type": "event-driven-flow",
+      "trigger": "An actionable anomaly, maintenance, or production event arrives.",
+      "steps": [
+        "notification-service-consumes-alerts",
+        "route-operational-alert",
+        "notification-service-delivers-alert"
+      ]
+    }
+  ],
+  "risks": [],
+  "reviewQuestions": [],
+  "review": {
+    "status": "reviewed",
+    "reviewedBy": "Factory Platform Architecture",
+    "lastReviewedAt": "2026-08-09",
+    "notes": "Synthetic development fixture aligned to the approved smart-factory scenario."
+  }
+}

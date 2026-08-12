@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "flowverse-unified-worldview",
+  "coreOntologyRef": "flowverse-core-ontology",
+  "world": {
+    "id": "smart-factory-development-example",
+    "name": "Smart Factory Development Example",
+    "description": "Connected architecture and Agile Delivery data for the in-house smart-factory operations platform.",
+    "ownerTeam": "Factory Digital Platform",
+    "defaultEnvironment": "development"
+  },
+  "domains": [
+    {
+      "id": "system-architecture",
+      "name": "System Architecture",
+      "domainOntologyRef": "system-architecture-ontology",
+      "worldviewRef": "architecture/worldview.instance.json",
+      "description": "Industrial equipment, Kubernetes microservices, event streaming, data services, and external vendor integrations."
+    },
+    {
+      "id": "agile-delivery",
+      "name": "Agile Delivery",
+      "domainOntologyRef": "agile-delivery-ontology",
+      "worldviewRef": "agile-delivery/worldview.instance.json",
+      "description": "Epics, stories, tasks, bugs, and delivery dependencies for the smart-factory programme."
+    }
+  ],
+  "relationshipTypes": [
+    {
+      "id": "scopes",
+      "name": "Scopes",
+      "coreConceptRef": "context",
+      "sourceToTarget": "scopes",
+      "targetToSource": "is scoped by",
+      "propagation": "bidirectional",
+      "impactSemantics": "The delivery scope identifies the architecture area affected by the work."
+    },
+    {
+      "id": "implements",
+      "name": "Implements",
+      "coreConceptRef": "relationship",
+      "sourceToTarget": "implements",
+      "targetToSource": "is implemented by",
+      "propagation": "forward",
+      "impactSemantics": "Completing the delivery work realizes or changes the architecture element."
+    },
+    {
+      "id": "requires-delivery",
+      "name": "Requires delivery work",
+      "coreConceptRef": "governance",
+      "sourceToTarget": "requires delivery work under",
+      "targetToSource": "governs delivery of",
+      "propagation": "forward",
+      "impactSemantics": "Changing the architecture element requires tracked delivery work before release."
+    }
+  ],
+  "linkSets": [
+    {
+      "id": "factory-platform-delivery",
+      "name": "Smart factory delivery traceability",
+      "ownerTeam": "Factory Digital Platform",
+      "ref": "cross-domain-links/factory-platform-delivery.links.json",
+      "description": "Links programme work to the factory systems and modules it scopes, implements, or governs."
+    }
+  ]
+}

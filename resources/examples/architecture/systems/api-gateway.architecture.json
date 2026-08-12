@@ -1,0 +1,491 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "system-architecture",
+  "generationMode": "ai-gen",
+  "worldviewRef": "smart-factory-worldview",
+  "system": {
+    "id": "api-gateway",
+    "name": "Factory API Gateway",
+    "type": "api-gateway",
+    "description": "Secured REST entry point that routes operator requests to asset, telemetry, maintenance, and production services.",
+    "metadata": {
+      "domain": "factory-platform",
+      "ownerTeam": "Operator Experience Team",
+      "criticality": "critical",
+      "lifecycleStatus": "active",
+      "dataClassification": "internal",
+      "businessFunction": "Operator API entry point"
+    },
+    "technical": {
+      "language": "Java",
+      "framework": "Spring Boot",
+      "buildTool": "Gradle",
+      "deploymentPlatform": "Kubernetes"
+    }
+  },
+  "roleInArchitecture": {
+    "summary": "Secured REST entry point that routes operator requests to asset, telemetry, maintenance, and production services.",
+    "architectureRole": "Operator API entry point",
+    "primaryBusinessFunction": "Operator API entry point",
+    "mainResponsibilities": [
+      "Authenticate operator requests",
+      "Route API calls to owning services",
+      "Apply request tracing and rate controls"
+    ]
+  },
+  "visualization": {
+    "defaultRepresentation": "subflow",
+    "availableRepresentations": [
+      "single-node",
+      "subflow"
+    ],
+    "focusRepresentation": "subflow",
+    "layoutDirection": "RIGHT",
+    "showInternalFlows": true,
+    "showModules": true,
+    "decision": {
+      "recommendedBy": "flowverse-system-architecture-authoring",
+      "confidence": "high",
+      "reason": "Architecture-level modules and internal paths are useful for operational review.",
+      "detectedComplexity": {
+        "inboundInteractions": 4,
+        "outboundInteractions": 4,
+        "hasInternalFlow": false,
+        "hasEventProcessing": false,
+        "hasFileProcessing": false,
+        "hasSftpReadWrite": false,
+        "moduleCount": 4
+      },
+      "reviewRequired": false
+    }
+  },
+  "provenance": {
+    "origin": "ai-assisted",
+    "method": "Normalized from the user-provided smart-factory operations scenario.",
+    "confidence": "high",
+    "capturedBy": "flowverse-system-architecture-authoring",
+    "capturedAt": "2026-08-09",
+    "sourceRefs": [
+      {
+        "type": "system-description",
+        "label": "Smart factory operations scenario",
+        "finding": "Secured REST entry point that routes operator requests to asset, telemetry, maintenance, and production services."
+      }
+    ]
+  },
+  "modules": [
+    {
+      "id": "machine-telemetry-api",
+      "name": "Machine Telemetry API",
+      "nodeType": "module-rest-api",
+      "description": "Exposes current and recent machine telemetry to operator clients.",
+      "metadata": {
+        "moduleType": "rest-api",
+        "direction": "inbound",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "method": "GET",
+        "path": "/api/v1/machines/{machineId}/telemetry",
+        "operation": "Query machine telemetry"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Exposes current and recent machine telemetry to operator clients."
+          }
+        ]
+      }
+    },
+    {
+      "id": "maintenance-work-order-api",
+      "name": "Maintenance Work Order API",
+      "nodeType": "module-rest-api",
+      "description": "Accepts operator-created maintenance work orders.",
+      "metadata": {
+        "moduleType": "rest-api",
+        "direction": "inbound",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "method": "POST",
+        "path": "/api/v1/maintenance/work-orders",
+        "operation": "Create maintenance work order"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Accepts operator-created maintenance work orders."
+          }
+        ]
+      }
+    },
+    {
+      "id": "production-impact-api",
+      "name": "Production Impact API",
+      "nodeType": "module-rest-api",
+      "description": "Exposes downtime and production-impact information.",
+      "metadata": {
+        "moduleType": "rest-api",
+        "direction": "inbound",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "method": "GET",
+        "path": "/api/v1/production/impact",
+        "operation": "Query production impact"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Exposes downtime and production-impact information."
+          }
+        ]
+      }
+    },
+    {
+      "id": "asset-query-api",
+      "name": "Asset Query API",
+      "nodeType": "module-rest-api",
+      "description": "Exposes factory, line, machine, and sensor identity.",
+      "metadata": {
+        "moduleType": "rest-api",
+        "direction": "inbound",
+        "criticality": "high",
+        "dataClassification": "internal"
+      },
+      "properties": {
+        "method": "GET",
+        "path": "/api/v1/assets/{assetId}",
+        "operation": "Query asset"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Exposes factory, line, machine, and sensor identity."
+          }
+        ]
+      }
+    }
+  ],
+  "interactions": [
+    {
+      "id": "operator-queries-machine-telemetry",
+      "source": "operator-ui",
+      "target": "api-gateway",
+      "targetModule": "machine-telemetry-api",
+      "protocol": "REST",
+      "interactionType": "api-call",
+      "purpose": "Allow an operator to inspect machine telemetry.",
+      "synchronous": true,
+      "dataClassification": "internal",
+      "endpoint": {
+        "method": "GET",
+        "path": "/api/v1/machines/{machineId}/telemetry"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Allow an operator to inspect machine telemetry."
+          }
+        ]
+      }
+    },
+    {
+      "id": "gateway-queries-telemetry-service",
+      "source": "api-gateway",
+      "sourceModule": "machine-telemetry-api",
+      "target": "telemetry-ingestion-service",
+      "targetModule": "telemetry-query-api",
+      "protocol": "REST",
+      "interactionType": "api-call",
+      "purpose": "Retrieve machine telemetry from the owning service.",
+      "synchronous": true,
+      "dataClassification": "internal",
+      "endpoint": {
+        "method": "GET",
+        "path": "/internal/v1/machines/{machineId}/telemetry"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Retrieve machine telemetry from the owning service."
+          }
+        ]
+      }
+    },
+    {
+      "id": "operator-creates-maintenance-work-order",
+      "source": "operator-ui",
+      "target": "api-gateway",
+      "targetModule": "maintenance-work-order-api",
+      "protocol": "REST",
+      "interactionType": "api-call",
+      "purpose": "Allow an operator to request maintenance work.",
+      "synchronous": true,
+      "dataClassification": "internal",
+      "endpoint": {
+        "method": "POST",
+        "path": "/api/v1/maintenance/work-orders"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Allow an operator to request maintenance work."
+          }
+        ]
+      }
+    },
+    {
+      "id": "gateway-creates-maintenance-work-order",
+      "source": "api-gateway",
+      "sourceModule": "maintenance-work-order-api",
+      "target": "maintenance-service",
+      "targetModule": "create-work-order-api",
+      "protocol": "REST",
+      "interactionType": "api-call",
+      "purpose": "Create the maintenance work order in the owning service.",
+      "synchronous": true,
+      "dataClassification": "internal",
+      "endpoint": {
+        "method": "POST",
+        "path": "/internal/v1/work-orders"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Create the maintenance work order in the owning service."
+          }
+        ]
+      }
+    },
+    {
+      "id": "operator-queries-production-impact",
+      "source": "operator-ui",
+      "target": "api-gateway",
+      "targetModule": "production-impact-api",
+      "protocol": "REST",
+      "interactionType": "api-call",
+      "purpose": "Allow an operator to inspect downtime and output impact.",
+      "synchronous": true,
+      "dataClassification": "internal",
+      "endpoint": {
+        "method": "GET",
+        "path": "/api/v1/production/impact"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Allow an operator to inspect downtime and output impact."
+          }
+        ]
+      }
+    },
+    {
+      "id": "gateway-queries-production-service",
+      "source": "api-gateway",
+      "sourceModule": "production-impact-api",
+      "target": "production-service",
+      "targetModule": "production-impact-api",
+      "protocol": "REST",
+      "interactionType": "api-call",
+      "purpose": "Retrieve calculated production impact.",
+      "synchronous": true,
+      "dataClassification": "internal",
+      "endpoint": {
+        "method": "GET",
+        "path": "/internal/v1/production/impact"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Retrieve calculated production impact."
+          }
+        ]
+      }
+    },
+    {
+      "id": "operator-queries-asset-registry",
+      "source": "operator-ui",
+      "target": "api-gateway",
+      "targetModule": "asset-query-api",
+      "protocol": "REST",
+      "interactionType": "api-call",
+      "purpose": "Allow an operator to inspect registered factory assets.",
+      "synchronous": true,
+      "dataClassification": "internal",
+      "endpoint": {
+        "method": "GET",
+        "path": "/api/v1/assets/{assetId}"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Allow an operator to inspect registered factory assets."
+          }
+        ]
+      }
+    },
+    {
+      "id": "gateway-queries-asset-registry",
+      "source": "api-gateway",
+      "sourceModule": "asset-query-api",
+      "target": "asset-registry-service",
+      "targetModule": "asset-api",
+      "protocol": "REST",
+      "interactionType": "api-call",
+      "purpose": "Retrieve asset identity and hierarchy.",
+      "synchronous": true,
+      "dataClassification": "internal",
+      "endpoint": {
+        "method": "GET",
+        "path": "/internal/v1/assets/{assetId}"
+      },
+      "provenance": {
+        "origin": "ai-assisted",
+        "method": "Normalized from the user-provided smart-factory operations scenario.",
+        "confidence": "high",
+        "capturedBy": "flowverse-system-architecture-authoring",
+        "capturedAt": "2026-08-09",
+        "sourceRefs": [
+          {
+            "type": "system-description",
+            "label": "Smart factory operations scenario",
+            "finding": "Retrieve asset identity and hierarchy."
+          }
+        ]
+      }
+    }
+  ],
+  "internalFlows": [],
+  "dataFlows": [
+    {
+      "id": "operator-telemetry-query",
+      "name": "Operator inspects machine telemetry",
+      "type": "synchronous-api-flow",
+      "trigger": "An operator opens machine telemetry in the UI.",
+      "steps": [
+        "operator-queries-machine-telemetry",
+        "gateway-queries-telemetry-service"
+      ]
+    },
+    {
+      "id": "operator-work-order-creation",
+      "name": "Operator creates a maintenance work order",
+      "type": "synchronous-api-flow",
+      "trigger": "An operator submits a maintenance request.",
+      "steps": [
+        "operator-creates-maintenance-work-order",
+        "gateway-creates-maintenance-work-order"
+      ]
+    },
+    {
+      "id": "operator-production-impact-query",
+      "name": "Operator reviews production impact",
+      "type": "synchronous-api-flow",
+      "trigger": "An operator requests current downtime and output impact.",
+      "steps": [
+        "operator-queries-production-impact",
+        "gateway-queries-production-service"
+      ]
+    },
+    {
+      "id": "operator-asset-query",
+      "name": "Operator reviews an equipment record",
+      "type": "synchronous-api-flow",
+      "trigger": "An operator selects a factory asset.",
+      "steps": [
+        "operator-queries-asset-registry",
+        "gateway-queries-asset-registry"
+      ]
+    }
+  ],
+  "risks": [],
+  "reviewQuestions": [],
+  "review": {
+    "status": "reviewed",
+    "reviewedBy": "Factory Platform Architecture",
+    "lastReviewedAt": "2026-08-09",
+    "notes": "Synthetic development fixture aligned to the approved smart-factory scenario."
+  }
+}
