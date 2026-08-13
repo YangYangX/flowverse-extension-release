@@ -44,15 +44,11 @@ FlowVerse can turn source material into structured architecture knowledge and im
 
 ### Connected Architecture Landscape
 
-The System Architecture canvas provides a portfolio-scale view of systems, internal modules, external platforms, APIs, event channels, databases, and their relationships. Renderer-owned card and edge conventions keep the model readable, while the explorer and dynamic legend provide stable navigation and visual meaning. The lower details workbench summarizes scope and connectivity from the same loaded records. The same architecture can be viewed with structured or Bézier relationship routing without changing its source data.
+The System Architecture canvas provides a portfolio-scale view of systems, internal modules, external platforms, APIs, event channels, databases, and their relationships. Renderer-owned card and edge conventions keep the model readable, while the explorer and dynamic legend provide stable navigation and visual meaning. The lower details workbench summarizes scope and connectivity from the same loaded records.
 
 ![Smart Factory system architecture landscape with services, modules, integrations, explorer, legend, and details](docs/screenshots/architecture-diagram.png)
 
-*Structured routing emphasizes system boundaries and the overall topology of the smart-factory landscape, connecting industrial equipment, Kubernetes services, event streaming, operational data, and external vendors in one architecture view.*
-
-![The same Smart Factory architecture rendered with Bézier relationship routing](docs/screenshots/architecture-diagram-2.png)
-
-*Bézier routing presents the same source-backed architecture with smoother relationship paths. It is useful when tracing data flows and following connections across a dense landscape, while cards, semantics, selection, details, and evidence remain unchanged.*
+*The complete smart-factory landscape connects industrial equipment, Kubernetes services, event streaming, operational data, and external vendors in one architecture view.*
 
 ## AI-guided Navigation
 
