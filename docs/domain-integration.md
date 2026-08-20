@@ -42,7 +42,7 @@ resources/
     cross-domain-links/
 ```
 
-`resources/knowledge/` contains shared definitions, schemas, and the initial instance-free unified worldview. All demonstration systems, modules, Jira items, and cross-domain assertions live under `resources/examples/` and can be removed before production packaging without changing the knowledge contracts.
+`resources/knowledge/` contains shared definitions, schemas, the initial unified worldview, and a data-free Agile Delivery profile used when no source-specific profile is available. All demonstration systems, modules, Jira items, and cross-domain assertions live under `resources/examples/` and can be removed before production packaging without changing the knowledge contracts.
 
 The development example includes both current domains, 23 architecture boundaries, 24 multi-level Agile Delivery records, and explicit delivery-to-architecture link sets. See the [Smart Factory Operations Example](smart-factory-operations-example.md).
 

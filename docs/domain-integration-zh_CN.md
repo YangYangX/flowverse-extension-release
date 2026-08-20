@@ -44,7 +44,7 @@ resources/
     cross-domain-links/
 ```
 
-`resources/knowledge/` 包含共享定义、Schema 和不含实例的初始 Unified Worldview。所有演示系统、模块、Jira 工作项和跨领域断言均位于 `resources/examples/` 下；在生产打包前可以移除它们，而不会改变知识契约。
+`resources/knowledge/` 包含共享定义、Schema、初始 Unified Worldview，以及在没有来源专用配置时使用的不含数据的 Agile Delivery 配置。所有演示系统、模块、Jira 工作项和跨领域断言均位于 `resources/examples/` 下；在生产打包前可以移除它们，而不会改变知识契约。
 
 开发示例包含当前两个领域、23 个架构边界、24 条多级 Agile Delivery 记录，以及显式的交付到架构 Link Set。详见[智能工厂运营示例](smart-factory-operations-example-zh_CN.md)。
 
