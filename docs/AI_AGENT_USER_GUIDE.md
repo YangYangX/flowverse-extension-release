@@ -114,7 +114,16 @@ During a successful first fetch, Chat reports these user-meaningful stages in or
 4. Processing acceptance criteria.
 5. Retaining the normalized source context.
 
-The result is retained Agile Delivery context and a concise Chat summary. Fetch does not run optional analyses or open a diagram.
+The result is retained Agile Delivery context, a concise Chat summary, and an Agile Delivery canvas focused on the requested work item. By default, FlowVerse acquires up to three hierarchy levels and 75 descendants. Repeated fetches compose additional roots into the same session view; overlapping descendants remain a single shared record.
+
+Remove fetched session context without changing Jira or workspace files:
+
+```text
+@flowverse clear fetched FACTORY-100
+@flowverse clear all fetched delivery work
+```
+
+Clearing one root preserves records still referenced by another fetched hierarchy. Workspace `*.jira.json` records remain available throughout.
 
 ### Continue from retained context
 

@@ -116,7 +116,16 @@ npm run build:prod
 4. 处理验收条件。
 5. 保留规范化后的来源上下文。
 
-结果是已保留的 Agile Delivery 上下文和一段精简 Chat 摘要。Fetch 不会运行可选分析，也不会打开图表。
+结果是已保留的 Agile Delivery 上下文、一段精简 Chat 摘要，以及聚焦到所请求 Work Item 的 Agile Delivery 画布。默认情况下，FlowVerse 最多采集三层层级和 75 个后代。重复 Fetch 会把其他根节点组合到同一个会话视图中；重叠的后代仍保留为一条共享记录。
+
+可在不修改 Jira 或 Workspace 文件的情况下移除已获取的会话上下文：
+
+```text
+@flowverse clear fetched FACTORY-100
+@flowverse clear all fetched delivery work
+```
+
+清除一个根节点时，仍被其他已获取层级引用的记录会继续保留。Workspace 中的 `*.jira.json` 记录始终不受影响。
 
 ### 从已保留上下文继续
 

@@ -29,4 +29,6 @@ FlowVerse 可以采集 Jira 证据、打开结构化 Issue 报告、检查架构
 
 完整 Issue 上下文和生成的报告区块保留在当前 VS Code 窗口中。重新打开已保留报告不会暗中获取 Jira 数据；当服务器当前状态很重要时，应显式请求刷新。
 
+获取一个 Work Item 时，会采集其有界后代层级（默认三层、最多 75 个后代），与 Workspace 中已有的来源记录合并，打开 Agile Delivery 画布，并聚焦所请求的条目。后续 Fetch 会把独立根节点组合到同一个内存会话中。清除一个根节点或全部已获取工作时，只移除会话采集的记录；Workspace 文件仍是权威来源且不会被修改。
+
 配置、审批、能力验证和故障排查详见 [AI Agent 用户指南](AI_AGENT_USER_GUIDE-zh_CN.md)。画布操作所使用的共享命令边界详见[图表操作框架](architecture/diagram-action-framework-zh_CN.md)。

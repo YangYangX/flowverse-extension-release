@@ -27,4 +27,6 @@ Read-only analysis and navigation do not require semantic confirmation. Jira mut
 
 Full issue context and generated report sections live in the current VS Code window. Reopening a retained report does not silently fetch Jira data; request a refresh when current server state matters.
 
+Fetching a work item acquires its bounded descendant hierarchy (three levels and 75 descendants by default), merges it with source records already available from the workspace, opens the Agile Delivery canvas, and focuses the requested item. Additional fetches compose independent roots into the same in-memory session. Clearing a fetched root—or all fetched work—removes only session-acquired records; workspace files remain authoritative and unchanged.
+
 See the [AI Agent User Guide](AI_AGENT_USER_GUIDE.md) for setup, approvals, capability verification, and troubleshooting. The [Diagram Action Framework](architecture/diagram-action-framework.md) describes the shared command boundary used for canvas actions.
