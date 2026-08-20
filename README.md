@@ -131,6 +131,7 @@ The README is the product introduction and visual walkthrough. Use the focused g
 | [Platform Model and Canvas](docs/platform-and-canvas.md) | Product model, canvas types, shared interactions, details, and source precedence | Product teams, architects, and delivery teams |
 | [Domain Integration](docs/domain-integration.md) | Domain packages, connectors, validation, resources, and data resolution | Domain and platform engineers |
 | [AI-native Workflows](docs/ai-native-workflows.md) | LLM-command integration, agent navigation, analysis, and governed actions | Agent builders and FlowVerse users |
+| [Workspace Actions](docs/workspace-actions.md) | Typed inspection, view, analysis, scenario, and session-mutation operations | Agent builders and platform engineers |
 | [Development and Releases](docs/development-and-releases.md) | Setup, validation, packaging, CI, releases, and repository layout | Contributors and maintainers |
 
 ### Supporting References
