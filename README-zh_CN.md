@@ -1,4 +1,4 @@
-# FlowVerse for VS Code
+# FlowVerse Engineering Intelligence
 
 [English](README.md)
 
