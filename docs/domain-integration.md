@@ -34,7 +34,7 @@ The repository keeps product knowledge and disposable development data separate:
 
 ```text
 resources/
-  knowledge/     Packaged definitions, schemas, and the initial fallback composition
+  knowledge/     Packaged definitions, schemas, and the runtime Agile Delivery profile
   examples/
     unified-worldview.instance.json
     architecture/
@@ -42,19 +42,13 @@ resources/
     cross-domain-links/
 ```
 
-`resources/knowledge/` contains shared definitions, schemas, the initial unified worldview, and a data-free Agile Delivery profile used when no source-specific profile is available. All demonstration systems, modules, Jira items, and cross-domain assertions live under `resources/examples/` and can be removed before production packaging without changing the knowledge contracts.
+`resources/knowledge/` contains shared definitions, schemas, and the data-free Agile Delivery profile used by connected session sources. The extension-owned unified worldview is defined in `unifiedWorldviewModule.ts`; it is not discovered from workspace data. All demonstration systems, modules, Jira items, and cross-domain assertions live under `resources/examples/` and can be removed before production packaging without changing the product runtime.
 
 The development example includes both current domains, 23 architecture boundaries, 24 multi-level Agile Delivery records, and explicit delivery-to-architecture link sets. See the [Smart Factory Operations Example](smart-factory-operations-example.md).
 
 ## Configuration and Data Resolution
 
-The generic canvas resolves its unified worldview in this order:
-
-1. `flowverse.unifiedWorldviewPath` in the first workspace folder;
-2. `unified-worldview.instance.json` discovered in the workspace;
-3. the instance-free bundled knowledge fallback.
-
-When multiple workspace manifests are found, FlowVerse asks which one to open. Domain worldviews and records are then resolved from references in that selected unified worldview.
+The generic canvas starts from the extension-owned two-domain composition. System Architecture resolves from `architecture/worldview.instance.json` in the workspace. Agile Delivery records and cross-domain relationships are supplied by connected sources and retained only in the active runtime/session composition.
 
 The single-service preview resolves its System Architecture worldview separately:
 

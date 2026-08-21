@@ -36,7 +36,7 @@ src/domains/
 
 ```text
 resources/
-  knowledge/     打包的定义、Schema 和初始回退组合
+  knowledge/     打包的定义、Schema 和运行时 Agile Delivery 配置
   examples/
     unified-worldview.instance.json
     architecture/
@@ -44,19 +44,13 @@ resources/
     cross-domain-links/
 ```
 
-`resources/knowledge/` 包含共享定义、Schema、初始 Unified Worldview，以及在没有来源专用配置时使用的不含数据的 Agile Delivery 配置。所有演示系统、模块、Jira 工作项和跨领域断言均位于 `resources/examples/` 下；在生产打包前可以移除它们，而不会改变知识契约。
+`resources/knowledge/` 包含共享定义、Schema，以及供已连接会话来源使用的不含数据的 Agile Delivery 配置。扩展自有的 Unified Worldview 定义在 `unifiedWorldviewModule.ts` 中，不再从 Workspace 数据中发现。所有演示系统、模块、Jira 工作项和跨领域断言均位于 `resources/examples/` 下；在生产打包前可以移除它们，而不会改变产品运行时。
 
 开发示例包含当前两个领域、23 个架构边界、24 条多级 Agile Delivery 记录，以及显式的交付到架构 Link Set。详见[智能工厂运营示例](smart-factory-operations-example-zh_CN.md)。
 
 ## 配置与数据解析
 
-通用画布按以下顺序解析 Unified Worldview：
-
-1. 第一个 Workspace 文件夹中的 `flowverse.unifiedWorldviewPath`；
-2. Workspace 中发现的 `unified-worldview.instance.json`；
-3. 不含实例的内置知识回退。
-
-当发现多个 Workspace Manifest 时，FlowVerse 会询问要打开哪一个。随后从所选 Unified Worldview 的引用中解析领域 Worldview 和记录。
+通用画布从扩展自有的双领域组合启动。System Architecture 从 Workspace 中的 `architecture/worldview.instance.json` 解析；Agile Delivery 记录与跨领域关系由已连接来源提供，并且只保留在当前运行时/会话组合中。
 
 单服务预览通过独立顺序解析 System Architecture Worldview：
 

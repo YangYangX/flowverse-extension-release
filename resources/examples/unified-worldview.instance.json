@@ -55,12 +55,5 @@
     }
   ],
   "linkSets": [
-    {
-      "id": "factory-platform-delivery",
-      "name": "Smart factory delivery traceability",
-      "ownerTeam": "Factory Digital Platform",
-      "ref": "cross-domain-links/factory-platform-delivery.links.json",
-      "description": "Links programme work to the factory systems and modules it scopes, implements, or governs."
-    }
   ]
 }
