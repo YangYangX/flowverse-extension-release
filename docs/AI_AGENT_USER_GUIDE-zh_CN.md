@@ -45,7 +45,7 @@ FlowVerse 按以下顺序解析唯一 Jira 目标：
 
 推荐布局：
 
-- **编辑器区域：** Domain Canvas、原始 JSON 和服务预览。
+- **编辑器区域：** Domain Canvas 和原始 JSON。
 - **右侧边栏：** 带有 `@flowverse` 的原生 Copilot Chat。
 - **底部面板：** 用于技术诊断的 FlowVerse Output。
 

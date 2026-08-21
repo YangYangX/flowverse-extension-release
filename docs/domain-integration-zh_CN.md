@@ -52,14 +52,6 @@ resources/
 
 通用画布从扩展自有的双领域组合启动。System Architecture 从 Workspace 中的 `architecture/worldview.instance.json` 解析；Agile Delivery 记录与跨领域关系由已连接来源提供，并且只保留在当前运行时/会话组合中。
 
-单服务预览通过独立顺序解析 System Architecture Worldview：
-
-1. `flowverse.worldviewPath`；
-2. 最近的 `flowverse.authoring.json` 及其 `worldviewInstancePath`；
-3. 常见的 Workspace 架构路径；
-4. 从服务文件向上查找时发现的最近 `worldview.instance.json`；
-5. 无可用 Worldview 时使用服务本地预览词汇。
-
 Jira Base URL 解析顺序：
 
 1. VS Code 进程中的 `FLOWVERSE_JIRA_BASE_URL`；

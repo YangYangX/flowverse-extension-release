@@ -26,7 +26,6 @@ npm run build
 - **FlowVerse: Open Unified Worldview Canvas**
 - **FlowVerse: Open System Architecture Canvas**
 - **FlowVerse: Open Agile Delivery Canvas**
-- **FlowVerse: Toggle JSON/Canvas View**
 
 Extension Host 使用 TypeScript 编译，Webview 使用 Vite 构建，不包含 esbuild 步骤。
 

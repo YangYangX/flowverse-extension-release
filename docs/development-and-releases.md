@@ -24,7 +24,6 @@ Useful commands:
 - **FlowVerse: Open Unified Worldview Canvas**
 - **FlowVerse: Open System Architecture Canvas**
 - **FlowVerse: Open Agile Delivery Canvas**
-- **FlowVerse: Toggle JSON/Canvas View**
 
 The extension host is compiled with TypeScript and the webview with Vite. There is no esbuild step.
 

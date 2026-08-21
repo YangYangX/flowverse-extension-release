@@ -23,7 +23,7 @@
 
 当前 LM Tool 保持稳定：
 
-- `flowverse_open_diagram` 打开解析后的服务预览或 Unified Worldview。
+- `flowverse_open_diagram` 打开解析后的领域画布或 Unified Worldview 画布。
 - `flowverse_control_diagram` 接受现有 kebab-case 画布操作，并转发到共享 Executor。
 
 可点击聊天操作应使用：

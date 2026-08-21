@@ -31,7 +31,7 @@ Bundled fallback  ──┘                              │
 | Canvas session | One live canvas panel, perspective, selection, command queue, and webview readiness | Until its panel closes |
 | Launch/AI session | Active context and analysis interaction state | Controller/window lifetime |
 
-The sessions do not copy source records into view-specific stores. Canvas, Explorer, Details, Service Preview, diagram tools, and Launch Intelligence resolve knowledge through the same provider-backed platform and derive their own disposable projections.
+The sessions do not copy source records into view-specific stores. Canvas, Explorer, Details, diagram tools, and Launch Intelligence resolve knowledge through the same provider-backed platform and derive their own disposable projections.
 
 ## Source resolution
 
@@ -149,7 +149,7 @@ The composition is a read model, not a source of truth. The same composition fee
 - Unified and focused domain canvas projections.
 - FlowVerse Explorer and domain legend.
 - FlowVerse Details.
-- Service Preview and diagram tools.
+- Canvas and diagram tools.
 - Launch Intelligence context.
 
 Workspace file creation/change/deletion invalidates persistent knowledge and regenerates the relevant projection. Runtime updates emit the same change path. The webview never reads source files.

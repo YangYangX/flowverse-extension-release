@@ -40,10 +40,6 @@ The Agile Delivery canvas renders Jira-style work items from `*.jira.json` recor
 
 Its details view separates operational context from relationships, delivery evidence, discussion history, AI rating, and source lineage. The Agile Delivery worldview owns the available assessment profiles—including factor names, descriptions, weights, aggregation, and rating bands—while the extension executes and renders the selected profile. Generated ratings remain session-scoped unless an assessment is explicitly present in source data.
 
-### Single-service Preview
-
-Opening a `*.architecture.json` file with **FlowVerse Service Architecture Preview** renders that service and its connected external references without creating a second source of truth. Use **FlowVerse: Toggle JSON/Canvas View** to switch between the JSON editor and preview.
-
 ## Shared Canvas Behavior
 
 All domain and unified views use the same canvas engine in `src/flowverse/workbench/` and the same canvas surface in `src/webview/features/domainCanvas/`.

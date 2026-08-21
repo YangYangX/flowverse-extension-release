@@ -50,14 +50,6 @@ The development example includes both current domains, 23 architecture boundarie
 
 The generic canvas starts from the extension-owned two-domain composition. System Architecture resolves from `architecture/worldview.instance.json` in the workspace. Agile Delivery records and cross-domain relationships are supplied by connected sources and retained only in the active runtime/session composition.
 
-The single-service preview resolves its System Architecture worldview separately:
-
-1. `flowverse.worldviewPath`;
-2. the nearest `flowverse.authoring.json` and its `worldviewInstancePath`;
-3. common workspace architecture paths;
-4. the nearest `worldview.instance.json` found by walking up from the service file;
-5. service-local preview vocabulary when no worldview is available.
-
 Jira base URL resolution:
 
 1. `FLOWVERSE_JIRA_BASE_URL` from the VS Code process;

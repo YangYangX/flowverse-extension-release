@@ -42,10 +42,6 @@ Agile Delivery 画布呈现来自 `*.jira.json` 记录的 Jira 风格工作项�
 
 其详细信息视图将运行上下文与关系、交付证据、讨论历史、AI 评分和来源沿袭分开。Agile Delivery Worldview 管理可用的评估配置，包括因素名称、描述、权重、聚合方式和评分区间；扩展负责执行并呈现所选配置。除非源数据显式包含评估，否则生成的评分仅保留在当前会话中。
 
-### 单服务预览
-
-使用 **FlowVerse Service Architecture Preview** 打开 `*.architecture.json` 文件时，会呈现该服务及其连接的外部引用，而不会创建第二个事实来源。使用 **FlowVerse: Toggle JSON/Canvas View** 可在 JSON 编辑器和预览之间切换。
-
 ## 共享画布行为
 
 所有领域视图和统一视图都使用 `src/flowverse/workbench/` 中的同一画布引擎，以及 `src/webview/features/domainCanvas/` 中的同一画布界面。

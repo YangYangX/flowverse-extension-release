@@ -43,7 +43,7 @@ Across restart, FlowVerse may retain only navigation metadata such as known issu
 
 The recommended layout is:
 
-- **Editor area:** domain canvases, raw JSON, and service previews.
+- **Editor area:** domain canvases and raw JSON.
 - **Right sidebar:** native Copilot Chat with `@flowverse`.
 - **Bottom panel:** FlowVerse Output for technical diagnostics.
 

@@ -21,7 +21,7 @@ This keeps direct canvas interactions and AI-assisted interactions aligned. A ch
 
 Current LM tools stay stable:
 
-- `flowverse_open_diagram` opens a resolved service preview or unified worldview.
+- `flowverse_open_diagram` opens a resolved domain or unified worldview canvas.
 - `flowverse_control_diagram` accepts the existing kebab-case canvas actions and forwards them to the shared executor.
 
 Clickable chat actions should use:
