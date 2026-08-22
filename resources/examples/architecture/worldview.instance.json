@@ -17,10 +17,7 @@
       "type": "industrial-equipment",
       "description": "CNC machines, robots, assembly-line equipment, PLCs, and attached sensors publishing industrial signals.",
       "criticality": "critical",
-      "ownership": "Plant Operations",
-      "visualization": {
-        "layoutZone": "west"
-      }
+      "ownership": "Plant Operations"
     },
     {
       "id": "operator-ui",
@@ -28,114 +25,72 @@
       "type": "operator-application",
       "description": "Factory operator workspace for machine health, production impact, alerts, and maintenance actions.",
       "criticality": "high",
-      "ownership": "Operator Experience Team",
-      "visualization": {
-        "layoutZone": "northWest"
-      }
+      "ownership": "Operator Experience Team"
     },
     {
       "id": "edge-gateway",
       "architectureRef": "systems/edge-gateway.architecture.json",
-      "enabled": true,
-      "visualization": {
-        "layoutZone": "west"
-      }
+      "enabled": true
     },
     {
       "id": "kafka-platform",
       "architectureRef": "systems/kafka-platform.architecture.json",
-      "enabled": true,
-      "visualization": {
-        "layoutZone": "center"
-      }
+      "enabled": true
     },
     {
       "id": "api-gateway",
       "architectureRef": "systems/api-gateway.architecture.json",
-      "enabled": true,
-      "visualization": {
-        "layoutZone": "north"
-      }
+      "enabled": true
     },
     {
       "id": "asset-registry-service",
       "architectureRef": "systems/asset-registry-service.architecture.json",
-      "enabled": true,
-      "visualization": {
-        "layoutZone": "east"
-      }
+      "enabled": true
     },
     {
       "id": "telemetry-ingestion-service",
       "architectureRef": "systems/telemetry-ingestion-service.architecture.json",
-      "enabled": true,
-      "visualization": {
-        "layoutZone": "east"
-      }
+      "enabled": true
     },
     {
       "id": "machine-state-service",
       "architectureRef": "systems/machine-state-service.architecture.json",
-      "enabled": true,
-      "visualization": {
-        "layoutZone": "east"
-      }
+      "enabled": true
     },
     {
       "id": "anomaly-detection-service",
       "architectureRef": "systems/anomaly-detection-service.architecture.json",
-      "enabled": true,
-      "visualization": {
-        "layoutZone": "east"
-      }
+      "enabled": true
     },
     {
       "id": "predictive-maintenance-service",
       "architectureRef": "systems/predictive-maintenance-service.architecture.json",
-      "enabled": true,
-      "visualization": {
-        "layoutZone": "east"
-      }
+      "enabled": true
     },
     {
       "id": "maintenance-service",
       "architectureRef": "systems/maintenance-service.architecture.json",
-      "enabled": true,
-      "visualization": {
-        "layoutZone": "east"
-      }
+      "enabled": true
     },
     {
       "id": "production-service",
       "architectureRef": "systems/production-service.architecture.json",
-      "enabled": true,
-      "visualization": {
-        "layoutZone": "east"
-      }
+      "enabled": true
     },
     {
       "id": "vendor-adapter-service",
       "architectureRef": "systems/vendor-adapter-service.architecture.json",
-      "enabled": true,
-      "visualization": {
-        "layoutZone": "east"
-      }
+      "enabled": true
     },
     {
       "id": "notification-service",
       "architectureRef": "systems/notification-service.architecture.json",
-      "enabled": true,
-      "visualization": {
-        "layoutZone": "east"
-      }
+      "enabled": true
     },
     {
       "id": "digital-twin-service",
       "architectureRef": "systems/digital-twin-service.architecture.json",
-      "enabled": true,
-      "visualization": {
-        "layoutZone": "east"
-      }
+      "enabled": true
     },
     {
       "id": "external-erp-mes",
@@ -143,10 +98,7 @@
       "type": "external-system",
       "description": "Simulator that provides production orders and receives downtime reports.",
       "criticality": "critical",
-      "ownership": "Enterprise Manufacturing Systems",
-      "visualization": {
-        "layoutZone": "southEast"
-      }
+      "ownership": "Enterprise Manufacturing Systems"
     },
     {
       "id": "external-cmms",
@@ -154,10 +106,7 @@
       "type": "external-system",
       "description": "Simulator that receives and tracks maintenance work orders.",
       "criticality": "high",
-      "ownership": "Maintenance Systems Vendor",
-      "visualization": {
-        "layoutZone": "southEast"
-      }
+      "ownership": "Maintenance Systems Vendor"
     },
     {
       "id": "spare-parts-supplier",
@@ -165,10 +114,7 @@
       "type": "external-system",
       "description": "Simulator that returns part price, availability, delivery date, and order confirmation.",
       "criticality": "high",
-      "ownership": "Supply Chain Vendor",
-      "visualization": {
-        "layoutZone": "southEast"
-      }
+      "ownership": "Supply Chain Vendor"
     },
     {
       "id": "equipment-manufacturer",
@@ -176,10 +122,7 @@
       "type": "external-system",
       "description": "Simulator that provides model-specific machine diagnostic information.",
       "criticality": "medium",
-      "ownership": "Equipment Vendor",
-      "visualization": {
-        "layoutZone": "southEast"
-      }
+      "ownership": "Equipment Vendor"
     },
     {
       "id": "notification-provider",
@@ -187,10 +130,7 @@
       "type": "external-system",
       "description": "Simulator for SMS, email, and Teams operator alerts.",
       "criticality": "high",
-      "ownership": "Communication Services Vendor",
-      "visualization": {
-        "layoutZone": "southEast"
-      }
+      "ownership": "Communication Services Vendor"
     },
     {
       "id": "factory-operations-database",
@@ -198,10 +138,7 @@
       "type": "service-database",
       "description": "Shared PostgreSQL development boundary for asset and production records.",
       "criticality": "critical",
-      "ownership": "Data Platform Team",
-      "visualization": {
-        "layoutZone": "south"
-      }
+      "ownership": "Data Platform Team"
     },
     {
       "id": "telemetry-database",
@@ -209,10 +146,7 @@
       "type": "service-database",
       "description": "Time-series database for high-volume machine measurements.",
       "criticality": "critical",
-      "ownership": "Telemetry Platform Team",
-      "visualization": {
-        "layoutZone": "south"
-      }
+      "ownership": "Telemetry Platform Team"
     },
     {
       "id": "machine-state-cache",
@@ -220,10 +154,7 @@
       "type": "service-cache",
       "description": "Low-latency Redis boundary for current machine state and digital twins.",
       "criticality": "high",
-      "ownership": "Platform Engineering",
-      "visualization": {
-        "layoutZone": "south"
-      }
+      "ownership": "Platform Engineering"
     }
   ],
   "views": [
@@ -427,34 +358,7 @@
       "nodeId": "kafka-platform",
       "label": "Factory event backbone",
       "reason": "Kafka connects edge telemetry to operational and analytical services."
-    },
-    "layoutZones": [
-      {
-        "id": "west",
-        "name": "Plant and edge",
-        "description": "Machines, PLCs, operator clients, and industrial ingress."
-      },
-      {
-        "id": "center",
-        "name": "Event backbone",
-        "description": "Kafka-centered real-time integration."
-      },
-      {
-        "id": "east",
-        "name": "In-house services",
-        "description": "Kubernetes microservices for operations and intelligence."
-      },
-      {
-        "id": "southEast",
-        "name": "External vendors",
-        "description": "Enterprise and supplier service boundaries."
-      },
-      {
-        "id": "south",
-        "name": "Data services",
-        "description": "Operational persistence and low-latency state."
-      }
-    ]
+    }
   },
   "governanceRules": {
     "requireSystemOwner": true,
